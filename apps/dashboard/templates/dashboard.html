@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+            <h3 class="text-muted fst-italic">
+                ¡Bienvenido!
+                {% if request.session.usuario.primer_nombre != "" %}
+                {{ request.session.usuario.primer_nombre }}
+                {% endif %}
+                {% if request.session.usuario.segundo_nombre != "" %}
+                {{ request.session.usuario.segundo_nombre }}
+                {% endif %}
+                {% if request.session.usuario.apellido_paterno != "" %}
+                {{ request.session.usuario.apellido_paterno }}
+                {% endif %}
+                {% if request.session.usuario.apellido_materno != "" %}
+                {{ request.session.usuario.apellido_materno }}
+                {% endif %}
+            </h3>
+        </nav>
+        <hr>
+    </div>
+</div>
+
+{% endblock %}
