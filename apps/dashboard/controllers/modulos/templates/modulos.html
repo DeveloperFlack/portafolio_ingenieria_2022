@@ -1,0 +1,194 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<div class="modal fade" id="modalModulos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalModulosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalModulosLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "insertModulo" %}" id="formModulo" class="needs-validation" method="POST">
+                    {% csrf_token%}
+                    <input type="hidden" name="idModulo" id="idModulo">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="nombreModulo" class="form-label">Nombre Módulo</label>
+                            <input class="form-control" type="text" name="txtNombreModulo" id="txtNombreModulo"
+                                required>
+                            <div class="invalid-feedback">
+                                Nombre Módulo Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="descripcionModulo" class="form-label">Descripción Módulo</label>
+                            <textarea class="form-control" name="txtDescripcionModulo" id="txtDescripcionModulo"
+                                cols="30" rows="10"></textarea>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
+                </div>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped v_table_modules my-3" style="width: 100%;" id="v_table_modules">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let v_url = "{% url 'getAllModulos' %}";
+    let v_url_modulo = "{% url 'getModulo' %}";
+    let v_url_enable_modulo = "{% url 'enableModulo' %}";
+    let v_url_disable_modulo = "{% url 'disableModulo' %}";
+    let v_url_delete_modulo = "{% url 'deleteModulo' %}";
+</script>
+<script>
+    let tableModulos;
+    $(document).ready(function () {
+        tableModulos = $('#v_table_modules').DataTable({
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "nombre_modulo"
+            }, {
+                "data": "descripcion_modulo"
+            }, {
+                "data": "status_modulo"
+            }, {
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+
+    function fntEditModule (id_modulo){
+        var id_modulo = id_modulo;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_modulo + "?idModulo=" + id_modulo;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            $('#idModulo').val(objData[0].id_modulo);
+            $('#txtNombreModulo').val(objData[0].nombre_modulo);
+            $('#txtDescripcionModulo').val(objData[0].descripcion_modulo);
+            $('#modalModulos').show();
+        }
+    }
+
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalModulos'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formModulo');
+        myModal.show(modalToggle);
+        $('#idModulo').val('');
+        $('#txtNombreModulo').val('');
+        $('#txtDescripcionModulo').val('');
+    }
+
+    function enableModule(id_modulo) {
+        var id_modulo = id_modulo;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_enable_modulo + "?idModulo=" + id_modulo;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function disableModule(id_modulo) {
+        var id_modulo = id_modulo;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_disable_modulo + "?idModulo=" + id_modulo;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function deleteModule(id_modulo) {
+        var id_modulo = id_modulo;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_modulo + "?idModulo=" + id_modulo;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<div class="modal fade modalPermisos" id="modalPermisos" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="modalPermisosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPermisosLabel">Añadir Permisos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "setPermisos" %}" id="formPermisos" enctype="application/x-www-form-urlencoded"
+                    class="needs-validation" name="formPermisos" method="POST">
+                    {% csrf_token%}
+                    <div class="table-responsive">
+                        {{ table | safe }}
+                    </div>
+
+                    <div class="col-12">
+                        <div class="">
+                            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                        </div>
+                        <div class="my-2"></div>
+                        <div>
+                            <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="modal fade" id="modalUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalUsuariosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUsuariosLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "insertUsuario" %}" id="formUsuario" class="needs-validation" method="POST">
+                    {% csrf_token %}
+                    <!-- <input type="hidden" name="idModulo" id="idModulo"> -->
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="rutUsuario" class="form-label">RUT</label>
+                            <input class="form-control" type="text" name="txtRut" id="txtRut"
+                                required>
+                            <label for="primerNombreUsuario" class="form-label">Primer Nombre</label>
+                            <input class="form-control" type="text" name="txtPrimerNombre" id="txtPrimerNombre"
+                                required>
+                            <label for="segundoNombreUsuario" class="form-label">Segundo Nombre</label>
+                            <input class="form-control" type="text" name="txtSegundoNombre" id="txtSegundoNombre"
+                                required>
+                            <label for="apellidoPaternoUsuario" class="form-label">Apellido Paterno</label>
+                            <input class="form-control" type="text" name="txtApellidoPaterno" id="txtApellidoPaterno"
+                                required>
+                            <label for="apellidoMaternoUsuario" class="form-label">Apellido Materno</label>
+                            <input class="form-control" type="text" name="txtApellidoMaterno" id="txtApellidoMaterno"
+                                required>
+                            <label for="correoElectronicoUsuario" class="form-label">Correo Electrónico</label>
+                            <input class="form-control" type="email" name="txtCorreoElectronico" id="txtCorreoElectronico"
+                                required>
+                            <label for="telefonoUsuario" class="form-label">Teléfono Contacto</label>
+                            <input class="form-control" type="number" name="txtTelefono" id="txtTelefono"
+                                required>
+                            <label for="direccionUsuario" class="form-label">Dirección Domicilio</label>
+                            <input class="form-control" type="text" name="txtDireccion" id="txtDireccion"
+                                required>
+                            <select name="selectRol" id="selectRol">
+                                <option value="1">Administrador</option>
+                                <option value="2">Profesional</option>
+                            </select>
+                            <div class="invalid-feedback">Rut del Usuario Requerido</div>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
+                </div>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped v_table_usuarios my-3" style="width: 100%;" id="v_table_usuarios">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Rut</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dirección</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Rut</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dirección</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let v_url = "{% url 'getAllUsuarios' %}";
+    /*let v_url_modulo = "{% url 'getModulo' %}";
+    let v_url_enable_modulo = "{% url 'enableModulo' %}";
+    let v_url_disable_modulo = "{% url 'disableModulo' %}";
+    let v_url_delete_modulo = "{% url 'deleteModulo' %}";*/
+</script>
+<script>
+    let tableUsuarios;
+    $(document).ready(function () {
+        tableUsuarios = $('#v_table_usuarios').DataTable({
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "rut_usuario"
+            }, {
+                "data": "primer_nombre"
+            }, {
+                "data": "apellido_paterno"
+            }, {
+                "data": "direccion"
+            }, {
+                "data": "status_usuario"
+            }, {
+                "data": "id_rol"
+            }, {
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalUsuario'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formUsuario');
+        myModal.show(modalToggle);
+        $('#txtRut').val('');
+        $('#txtPrimerNombre').val('');
+        $('#txtSegundoNombre').val('');
+        $('#txtApellidoPaterno').val('');
+        $('#txtApellidoMaterno').val('');
+        $('#txtCorreoElectronico').val('');
+        $('#txtContraseña').val('');
+        $('#txtTelefono').val('');
+        $('#txtDireccion').val('');
+        $('#selectRol').val('');
+    }
+
+</script>
+
+{% endblock%}

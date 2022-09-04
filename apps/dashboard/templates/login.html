@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es-Cl">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ meta_title }}</title>
+    <link rel="stylesheet" href="{% static 'adm/vendor/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'adm/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'adm/vendor/datatable/css/datatable.css' %}">
+    <link rel="stylesheet" href="{% static 'adm/vendor/boxicons/css/boxicons.css'%}">
+</head>
+
+<body class="bg-dark">
+    <main class="container">
+        <div class="d-flex align-content-center flex-wrap justify-content-center" style="height: 75vh">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-header">
+                            <div class="my-3">
+                                <h1 class="text-muted fs-2 text-center">Inicio Sesión - Administración </h1>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="{% url 'loginAdministrador' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="rutUsuario" class="form-label">RUT:</label>
+                                        <input type="text" class="form-control" name="txtRutUsuario" id="txtRutUsuario"
+                                            required>
+                                        <div class="invalid-feedback">
+                                            RUT Requerido
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="passUsuario" class="form-label">Contraseña:</label>
+                                        <input type="password" class="form-control" name="txtContraseñaUsuario"
+                                            id="txtContraseñaUsuario" required>
+                                        <div class="invalid-feedback">
+                                            Contraseña Requerido
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-12">
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
