@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: django-hide
+Version: 0.0.2
+Summary: Django Hide, hides django from wappalizer by encrypting csrf_token.
+Home-page: https://github.com/metemaddar/django_hide
+Author: Mohammad Etemaddar
+Author-email: mohammad.etemaddar@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# django_hide
+Django package to hide from wappalyzer
+
+# usage
+Install it by:
+``` pip install django-hide ```
+
+Add `django_hide` to the installed apps.
+
+Add `django_hide.middleware.CSRFHIDEMiddleware` to middlewares.
+
+`{% load django_hide %}` in template.
+
+Use `{% h_csrf_token %}` instead of `{% csrf_token %}` in forms in template.
+
