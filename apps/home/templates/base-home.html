@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Plugins -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="{% static 'usr/vendor/hint/css/hint.css' %}">
+  <!-- Estilos Propios -->
+  <link rel="stylesheet" href="{% static 'usr/vendor/css/estilos.css' %}">
+  <title>Document</title>
+</head>
+
+<body>
+  <header class="p-3 mb-3 border-bottom bg-white fixed-top">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="{% url 'index' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
+            width="45" height="40">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 link-dark">Inicio</a></li>
+          <li><a href="#" class="nav-link px-2 link-secondary">Servicios</a></li>
+          <li><a href="#" class="nav-link px-2 link-secondary">Customers</a></li>
+          <li><a href="#" class="nav-link px-2 link-secondary">Products</a></li>
+        </ul>
+
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle hint--left"
+            aria-label="Jaime Flack (KIS Keep It Simple)" id="dropdownUser1" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32" height="32">
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1"
+            style="font-size: 13px; width: fit-content !important;">
+            <!-- {} -->
+            <li><a class="dropdown-item" href="{% url 'professional-profile' %}">Mi Perfil (Professional)</a></li>
+            <li><a class="dropdown-item" href="{% url 'user-profile' %}">Mi Perfil (User)</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
+            </li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}
+  {% endblock %}
+
+  <div class="content bg-light border-top" style="height: 100%;">
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-4">
+        <div class="col-md-4 d-flex align-items-center">
+          <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+            <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
+              width="45" height="40">
+          </a>
+          <span class="text-muted">© 1992-2022 RSP Company.</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3"><a class="text-muted" href="#"><i class='bx bxl-twitter' style="font-size: 25px;"></i></a>
+          </li>
+          <li class="ms-3"><a class="text-muted" href="#"><i class='bx bxl-instagram-alt'
+                style="font-size: 25px;"></i></a></li>
+          <li class="ms-3"><a class="text-muted" href="#"><i class='bx bxl-facebook' style="font-size: 25px;"></i></a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </div>
+
+  <!-- JQuery -->
+  <script src="{% static 'usr/vendor/jquery/JQuery.js' %}"></script>
+  <!-- Bootstrap -->
+  <script src="{% static 'usr/vendor/bootstrap/js/bootstrap.js' %}"></script>
+  <!-- Plugins -->
+  <script src="{% static 'usr/vendor/aos/js/aos.js' %}"></script>
+  <script>
+    AOS.init();
+  </script>
+  <script src="{% static 'usr/vendor/boxicons/js/boxicons.js' %}"></script>
+  <!-- JS Propios -->
+
+</body>
+
+</html>

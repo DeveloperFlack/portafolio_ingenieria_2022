@@ -36,3 +36,6 @@ def multiform(form):
 
 def get_connection ():
     return pymysql.connect (host=cf.DB_HOST, database=cf.DB_SCHEMA, user=cf.DB_USER, password=cf.DB_PASS)
+
+def getHome(request):
+    return render (request, "index.html")
