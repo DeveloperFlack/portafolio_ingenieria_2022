@@ -15,7 +15,14 @@ def getRolesPage(request):
 
     return render(request, "roles.html", data)
 
+"""
+Si el método de solicitud es POST, compruebe si el idRol está vacío. Si es así, inserte los datos en
+la base de datos. Si no es así, actualice los datos en la base de datos.
 
+:param request: El objeto de solicitud es una instancia de HttpRequest. Contiene toda la información
+sobre la solicitud enviada por el usuario
+:return: una redirección a getRolesPage.
+"""
 def insertRol(request):
     if request.method == "POST":
         v_idRol = request.POST.get("idRol")
@@ -65,7 +72,7 @@ def getAllRoles(request):
 
         i['options'] = """
             <div class='text-center'>
-                <button type='button' onclick='fntRolesPermisos(%s)' class='btn btn-warning'>a</button>
+                <button type='button' onclick='fntRolesPermisos(%s)' class='btn btn-sm btn-warning'><i class='bx bxs-key'></i></button>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditRol("%s")' data-bs-toggle='modal' data-bs-target='#modalRoles'><i class='bx bxs-edit' ></i></button>
                 <a onclick='enableRol(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableRol("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
@@ -96,6 +103,15 @@ def getRol(request):
         return redirect("getRolesPage")
 
 
+"""
+Si el método de solicitud es GET, obtenga el idRol de la solicitud, verifique si existe, si existe,
+luego habilite el rol y redirija a getRolesPage
+
+:param request: El objeto de solicitud es una instancia de HttpRequest. Contiene toda la información
+enviada por el cliente
+:return: una redirección a getRolesPage.
+"""
+
 def enableRol(request):
     if request.method == "GET":
         v_idRol = request.GET.get("idRol")
@@ -109,6 +125,14 @@ def enableRol(request):
         return redirect("getRolesPage")
 
 
+"""
+    Si el método de solicitud es GET, obtenga el idRol de la solicitud, verifique si existe, si existe,
+    desactívelo, si no existe, redirija a getRolesPage
+    
+    :param request: El objeto de solicitud es una instancia de HttpRequest. Contiene toda la información
+    sobre la solicitud actual
+    :return: una redirección a getRolesPage.
+    """
 def disableRol(request):
     if request.method == "GET":
         v_idRol = request.GET.get("idRol")
@@ -121,7 +145,14 @@ def disableRol(request):
     else:
         return redirect("getRolesPage")
 
+"""
+Si el método de solicitud es GET, obtenga el idRol de la solicitud, verifique si existe, si existe,
+elimínelo, si no existe, redirija a getRolesPage.
 
+:param request: El objeto de solicitud es una instancia de HttpRequest. Contiene toda la información
+sobre la solicitud actual
+:return: una redirección a getRolesPage.
+"""
 def deleteRol(request):
     if request.method == "GET":
         v_idRol = request.GET.get("idRol")
@@ -278,6 +309,13 @@ def getPermisos(request):
         return redirect("getRolesPage")
 
 
+"""
+Si el método de solicitud es POST, obtenga el valor del campo RoleModule_id_role de la solicitud y,
+si existe, elimínelo, luego obtenga los valores del campo m de la solicitud y, si existe, insértelo.
+
+:param request: El objeto de la solicitud
+:return: <code>&lt;QueryDict: {'csrfmiddlewaretoken': ''}
+"""
 def setPermisos(request):
     if (request.method == "POST"):
         v_id_role = int(request.POST.get('RoleModule_id_role'))

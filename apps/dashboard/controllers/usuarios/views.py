@@ -80,7 +80,6 @@ def insertUsuario(request):
                 return redirect("getUsuariosPage")
             else:
                 return redirect("getUsuariosPage")
-
     else:
         return redirect("getUsuariosPage")
 
