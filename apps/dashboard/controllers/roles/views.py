@@ -6,7 +6,7 @@ from apps.dashboard.views import multiform
 
 def getRolesPage(request):
     data = {
-        'meta_title' : 'Dashboard - Roles',
+        'meta_title': 'Dashboard - Roles',
         'breadcrumb': "Roles",
         'title': 'Lista de Roles',
         'subtitle': 'Lista completa de roles de Usuario o Profesional',
@@ -37,14 +37,14 @@ def insertRol(request):
                 return redirect("getRolesPage")
             else:
                 return redirect("getRolesPage")
-                
+
     else:
         return redirect("getRolesPage")
 
 
 def getAllRoles(request):
     request.session["hola"] = "hola"
-    print (request.session["hola"])
+    print(request.session["hola"])
     data_modulos = list(fc_get_all_roles())
     data_to_array = []
     # Convertir TUPLA a Array Modificable
@@ -62,7 +62,7 @@ def getAllRoles(request):
             i['status_rol'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
             i['status_rol'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
-        
+
         i['options'] = """
             <div class='text-center'>
                 <button type='button' onclick='fntRolesPermisos(%s)' class='btn btn-warning'>a</button>
@@ -74,6 +74,7 @@ def getAllRoles(request):
         """ % (i['id_rol'], i['id_rol'], i['id_rol'], i['id_rol'], i['id_rol'])
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+
 
 def getRol(request):
     v_idMRol = request.GET.get('idRol')
@@ -94,6 +95,7 @@ def getRol(request):
     else:
         return redirect("getRolesPage")
 
+
 def enableRol(request):
     if request.method == "GET":
         v_idRol = request.GET.get("idRol")
@@ -106,6 +108,7 @@ def enableRol(request):
     else:
         return redirect("getRolesPage")
 
+
 def disableRol(request):
     if request.method == "GET":
         v_idRol = request.GET.get("idRol")
@@ -117,6 +120,7 @@ def disableRol(request):
             return redirect("getRolesPage")
     else:
         return redirect("getRolesPage")
+
 
 def deleteRol(request):
     if request.method == "GET":
@@ -134,7 +138,7 @@ def deleteRol(request):
 def getPermisos(request):
     if request.method == "GET":
         v_id_rol = request.GET.get("idRol")
-        exist =  fc_get_roles(v_id_rol)
+        exist = fc_get_roles(v_id_rol)
         if (exist != ()):
 
             # Obtener los módulos habilitados y colocarlos en una matriz.
@@ -145,42 +149,42 @@ def getPermisos(request):
             # diccionarios.
             for x in range(len(d_a)):
                 data_modulos_array.append({
-                    "id_modulo" : d_a[x][0],
-                    "nombre_modulo" : d_a[x][1],
-                    "status_modulo" : d_a[x][2]
+                    "id_modulo": d_a[x][0],
+                    "nombre_modulo": d_a[x][1],
+                    "status_modulo": d_a[x][2]
                 })
-            
+
             # Obtener los permisos para el rol.
             d_b = fc_get_permisos(v_id_rol)
             data_permisos_array = []
 
             # Iterando a través de la lista de tuplas y agregando los valores a una lista de
             # diccionarios.
-            for x in range (len(d_b)):
+            for x in range(len(d_b)):
                 data_permisos_array.append({
-                    "id_permiso" : d_b[x][0],
-                    "id_modulo" : d_b[x][1],
-                    "id_rol" : d_b[x][2],
-                    "c" : d_b[x][3],
-                    "r" : d_b[x][4],
-                    "u" : d_b[x][5],
-                    "d" : d_b[x][6],
+                    "id_permiso": d_b[x][0],
+                    "id_modulo": d_b[x][1],
+                    "id_rol": d_b[x][2],
+                    "c": d_b[x][3],
+                    "r": d_b[x][4],
+                    "u": d_b[x][5],
+                    "d": d_b[x][6],
                 })
-            
-            d_c = {'id_rol' :  v_id_rol, 'c':0, 'r':0, 'u':0, 'd':0}
-            d_d = {'id_rol' : v_id_rol}
+
+            d_c = {'id_rol':  v_id_rol, 'c': 0, 'r': 0, 'u': 0, 'd': 0}
+            d_d = {'id_rol': v_id_rol}
 
             if (d_b == ()):
-                for x in range (len(data_modulos_array)):
+                for x in range(len(data_modulos_array)):
                     data_modulos_array[x]["permisos"] = d_c
             else:
-                for x in range (len(data_modulos_array)):
+                for x in range(len(data_modulos_array)):
                     d_c = {
-                        'id_rol' : v_id_rol,
-                        'c' : data_permisos_array[x]['c'],
-                        'r' : data_permisos_array[x]['r'],
-                        'u' : data_permisos_array[x]['u'],
-                        'd' : data_permisos_array[x]['d']
+                        'id_rol': v_id_rol,
+                        'c': data_permisos_array[x]['c'],
+                        'r': data_permisos_array[x]['r'],
+                        'u': data_permisos_array[x]['u'],
+                        'd': data_permisos_array[x]['d']
                     }
                     data_modulos_array[x]["permisos"] = d_c
 
@@ -202,28 +206,28 @@ def getPermisos(request):
                     </tr>
             """ % (v_id_rol)
 
-            for x in range (len(data_modulos_array)):
+            for x in range(len(data_modulos_array)):
                 v_id_rol = data_modulos_array[x]["permisos"]['id_rol']
                 # Create
                 if (data_modulos_array[x]['permisos']['c'] == 1):
-                    v_c =  " checked "
-                else: 
-                    v_c =  ""
+                    v_c = " checked "
+                else:
+                    v_c = ""
                 # Read
                 if (data_modulos_array[x]['permisos']['r'] == 1):
-                    v_r =  " checked "
-                else: 
-                    v_r =  ""
+                    v_r = " checked "
+                else:
+                    v_r = ""
                 # Update
                 if (data_modulos_array[x]['permisos']['u'] == 1):
-                    v_u =  " checked "
-                else: 
-                    v_u =  ""
+                    v_u = " checked "
+                else:
+                    v_u = ""
                 # Delete
                 if (data_modulos_array[x]['permisos']['d'] == 1):
-                    v_d =  " checked "
-                else: 
-                    v_d =  ""
+                    v_d = " checked "
+                else:
+                    v_d = ""
 
                 v_id_module = data_modulos_array[x]['id_modulo']
                 v_name_module = data_modulos_array[x]['nombre_modulo']
@@ -265,22 +269,23 @@ def getPermisos(request):
             d_d['table'] += """</body></table> """
 
             data = {
-                'table' : d_d['table']
+                'table': d_d['table']
             }
-            return render (request, "includes/permisos.html", data)
+            return render(request, "includes/permisos.html", data)
         else:
-            return redirect ("getRolesPage")
+            return redirect("getRolesPage")
     else:
         return redirect("getRolesPage")
 
-def setPermisos (request):
+
+def setPermisos(request):
     if (request.method == "POST"):
         v_id_role = int(request.POST.get('RoleModule_id_role'))
 
         exist = fc_get_permisos(v_id_role)
         if (exist != ()):
             fc_delete_permisos(v_id_role)
-        
+
         a = multiform(request.POST)
         ## print (a)
         for x in (a['m']):
@@ -299,7 +304,7 @@ def setPermisos (request):
                 a['m'][x]['c'] = 0
             elif (c == True):
                 a['m'][x]['c'] = 1
-            
+
             # UPDATE
             if (u == False):
                 a['m'][x]['u'] = 0
@@ -310,7 +315,7 @@ def setPermisos (request):
                 a['m'][x]['d'] = 0
             elif (d == True):
                 a['m'][x]['d'] = 1
-        
+
         for g in (a['m']):
             fc_insert_permisos(
                 a['m'][g]['id_module'],
@@ -321,6 +326,6 @@ def setPermisos (request):
                 a['m'][g]['d'],
             )
 
-        return redirect ('getRolesPage')
+        return redirect('getRolesPage')
     else:
-        return redirect ('getRolesPage')
+        return redirect('getRolesPage')

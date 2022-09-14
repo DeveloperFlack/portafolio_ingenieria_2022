@@ -9,3 +9,5 @@ PyMySQL==1.0.2
 pytz==2022.2.1
 sqlparse==0.4.2
 tzdata==2022.1
+cryptography==37.0.4
+ptvsd==4.3.2

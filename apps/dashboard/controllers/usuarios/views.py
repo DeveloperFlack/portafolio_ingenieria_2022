@@ -13,9 +13,11 @@ It returns a rendered template
 :param request: El objeto de la solicitud
 :return: Un diccionario con las claves: breadcrumb, title, subtitle, button_add
 """
+
+
 def getUsuariosPage(request):
     data = {
-        'meta_title' : 'Dashboard - Usuarios',
+        'meta_title': 'Dashboard - Usuarios',
         'breadcrumb': "Usuarios",
         'title': 'Lista de Usuarios',
         'subtitle': 'Lista completa de usuarios',
@@ -24,11 +26,12 @@ def getUsuariosPage(request):
 
     return render(request, "usuarios.html", data)
 
+
 def insertUsuario(request):
     """
     Si el método de solicitud es POST, entonces comprueba si el usuario existe, si no existe, entonces inserta el usuario,
     si existe, entonces actualiza el usuario.
-    
+
     :param request: El objeto de solicitud es un objeto HttpRequest
     :return: una redirección a la página getUsuariosPage.
     """
@@ -43,7 +46,7 @@ def insertUsuario(request):
             v_apellido_materno = request.POST.get("txtApellidoMaterno")
             v_correo = request.POST.get("txtCorreoElectronico")
             # Creating a hash of the second name, the @ symbol and the user's rut.
-            vaa = v_primer_nombre+ '@' +v_rut_usuario
+            vaa = v_primer_nombre + '@' + v_rut_usuario
 
             v_password = hashlib.sha256(vaa.encode('utf-8')).hexdigest()
             v_telefono = request.POST.get("txtTelefono")
@@ -51,7 +54,8 @@ def insertUsuario(request):
             v_status_usuario = 0
             v_id_rol = int(request.POST.get("selectRol"))
 
-            fc_insert_usuario(v_rut_usuario,v_primer_nombre,v_segundo_nombre,v_apellido_paterno,v_apellido_materno,v_correo,v_password,v_telefono,v_direccion,v_status_usuario,v_id_rol)
+            fc_insert_usuario(v_rut_usuario, v_primer_nombre, v_segundo_nombre, v_apellido_paterno,
+                              v_apellido_materno, v_correo, v_password, v_telefono, v_direccion, v_status_usuario, v_id_rol)
 
             return redirect("getUsuariosPage")
 
@@ -71,7 +75,8 @@ def insertUsuario(request):
                 v_status_usuario = 0
                 v_id_rol = int(request.POST.get("selectRol"))
 
-                fc_update_usuario(v_rut_usuario, v_primer_nombre, v_segundo_nombre, v_apellido_paterno, v_apellido_materno, v_correo, v_password, v_telefono, v_direccion, v_status_usuario, v_id_rol)
+                fc_update_usuario(v_rut_usuario, v_primer_nombre, v_segundo_nombre, v_apellido_paterno,
+                                  v_apellido_materno, v_correo, v_password, v_telefono, v_direccion, v_status_usuario, v_id_rol)
                 return redirect("getUsuariosPage")
             else:
                 return redirect("getUsuariosPage")
@@ -79,10 +84,11 @@ def insertUsuario(request):
     else:
         return redirect("getUsuariosPage")
 
+
 def getAllUsuarios(request):
     """
     Toma una tupla de tuplas y la convierte en una lista de diccionarios
-    
+
     :param request: El objeto de la solicitud
     :return: [{'rut_usuario': '17.876.876-8', 'primer_nombre': 'Juan', 'segundo_nombre': 'Andres',
     'apellido_paterno': 'Perez', 'apellido_materno': 'Gonzalez', 'correo
@@ -104,12 +110,6 @@ def getAllUsuarios(request):
             "status_usuario": i[9],
             "id_rol": i[10],
         })
-    # sha256(as_bytestring(s)).hexdigest().decode('ascii')
-    p1 = 'hoa'
-    v1 = hashlib.sha256(p1.encode('utf-8')).hexdigest()
-    print (v1)
-
-    hashlib.sha256(v1.decode('utf-8'))
 
     # Añadir HTML
     for i in data_to_array:
@@ -117,7 +117,7 @@ def getAllUsuarios(request):
             i['status_usuario'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
             i['status_usuario'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
-        
+
         i['options'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditUsuario("%s")' data-bs-toggle='modal' data-bs-target='#modalUsuarios'><i class='bx bxs-edit' ></i></button>

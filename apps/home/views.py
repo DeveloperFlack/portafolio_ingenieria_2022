@@ -1,6 +1,7 @@
 from django.shortcuts import render
-import apps.config as cf
+from django.conf import settings
 import pymysql
+import apps.core
 
 def multiform(form):
     data = {}
@@ -35,7 +36,7 @@ def multiform(form):
     return data
 
 def get_connection ():
-    return pymysql.connect (host=cf.DB_HOST, database=cf.DB_SCHEMA, user=cf.DB_USER, password=cf.DB_PASS)
+    return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getHome(request):
     return render (request, "index.html")

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-import apps.config as cf
 import pymysql
 import hashlib
+import apps.core
 from .usp import *
+from django.conf import settings
 from apps.dashboard.controllers.roles.usp import fc_get_permisos
 
 # Tupla = (1,2,3,4,5,6,7,8)
@@ -47,7 +48,7 @@ def multiform(form):
     return data
 
 def get_connection ():
-    return pymysql.connect (host=cf.DB_HOST, database=cf.DB_SCHEMA, user=cf.DB_USER, password=cf.DB_PASS)
+    return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getDashboard (request):
     if (request.session["usuario"]["id_rol"] == 1 or request.session["usuario"]["id_rol"] == 4):

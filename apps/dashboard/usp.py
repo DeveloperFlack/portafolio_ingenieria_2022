@@ -1,9 +1,9 @@
-import apps.config as cf
+from django.conf import settings 
 import pymysql
 
 
 def get_connection ():
-    return pymysql.connect (host=cf.DB_HOST, database=cf.DB_SCHEMA, user=cf.DB_USER, password=cf.DB_PASS)
+    return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 
 def fc_user_login (rut_usuario, contrasena_usuario):

@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .usp import *
 
-    
+
 def getModulosPage(request):
     """
     Representa la plantilla modulos.html y le pasa el diccionario de datos
-    
+
     :param request: El objeto de la solicitud
     :return: Un diccionario con las claves: breadcrumb, title, subtitle, button_add
     """
 
     data = {
-        'meta_title' : 'Dashboard - Módulos',
+        'meta_title': 'Dashboard - Módulos',
         'breadcrumb': "Módulos",
         'title': 'Lista de Módulos',
         'subtitle': 'Lista completa de módulos',
@@ -21,11 +21,12 @@ def getModulosPage(request):
 
     return render(request, "modulos.html", data)
 
+
 def insertModulo(request):
     """
     Si el método de solicitud es POST, entonces comprueba si el idModulo está vacío. Si lo está, entonces inserta un nuevo
     módulo. Si no lo está, entonces actualiza el módulo.
-    
+
     :param request: The request object is an HttpRequest object. It contains metadata about the request,
     including the HTTP method
     :return: the redirect function.
@@ -48,13 +49,15 @@ def insertModulo(request):
             if (exist != ()):
                 v_nombre_modulo = request.POST.get("txtNombreModulo")
                 v_descripcionModulo = request.POST.get("txtDescripcionModulo")
-                fc_update_module(v_idModulo, v_nombre_modulo, v_descripcionModulo)
+                fc_update_module(v_idModulo, v_nombre_modulo,
+                                 v_descripcionModulo)
                 return redirect("getModulosPage")
             else:
                 return redirect("getModulosPage")
 
     else:
         return redirect("getModulosPage")
+
 
 def getAllModulos(request):
     data_modulos = list(fc_get_all_modules())
@@ -74,7 +77,7 @@ def getAllModulos(request):
             i['status_modulo'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
             i['status_modulo'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
-        
+
         i['options'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditModule("%s")' data-bs-toggle='modal' data-bs-target='#modalModulos'><i class='bx bxs-edit' ></i></button>
@@ -86,10 +89,11 @@ def getAllModulos(request):
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
 
+
 def getModulo(request):
     """
     Obtiene la identificación del módulo y devuelve los datos del módulo en formato JSON.
-    
+
     :param request: El objeto de solicitud es un objeto HttpRequest
     :return: Una lista de diccionarios.
     """
@@ -111,11 +115,12 @@ def getModulo(request):
     else:
         return redirect("getModulosPage")
 
+
 def enableModulo(request):
     """
     Si el método de solicitud es GET, obtenga el idModulo de la solicitud, verifique si existe, si
     existe, habilítelo, si no, redirija a getModulosPage.
-    
+
     :param request: El objeto de solicitud es una instancia de HttpRequest. Contiene toda la información
     enviada por el cliente
     :return: una redirección a getModulosPage.
@@ -131,11 +136,12 @@ def enableModulo(request):
     else:
         return redirect("getModulosPage")
 
+
 def disableModulo(request):
     """
     Si el método de solicitud es GET, obtenga el idModulo de la solicitud, verifique si existe, si
     existe, desactívelo, si no existe, redirija a getModulosPage.
-    
+
     :param request: El objeto de solicitud es un objeto HttpRequest. Contiene metadatos sobre la
     solicitud, incluido el método HTTP
     :return: una redirección a getModulosPage.
@@ -151,11 +157,12 @@ def disableModulo(request):
     else:
         return redirect("getModulosPage")
 
+
 def deleteModulo(request):
     """
     Si el método de solicitud es GET, obtener el idMódulo de la solicitud, comprobar si existe, si lo hace
     lo elimina, si no lo hace, redirige a la página getModulosPage.
-    
+
     :param request: El objeto request es una instancia de HttpRequest. Contiene toda la información
     sobre la solicitud actual
     :return: una redirección a la página getModulosPage.
