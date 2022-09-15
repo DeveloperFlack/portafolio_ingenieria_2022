@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-&81wjre%bjk_rp_p%=vas!5v1bo9-2h+2=_=q)a3ju$$-@9^1t"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -87,8 +87,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'portafolionma1',
-        'USER': 'root',
-        'PASSWORD': 'duoc',
+        'USER': 'portafolionma',
+        'PASSWORD': 'Duoc.2022.1234',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
@@ -116,40 +116,20 @@ if (DEBUG == True):
     
     DB_HOST = 'localhost'
     DB_USER = 'portafolionma'
-    DB_PASS = 'duoc'
+    DB_PASS = 'Duoc.2022.1234'
     DB_SCHEMA = 'portafolionma1'
 
 else:
     STATIC_URL = "stcs/"
-    STATIC_ROOT = 'C:/Users/slaas/Desktop/duoc/portafolionma/apps/stcs'
+    STATICFILES_ROOT = ['/home/ubuntu/portafolio_ingenieria_2022/apps/stcs', 'home/ubuntu/portafolio_ingenieria_2022/apps/stcs']
     MEDIA_URL = '/media/'
     MEDIA_ROOT = 'C:/Users/slaas/Desktop/duoc/portafolionma/apps/media'
     
-    import start
+    DB_HOST = 'localhost'
+    DB_USER = 'portafolionma'
+    DB_PASS = 'Duoc.2022.1234'
+    DB_SCHEMA = 'portafolionma1'
 
-    # Configuración del host, el usuario, la contraseña y el esquema de la base de datos.
-    a = start.get_bbdd()
-    DB_HOST = a[0]
-    DB_USER = a[1]
-    DB_PASS = a[2]
-    DB_SCHEMA = a[3]
-
-
-    # Establecer la configuración de la base de datos para el proyecto Django.
-    from django.conf import settings
-    settings.DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': '%s' % (DB_SCHEMA),
-            'USER': '%s' % (DB_USER),
-            'PASSWORD': '%s' % (DB_PASS),
-            'HOST': '%s' % (DB_HOST),   # Or an IP Address that your DB is hosted on
-            'PORT': '3306',
-        }
-    }
-
-    settings.SESSION_COOKIE_NAME = "nma"
-    
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
