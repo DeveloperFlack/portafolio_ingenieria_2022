@@ -50,8 +50,6 @@ def insertRol(request):
 
 
 def getAllRoles(request):
-    request.session["hola"] = "hola"
-    print(request.session["hola"])
     data_modulos = list(fc_get_all_roles())
     data_to_array = []
     # Convertir TUPLA a Array Modificable

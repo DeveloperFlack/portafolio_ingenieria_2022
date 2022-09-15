@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import pkg_resources
+import platform
 from pkg_resources import DistributionNotFound, VersionConflict
 
 def install_requirement(requirement):
@@ -131,4 +132,7 @@ def get_bbdd():
 # Ejecutando el servidor.
 if __name__ == "__main__":
     get_requirements()
-    os.system('python manage.py runserver')
+    if (platform.system() == "Windows"):
+        os.system('python manage.py runserver')
+    elif (platform.system() == "Linux"):
+        os.system('sudo python3 manage.py runserver 0.0.0.0:80')

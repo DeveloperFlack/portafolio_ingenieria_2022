@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-&81wjre%bjk_rp_p%=vas!5v1bo9-2h+2=_=q)a3ju$$-@9^1t"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -82,17 +82,30 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
+import platform
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'portafolionma1',
-        'USER': 'portafolionma',
-        'PASSWORD': 'Duoc.2022.1234',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+if (platform.system() ==  "Linux"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'portafolionma1',
+            'USER': 'portafolionma',
+            'PASSWORD': 'Duoc.2022.1234',
+            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+            'PORT': '3306',
+        }
     }
-}
+elif (platform.system() == "Windows"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'portafolionma1',
+            'USER': 'portafolionma',
+            'PASSWORD': '1234',
+            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+            'PORT': '3306',
+        }
+    }
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -105,6 +118,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
 if (DEBUG == True):
     STATIC_URL = "stcs/"
     MEDIA_URL = '/media/'
@@ -114,10 +128,23 @@ if (DEBUG == True):
     ]
     MEDIA_ROOT = os.path.join(BASE_DIR, "apps/stcs")
     
-    DB_HOST = 'localhost'
-    DB_USER = 'portafolionma'
-    DB_PASS = 'Duoc.2022.1234'
-    DB_SCHEMA = 'portafolionma1'
+    x = platform.system()
+    print ("Sistema Operativo", x)
+    if (x ==  "Linux"):
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = 'Duoc.2022.1234'
+        DB_SCHEMA = 'portafolionma1'
+    elif (x == "Windows"):
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = '1234'
+        DB_SCHEMA = 'portafolionma1'
+    else:
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = 'duoc'
+        DB_SCHEMA = 'portafolionma1'
 
 else:
     STATIC_URL = "stcs/"
@@ -125,11 +152,23 @@ else:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = 'C:/Users/slaas/Desktop/duoc/portafolionma/apps/media'
     
-    DB_HOST = 'localhost'
-    DB_USER = 'portafolionma'
-    DB_PASS = 'Duoc.2022.1234'
-    DB_SCHEMA = 'portafolionma1'
-
+    x = platform.system()
+    print ("Sistema Operativo", x)
+    if (x ==  "Linux"):
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = 'Duoc.2022.1234'
+        DB_SCHEMA = 'portafolionma1'
+    elif (x == "Windows"):
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = '1234'
+        DB_SCHEMA = 'portafolionma1'
+    else:
+        DB_HOST = 'localhost'
+        DB_USER = 'portafolionma'
+        DB_PASS = 'duoc'
+        DB_SCHEMA = 'portafolionma1'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

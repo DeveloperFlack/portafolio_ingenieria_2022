@@ -5,6 +5,7 @@ import apps.core
 from .usp import *
 from django.conf import settings
 from apps.dashboard.controllers.roles.usp import fc_get_permisos
+from django.contrib import messages
 
 # Tupla = (1,2,3,4,5,6,7,8)
 # Array = []
@@ -51,11 +52,23 @@ def get_connection ():
     return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getDashboard (request):
-    if (request.session["usuario"]["id_rol"] == 1 or request.session["usuario"]["id_rol"] == 4):
+    x = 'usuario' in request.session
+    
+    if (x == False):
+        return redirect ("loginDashboard")
+    
+    if (request.session['usuario']['id_rol'] != 1 & request.session['usuario']['id_rol'] != 4):
+        messages.error(request, 'No tienes Permiso.')
+        return redirect ("loginDashboard")
+        
+    return render(request, "dashboard.html")
+        
+        
+    """ if (request.session["usuario"]["id_rol"] == 1 or request.session["usuario"]["id_rol"] == 4):
         print ()
         return render(request, "dashboard.html")
     else:
-        return redirect ("loginDashboard")
+        return redirect ("loginDashboard") """
 
 def loginDashboard (request):
     data = {
@@ -66,7 +79,11 @@ def loginDashboard (request):
 
 def loginAdministrador (request):
     if request.method == "POST":
+        
         v_rut_usuario =  request.POST.get("txtRutUsuario")
+        if (v_rut_usuario == ""):
+            messages.success(request, 'Profile details updated.')
+            return redirect ("loginDashboard")
         v_c = request.POST.get("txtContraseñaUsuario")
         v_contraseña_usuario = hashlib.sha256((v_c).encode('utf-8')).hexdigest()
 
@@ -109,7 +126,9 @@ def loginAdministrador (request):
 def logoutAdm(request):
     try:
         del request.session['usuario']
+        del request.session['hola']
+        print (request.session.items())
         return redirect('loginDashboard')
     except KeyError:
-        pass
+        print (request.session.items())
         return redirect('loginDashboard')
