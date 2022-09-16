@@ -2,18 +2,32 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .usp import *
 from apps.dashboard.views import multiform
-
+import apps.helpers as helpers
 
 def getRolesPage(request):
     data = {
+        'id' : 3,
         'meta_title': 'Dashboard - Roles',
         'breadcrumb': "Roles",
         'title': 'Lista de Roles',
         'subtitle': 'Lista completa de roles de Usuario o Profesional',
         'button_add': 'Añadir Rol',
     }
+    a = helpers.session_user_exist(request)
+    if (a == False):
+        messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
+    b = helpers.session_user_role(request)
+    if (b == True):
+        del request.session['usuario']
+        messages.add_message(request, messages.ERROR, 'No tienes Permiso.')
+        return redirect ("loginDashboard")
+    
+    c = helpers.request_module(request, data)
+    if (c == True):
+        return render(request, "roles.html", data)
 
-    return render(request, "roles.html", data)
 
 """
 Si el método de solicitud es POST, compruebe si el idRol está vacío. Si es así, inserte los datos en

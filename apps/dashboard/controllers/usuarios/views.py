@@ -14,17 +14,29 @@ It returns a rendered template
 :return: Un diccionario con las claves: breadcrumb, title, subtitle, button_add
 """
 
-
 def getUsuariosPage(request):
     data = {
+        'id' : 4,
         'meta_title': 'Dashboard - Usuarios',
         'breadcrumb': "Usuarios",
         'title': 'Lista de Usuarios',
         'subtitle': 'Lista completa de usuarios',
         'button_add': 'Añadir Usuario',
     }
-
-    return render(request, "usuarios.html", data)
+    a = helpers.session_user_exist(request)
+    if (a == False):
+        messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
+    b = helpers.session_user_role(request)
+    if (b == True):
+        del request.session['usuario']
+        messages.add_message(request, messages.ERROR, 'No tienes Permiso.')
+        return redirect ("loginDashboard")
+    
+    c = helpers.request_module(request, data)
+    if (c == True):
+        return render(request, "usuarios.html", data)
 
 
 def insertUsuario(request):
@@ -55,7 +67,7 @@ def insertUsuario(request):
             v_id_rol = int(request.POST.get("selectRol"))
 
             fc_insert_usuario(v_rut_usuario, v_primer_nombre, v_segundo_nombre, v_apellido_paterno,
-                              v_apellido_materno, v_correo, v_password, v_telefono, v_direccion, v_status_usuario, v_id_rol)
+                v_apellido_materno, v_correo, v_password, v_telefono, v_direccion, v_status_usuario, v_id_rol)
 
             return redirect("getUsuariosPage")
 

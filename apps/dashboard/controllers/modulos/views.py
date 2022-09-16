@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .usp import *
-
+import apps.helpers as helpers
 
 def getModulosPage(request):
     """
@@ -10,19 +10,41 @@ def getModulosPage(request):
     :param request: El objeto de la solicitud
     :return: Un diccionario con las claves: breadcrumb, title, subtitle, button_add
     """
-
     data = {
+        'id' : 2,
         'meta_title': 'Dashboard - Módulos',
         'breadcrumb': "Módulos",
         'title': 'Lista de Módulos',
         'subtitle': 'Lista completa de módulos',
         'button_add': 'Añadir Módulo',
     }
-
-    return render(request, "modulos.html", data)
+    
+    a = helpers.session_user_exist(request)
+    if (a == False):
+        messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
+    b = helpers.session_user_role(request)
+    if (b == True):
+        del request.session['usuario']
+        messages.add_message(request, messages.ERROR, 'No tienes Permiso.')
+        return redirect ("loginDashboard")
+    
+    c = helpers.request_module(request, data)
+    if (c == True):
+        return render(request, "modulos.html", data)
 
 
 def insertModulo(request):
+    x = 'usuario' in request.session
+    
+    if (x == False):
+        return redirect ("loginDashboard")
+    
+    x = 'usuario' in request.session['']
+    
+    if (x == False):
+        return redirect ("loginDashboard")
     """
     Si el método de solicitud es POST, entonces comprueba si el idModulo está vacío. Si lo está, entonces inserta un nuevo
     módulo. Si no lo está, entonces actualiza el módulo.

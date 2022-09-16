@@ -16,3 +16,14 @@ def fc_user_login (rut_usuario, contrasena_usuario):
         return result
     except Exception as ex:
         print(ex)
+
+def fc_get_permisos_with_modulos (id_rol):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("CALL usp_permisos_get_with_modules(%s)" % (id_rol))
+            result = cursor.fetchall()
+        cx.close()
+        return result
+    except Exception as ex:
+        print (ex)

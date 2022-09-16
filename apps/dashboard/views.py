@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 import pymysql
 import hashlib
-import apps.core
+import apps.helpers as helpers
 from .usp import *
 from django.conf import settings
-from apps.dashboard.controllers.roles.usp import fc_get_permisos
 from django.contrib import messages
 
 # Tupla = (1,2,3,4,5,6,7,8)
@@ -52,28 +51,37 @@ def get_connection ():
     return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getDashboard (request):
-    x = 'usuario' in request.session
     
-    if (x == False):
+    data = {
+        'id' : 1,
+        'Módulo' : "Dashboard"
+        }
+    
+    a = helpers.session_user_exist(request)
+    if (a == False):
+        messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
         return redirect ("loginDashboard")
     
-    if (request.session['usuario']['id_rol'] != 1 & request.session['usuario']['id_rol'] != 4):
-        messages.error(request, 'No tienes Permiso.')
+    b = helpers.session_user_role(request)
+    if (b == True):
+        del request.session['usuario']
+        messages.add_message(request, messages.ERROR, 'No tienes Permiso.')
         return redirect ("loginDashboard")
-        
-    return render(request, "dashboard.html")
-        
-        
-    """ if (request.session["usuario"]["id_rol"] == 1 or request.session["usuario"]["id_rol"] == 4):
-        print ()
+    
+    c = helpers.request_module(request, data)
+    if (c == True):
         return render(request, "dashboard.html")
-    else:
-        return redirect ("loginDashboard") """
+
 
 def loginDashboard (request):
     data = {
         'meta_title' : 'Dashboard - Login'
     }
+    
+    x = 'usuario' in request.session
+    
+    if (x == True):
+        return redirect ("principalDashboard")
 
     return render (request, "login.html", data)
 
@@ -117,6 +125,19 @@ def loginAdministrador (request):
                 "status_usuario" : data_to_array[0]["status_usuario"],
                 "id_rol" : data_to_array[0]["id_rol"],
             }
+            
+            permisos = fc_get_permisos_with_modulos(request.session['usuario']['id_rol'])
+            data_to_array_permisos = []
+            for x in permisos:
+                data_to_array_permisos.append({
+                    'id_modulo' : x[0],
+                    'nombre_modulo' : x[1],
+                    'create' : x[2],
+                    'read' : x[3],
+                    'update' : x[4],
+                    'delete' : x[5],
+                })
+            request.session['usuario']['permisos'] = data_to_array_permisos
             return redirect ('principalDashboard')
         else:
             return redirect ("loginDashboard")
