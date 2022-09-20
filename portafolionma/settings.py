@@ -104,8 +104,8 @@ elif (platform.system() == "Windows"):
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
-            'PASSWORD': '1234',
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+            'PASSWORD': 'Duoc.2022.1234',
+            'HOST': '18.185.178.216',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
@@ -139,14 +139,9 @@ if (DEBUG == True):
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     elif (x == "Windows"):
-        DB_HOST = 'localhost'
+        DB_HOST = '18.185.178.216'
         DB_USER = 'portafolionma'
-        DB_PASS = '1234'
-        DB_SCHEMA = 'portafolionma1'
-    else:
-        DB_HOST = 'localhost'
-        DB_USER = 'portafolionma'
-        DB_PASS = 'duoc'
+        DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
 
 else:
@@ -163,14 +158,9 @@ else:
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     elif (x == "Windows"):
-        DB_HOST = 'localhost'
+        DB_HOST = '18.185.178.216'
         DB_USER = 'portafolionma'
-        DB_PASS = '1234'
-        DB_SCHEMA = 'portafolionma1'
-    else:
-        DB_HOST = 'localhost'
-        DB_USER = 'portafolionma'
-        DB_PASS = 'duoc'
+        DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
