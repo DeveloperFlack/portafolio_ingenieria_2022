@@ -44,8 +44,8 @@
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1"
             style="font-size: 13px; width: fit-content !important;">
             <!-- {} -->
-            <li><a class="dropdown-item" href="{% url 'professional-profile' %}">Mi Perfil (Professional)</a></li>
-            <li><a class="dropdown-item" href="{% url 'user-profile' %}">Mi Perfil (User)</a></li>
+            <li><a class="dropdown-item" href="#">Mi Perfil (Professional)</a></li>
+            <li><a class="dropdown-item" href="#">Mi Perfil (User)</a></li>
             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
             </li>
             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a>
@@ -59,6 +59,86 @@
       </div>
     </div>
   </header>
+
+  <!-- Login Home Page -->
+  <div class="modal fade" tabindex="-1" id="loginModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content rounded-5 shadow" style="border-radius: 10px;">
+        <div class="modal-header p-5 pb-2 border-bottom-0">
+          <!-- <h5 class="modal-title">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body p-5 pt-0">
+          <div class="form__login">
+            <div class="container text-center">
+              <form>
+                <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
+                <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
+            
+                <div class="form-floating">
+                  <input type="text" class="form-control" placeholder="12345678-9" name="txtRutClient" id="txtRutClient" required>
+                  <label for="floatingInput">RUT</label>
+                </div>
+                <div class="form-floating mt-2">
+                  <input type="password" class="form-control" placeholder="Password" name="txtPasswordClient" id="txtPasswordClient" required>
+                  <label for="floatingPassword">Contraseña</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Acceder</button>
+                <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#registerModal">Crear Cuenta</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Home Page -->
+  <div class="modal fade" tabindex="-1" id="registerModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content rounded-5 shadow" style="border-radius: 10px;">
+        <div class="modal-header p-5 pb-2 border-bottom-0">
+          <!-- <h5 class="modal-title">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body p-5 pt-0">
+          <div class="form__login">
+            <div class="container text-center">
+              <form>
+                <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
+                <h1 class="h3 mb-3 fw-normal">Crear Cuenta</h1>
+            
+                <div class="form-floating mt-2">
+                  <input type="text" class="form-control" id="txtNombreEmpresa" name="txtNombreEmpresa" placeholder="name@example.com" required>
+                  <label for="floatingInput">Nombre de tu negocio</label>
+                </div>
+                <div class="form-floating mt-2">
+                  <input type="text" class="form-control" id="txtRutEmpresa" name="txtRutEmpresa" placeholder="name@example.com" required>
+                  <label for="floatingInput">Rut</label>
+                </div>
+                <div class="form-floating mt-2">
+                  <input type="text" class="form-control" id="txtContacto" name="txtContacto" placeholder="name@example.com" required>
+                  <label for="floatingInput">Número Contacto</label>
+                </div>
+                <div class="form-floating mt-2">
+                  <input type="email" class="form-control" id="txtCorreo" name="txtCorreo" placeholder="name@example.com" required>
+                  <label for="floatingInput">Correo Electrónico</label>
+                </div>
+                <div class="form-floating mt-2">
+                  <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Password" required>
+                  <label for="floatingPassword">Contraseña</label>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary mt-4">Registrarse</button>
+                <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal" >Iniciar Sesión</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% block content %}
   {% endblock %}
@@ -85,6 +165,13 @@
       </footer>
     </div>
   </div>
+
+  <!-- Volver Arriba Buttom -->
+  <button class="btn btn-primary hint--left hint--info" 
+    aria-label="Volver arriba" style="padding: 10px 14px; position: fixed; 
+      bottom: 3%; right: 3%; box-shadow: 1px 1px 10px rgb(180, 180, 180);">
+        <i class='bx bxs-chevron-up'></i>
+  </button>
 
   <!-- JQuery -->
   <script src="{% static 'usr/vendor/jquery/JQuery.js' %}"></script>

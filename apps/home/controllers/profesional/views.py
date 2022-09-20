@@ -1,3 +1,4 @@
+from genericpath import exists
 from django.shortcuts import render, redirect
 from django.conf import settings
 import pymysql
@@ -6,7 +7,7 @@ from apps.dashboard.controllers.roles.usp import fc_get_permisos
 
 # Create your views here.
 
-def loginProfessional (request):
+def loginDahboard (request):
     if request.method == "POST":
         v_rut_usuario =  request.POST.get("txtRutClient")
         v_c = request.POST.get("txtPasswordClient")
