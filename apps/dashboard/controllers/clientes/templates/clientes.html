@@ -1,0 +1,102 @@
+{% extends 'base-dashboard.html'%}
+{% block content %}
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
+                </div>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped v_table_clientes my-3" style="width: 100%;" id="v_table_clientes">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Rut Cliente</th>
+                            <th>Nombre</th>
+                            <th>Segundo Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Correo</th>
+                            <th>Teléfono Cliente</th>
+                            <th>Rut Empresa</th>
+                            <th>Nombre Empresa</th>
+                            <th>Acciones</th>
+
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Rut Cliente</th>
+                            <th>Nombre</th>
+                            <th>Segundo Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Correo</th>
+                            <th>Teléfono Cliente</th>
+                            <th>Rut Empresa</th>
+                            <th>Nombre Empresa</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+let v_url = "{% url 'getAllClientes' %}";
+
+    let tableClientes;
+    $(document).ready(function () {
+        tableClientes = $('#v_table_clientes').DataTable({
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "rut_cliente"
+            }, {
+                "data": "n1_cliente"
+            }, {
+                "data": "n2_cliente"
+            }, {
+                "data": "ap_cliente"
+            },{
+                "data": "am_cliente"
+            },{
+                "data": "correo_cliente"
+            },{
+                "data": "telefono_cliente"
+            },{
+                "data": "rut_empresa_cliente"
+            },{
+                "data": "nombre_empresa"
+            },{
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+</script>
+{% endblock %}

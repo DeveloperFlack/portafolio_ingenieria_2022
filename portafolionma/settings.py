@@ -59,6 +59,7 @@ TEMPLATES = [
                  "apps/dashboard/controllers/modulos/templates",
                  "apps/dashboard/controllers/usuarios/templates",
                  "apps/dashboard/controllers/roles/templates",
+                 "apps/dashboard/controllers/clientes/templates",
                  ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -105,7 +106,7 @@ elif (platform.system() == "Windows"):
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
-            'HOST': '18.185.178.216',   # Or an IP Address that your DB is hosted on
+            'HOST': '15.228.165.227',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
@@ -139,7 +140,7 @@ if (DEBUG == True):
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     elif (x == "Windows"):
-        DB_HOST = '18.185.178.216'
+        DB_HOST = '15.228.165.227'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
@@ -158,7 +159,7 @@ else:
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     elif (x == "Windows"):
-        DB_HOST = '18.185.178.216'
+        DB_HOST = '15.228.165.227'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
