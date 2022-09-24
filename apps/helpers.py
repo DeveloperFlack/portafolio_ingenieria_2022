@@ -12,6 +12,33 @@ def session_user_role(request):
 
 """ Entrar a Módulos Dashboard """
 def request_module(request, data):
+    """
+    Si el usuario tiene permiso para leer el módulo, devuelve True.
+    
+    :param request: es el objeto de la solicitud
+    :param data: {'id': 1, 'nombre': 'Modulo 1', 'descripcion': 'Modulo 1', 'url': 'modulo1'}
+    :return: Verdadero o falso
+    """
     for x in request.session['usuario']['permisos']:
         if ((x['id_modulo'] == data['id']) & (x['read'] == 1)):
             return True 
+        
+def request_session_cliente(request):
+    """
+    Si la variable de sesión 'cliente' existe, devuelve True, de lo contrario devuelve False.
+    
+    :param request: El objeto de la solicitud
+    :return: Un valor booleano.
+    """
+    session_status = 'cliente' in request.session
+    return session_status
+
+def request_session_profesional (request):
+    """
+    Si la variable de sesión 'profesional' existe, devuelve True, de lo contrario, devuelve False
+    
+    :param request: El objeto de la solicitud
+    :return: Un valor booleano.
+    """
+    session_status = 'profesional' in request.session
+    return session_status

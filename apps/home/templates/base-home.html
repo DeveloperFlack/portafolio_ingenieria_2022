@@ -13,9 +13,14 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="{% static 'usr/vendor/hint/css/hint.css' %}">
+  <link rel="stylesheet" href="{% static 'usr/vendor/datatable/css/datatable.css' %}">
   <!-- Estilos Propios -->
-  <link rel="stylesheet" href="{% static 'usr/vendor/css/estilos.css' %}">
-  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'usr/css/estilos.css' %}">
+  <title>RSP Companny - Asesores Profesionales</title>
+
+  <link rel="icon" href="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" type="image/x-icon">
+  <!-- JQuery -->
+  <script src="{% static 'usr/vendor/jquery/js/jquery.js' %}"></script>
 </head>
 
 <body>
@@ -33,32 +38,58 @@
           <li><a href="#" class="nav-link px-2 link-secondary">Customers</a></li>
           <li><a href="#" class="nav-link px-2 link-secondary">Products</a></li>
         </ul>
-
-
         <div class="dropdown text-end">
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle hint--left"
-            aria-label="Jaime Flack (KIS Keep It Simple)" id="dropdownUser1" data-bs-toggle="dropdown"
+            aria-label="{% if session_cliente == True %} {{request.session.cliente.n1_cliente}} {{request.session.cliente.ap_cliente}} ({{request.session.cliente.nombre_empresa}}) 
+              {%else%} Menú de usuario {% endif %}" 
+              id="dropdownUser1" data-bs-toggle="dropdown"
             aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32" height="32">
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1"
             style="font-size: 13px; width: fit-content !important;">
             <!-- {} -->
-            <li><a class="dropdown-item" href="#">Mi Perfil (Professional)</a></li>
-            <li><a class="dropdown-item" href="#">Mi Perfil (User)</a></li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
-            </li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+            <!--<li><a class="dropdown-item" href="#">Mi Perfil</a></li>-->
+            {% if session_cliente == True %}
+              <li><a class="dropdown-item" href="{% url "profileCliente" %}"">Mi perfil de usuario</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="{% url "logoutCliente" %}">Cerrar Sesión</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
     </div>
   </header>
+
+   <div class="messagges" style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); z-index: 10000 !important;">
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags == "success" %}
+            <div class="alert alert-success" role="alert" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(8, 181, 14);transform: ;msFilter:;">
+                  <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path>
+                </svg>
+                {{ message }}
+                <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% elif message.tags == "error" %}
+            <div class="alert alert-danger" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(216, 0, 0);transform: ;msFilter:;">
+                  <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM13 17h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                </svg>
+                {{ message }}
+                <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {%  endif %}
+    {% endfor %}
+  {% endif %}
+  </div>
+
 
   <!-- Login Home Page -->
   <div class="modal fade" tabindex="-1" id="loginModal">
@@ -72,16 +103,17 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form>
+              <form method="POST" action="{% url "loginCliente" %}" class="needs-validation" enctype="application/x-www-form-urlencoded">
+                {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
             
                 <div class="form-floating">
-                  <input type="text" class="form-control" placeholder="12345678-9" name="txtRutClient" id="txtRutClient" required>
-                  <label for="floatingInput">RUT</label>
+                  <input type="text" class="form-control" placeholder="12345678-9" name="txtRutCliente" id="txtRutCliente" required>
+                  <label for="floatingInput">Rut Cliente</label>
                 </div>
                 <div class="form-floating mt-2">
-                  <input type="password" class="form-control" placeholder="Password" name="txtPasswordClient" id="txtPasswordClient" required>
+                  <input type="password" class="form-control" placeholder="Password" name="txtPasswordClienteLogin" id="txtPasswordClienteLogin" required>
                   <label for="floatingPassword">Contraseña</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Acceder</button>
@@ -96,7 +128,7 @@
 
   <!-- Register Home Page -->
   <div class="modal fade" tabindex="-1" id="registerModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content rounded-5 shadow" style="border-radius: 10px;">
         <div class="modal-header p-5 pb-2 border-bottom-0">
           <!-- <h5 class="modal-title">Modal title</h5> -->
@@ -106,32 +138,71 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form>
+              <form method="POST" action="{% url "registerCliente" %}" class="needs-validation" enctype="application/x-www-form-urlencoded">
+                {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Crear Cuenta</h1>
+
+                <div class="form-floating mt-2">
+                  <input type="text" class="form-control" id="txtRutEmpresa" name="txtRutEmpresa" placeholder="name@example.com" required>
+                  <label for="floatingInput">RUT Empresa (12345678-9)</label>
+                </div>
             
                 <div class="form-floating mt-2">
                   <input type="text" class="form-control" id="txtNombreEmpresa" name="txtNombreEmpresa" placeholder="name@example.com" required>
                   <label for="floatingInput">Nombre de tu negocio</label>
                 </div>
+
+                <div class="row">
+                  <div class="col-lg-6 col-12">
+                    <div class="form-floating mt-2">
+                      <input type="text" class="form-control" id="txtN1Cliente" name="txtN1Cliente" placeholder="name@example.com" required>
+                      <label for="floatingInput">Primer Nombre</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-12">
+                    <div class="form-floating mt-2">
+                      <input type="text" class="form-control" id="txtN2Cliente" name="txtN2Cliente" placeholder="name@example.com" required>
+                      <label for="floatingInput">Segundo Nombre</label>
+                    </div>
+                  </div>
+                </div>
+         
+                <div class="row">
+                  <div class="col-lg-6 col-12">
+                    <div class="form-floating mt-2">
+                      <input type="text" class="form-control" id="txtApellidoPaternoCliente" name="txtApellidoPaternoCliente" placeholder="name@example.com" required>
+                      <label for="floatingInput">Apelldio Paterno</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-12">
+                    <div class="form-floating mt-2">
+                      <input type="text" class="form-control" id="txtApellidoMaternoCliente" name="txtApellidoMaternoCliente" placeholder="name@example.com" required>
+                      <label for="floatingInput">Apellido Materno</label>
+                    </div>
+                  </div>
+                </div>
+               
                 <div class="form-floating mt-2">
-                  <input type="text" class="form-control" id="txtRutEmpresa" name="txtRutEmpresa" placeholder="name@example.com" required>
-                  <label for="floatingInput">Rut</label>
+                  <input type="text" class="form-control" id="txtRutCliente" name="txtRutCliente" placeholder="name@example.com" required>
+                  <label for="floatingInput">RUT Cliente (12345678-9)</label>
                 </div>
                 <div class="form-floating mt-2">
-                  <input type="text" class="form-control" id="txtContacto" name="txtContacto" placeholder="name@example.com" required>
-                  <label for="floatingInput">Número Contacto</label>
+                  <input type="text" class="form-control" id="txtContactoCliente" name="txtContactoCliente" placeholder="name@example.com" required>
+                  <label for="floatingInput">Número Contacto (+56912345678)</label>
                 </div>
                 <div class="form-floating mt-2">
-                  <input type="email" class="form-control" id="txtCorreo" name="txtCorreo" placeholder="name@example.com" required>
-                  <label for="floatingInput">Correo Electrónico</label>
+                  <input type="email" class="form-control" id="txtCorreoCliente" name="txtCorreoCliente" placeholder="name@example.com" required>
+                  <label for="floatingInput">Correo Electrónico (example@correo.com)</label>
                 </div>
                 <div class="form-floating mt-2">
-                  <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="Password" required>
+                  <input type="password" class="form-control" id="txtPasswordCliente" name="txtPasswordCliente" placeholder="Password" required>
                   <label for="floatingPassword">Contraseña</label>
                 </div>
+
                 <button type="submit" class="w-100 btn btn-lg btn-primary mt-4">Registrarse</button>
                 <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal" >Iniciar Sesión</button>
+                
               </form>
             </div>
           </div>
@@ -173,17 +244,20 @@
         <i class='bx bxs-chevron-up'></i>
   </button>
 
-  <!-- JQuery -->
-  <script src="{% static 'usr/vendor/jquery/JQuery.js' %}"></script>
+  
   <!-- Bootstrap -->
   <script src="{% static 'usr/vendor/bootstrap/js/bootstrap.js' %}"></script>
   <!-- Plugins -->
   <script src="{% static 'usr/vendor/aos/js/aos.js' %}"></script>
+  <script src="{% static 'usr/vendor/datatable/js/datatable.js' %}"></script>
+  <script src="{% static 'usr/vendor/datatable/js/datatable.bootstrap.js' %}"></script>
   <script>
     AOS.init();
   </script>
   <script src="{% static 'usr/vendor/boxicons/js/boxicons.js' %}"></script>
-  <!-- JS Propios -->
+
+  {% block scripts %}
+  {% endblock %}
 
 </body>
 

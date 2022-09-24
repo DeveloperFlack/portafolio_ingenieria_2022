@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 import pymysql
 import apps.core
+import hashlib
 
 def multiform(form):
     data = {}
@@ -39,4 +40,15 @@ def get_connection ():
     return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getHome(request):
-    return render (request, "index.html")
+    
+    x = 'cliente' in request.session
+    
+    if (x == True):
+        x = True
+    else:
+        x = False
+    
+    data = {
+        'session_cliente' : x
+    }
+    return render(request, "index.html", data)

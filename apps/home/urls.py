@@ -5,7 +5,6 @@ from .views import *
 urlpatterns = [
     path('', getHome , name="index"),
     path('profesional/', include("apps.home.controllers.profesional.urls")),
-    path('cliente/', include("apps.home.controllers.empresa.urls")),
-    
+    path('cliente/', include("apps.home.controllers.cliente.urls")),
 ]
 
