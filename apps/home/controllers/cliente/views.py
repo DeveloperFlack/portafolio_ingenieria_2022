@@ -7,13 +7,13 @@ import pymysql
 import hashlib
 from apps.dashboard.controllers.roles.usp import fc_get_permisos
 from django.contrib import messages
-from apps.helpers import request_session_cliente
+from apps.helpers import request_session
 
 
 def profileCliente(request):
-    status = request_session_cliente(request)
-    if (status == False):
-        return redirect('getHome')
+    sessionStatus = request_session(request)
+    if (sessionStatus['cliente'] == False ):
+        return redirect('index')
     
     data = {
         'table' : getSolicitudes(request)
@@ -75,56 +75,6 @@ def registerCliente(request):
                 return redirect("getHome")
     else:
         return redirect("getHome")
-
-
-def loginCliente (request):
-    if request.method == "POST":
-        v_rut_cliente = request.POST.get("txtRutCliente")
-        vaa = request.POST.get("txtPasswordClienteLogin")
-        v_password_cliente = hashlib.sha256(vaa.encode('utf-8')).hexdigest()
-
-        exists = fc_home_login(v_rut_cliente, v_password_cliente)
-        if (exists != ()):
-            data_to_array = []
-            for x in exists:
-                data_to_array.append({
-                    "rut_cliente" : x[0],
-                    "rut_empresa_cliente" : x[8],
-                    "contrasena_cliente" : x[1],
-                    "n1_cliente" : x[2],
-                    "ap_cliente" : x[4],
-                    "nombre_empresa": x[9],
-                })
-            print (data_to_array[0])
-            request.session["cliente"] = {
-                "rut_cliente" : data_to_array[0]["rut_cliente"],
-                "rut_empresa_cliente" : data_to_array[0]["rut_empresa_cliente"],
-                "contrasena_cliente" : data_to_array[0]["contrasena_cliente"],
-                "n1_cliente": data_to_array[0]["n1_cliente"],
-                "ap_cliente": data_to_array[0]["ap_cliente"],
-                "nombre_empresa": data_to_array[0]["nombre_empresa"],
-            }
-            
-            print (request.session["cliente"])
-            messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["cliente"]["n1_cliente"] + ' ' + request.session["cliente"]["ap_cliente"] + ' de ' + request.session["cliente"]["nombre_empresa"] + '!')
-            return redirect ('getHome')
-        else:
-            messages.add_message(request, messages.ERROR, 'Usuario o contraseña incorrecta, vuelva a intentarlo!')
-            return redirect ("getHome")
-
-
-    else:
-        return redirect ("getHome")
-
-def logoutCliente(request):
-    try:
-        del request.session['cliente']
-        del request.session['hola']
-        print (request.session.items())
-        return redirect('getHome')
-    except KeyError:
-        print (request.session.items())
-        return redirect('getHome')
 
 def solicitudInsert(request):
     status = request_session_cliente(request)

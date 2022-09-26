@@ -42,3 +42,28 @@ def request_session_profesional (request):
     """
     session_status = 'profesional' in request.session
     return session_status
+
+def request_session (request):
+    session_status_profesional = 'profesional' in request.session
+    session_status_cliente = 'cliente' in request.session
+    
+    if (session_status_profesional != False):
+        data = {
+            'profesional' : True,
+            'cliente': False
+        }
+        return data
+    
+    if (session_status_cliente != False):
+        data = {
+            'profesional' : False,
+            'cliente' : True
+        }
+        return data
+    
+    data = {
+        'session' : False,
+        'profesional' : False,
+        'cliente': False
+    }
+    return data

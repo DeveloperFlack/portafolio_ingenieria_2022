@@ -8,6 +8,7 @@ urlpatterns = [
     path('usuarios/', include("apps.dashboard.controllers.usuarios.urls")),
     path('clientes/', include("apps.dashboard.controllers.clientes.urls")),
     path('roles/', include("apps.dashboard.controllers.roles.urls")),
+    path('solicitudes/', include("apps.dashboard.controllers.solicitudes.urls")),
     path('login/', loginDashboard, name="loginDashboard"),
     path('login/adm/', loginAdministrador, name="loginAdministrador"),
     path('logout/', logoutAdm, name="logoutAdm"),

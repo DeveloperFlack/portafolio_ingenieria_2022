@@ -41,7 +41,7 @@ def insertModulo(request):
     if (x == False):
         return redirect ("loginDashboard")
     
-    x = 'usuario' in request.session['']
+    x = 'usuario' in request.session['usuario']
     
     if (x == False):
         return redirect ("loginDashboard")

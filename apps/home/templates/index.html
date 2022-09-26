@@ -10,9 +10,9 @@
           <h1 class="display-5 fw-bold lh-1 mb-3">Asesoramos tu negocio para que tus trabajadores estén seguros</h1>
           <p class="lead">Consulta la variedad de servicios que RPS tiene para ofrecer. Contamos con un grupo multidisiplinario de profesionales capaces de llevar a cabo tareas a un alto nivel, para asegurar el bien estar de tus trabajadores y negocio.</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-            {% if session_cliente == False %}
-            <button type="button" class="btn btn-primary btn-md px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-            <button type="button" class="btn btn-outline-secondary btn-md px-4" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+            {% if session_status.session == False %}
+              <button type="button" class="btn btn-primary btn-md px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+              <button type="button" class="btn btn-outline-secondary btn-md px-4" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
             {% endif %}
           </div>
         </div>

@@ -3,5 +3,5 @@ from .views import *
 
 urlpatterns = [
     path('', getClientesPage , name="getClientesPage"),
-    path('ListarClientes', getAllClientes , name="getAllClientes")
+    path('api/v2/clientes/all', getAllClientes , name="getAllClientes")
 ]

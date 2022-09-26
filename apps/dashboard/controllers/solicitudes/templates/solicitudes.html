@@ -1,0 +1,185 @@
+{% extends 'base-dashboard.html' %}
+{% block content %}
+<div class="modal fade" id="modalEditSolicitud" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalSolicitudessLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSolicitudesLabel">Actualizar Solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "updateSolicitud" %}" id="formSolicitud" class="needs-validation" method="POST">
+                    {% csrf_token%}
+                    <input type="hidden" name="idSolicitud" id="idSolicitud">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="fechaSolicitud" class="form-label">Fecha</label>
+                            <input class="form-control" type="date" name="txtFecha" id="txtFecha" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="timeStart" class="form-label">Hora de Inicio</label>
+                            <input class="form-control" type="time" name="txtTimeStart" id="txtTimeStart" required>
+                        </div>
+                        <div class="col-12">
+                            <label for="timeEnd" class="form-label">Hora de Término</label>
+                            <input class="form-control" type="time" name="txtTimeEnd" id="txtTimeEnd" required>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped v_table_solicitudes my-3" style="width: 100%;" id="v_table_solicitudes">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width: 40px;">Id</th>
+                            <th>Rut Cliente</th>
+                            <th style="width: 200px;">Nombre Solicitud</th>
+                            <th style="width: 380px;">Descripción</th>
+                            <th>Fecha</th>
+                            <th>Inicio</th>
+                            <th>Término</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th style="width: 40px;">Id</th>
+                            <th>Rut Cliente</th>
+                            <th style="width: 200px;">Nombre Solicitud</th>
+                            <th style="width: 380px;">Descripción</th>
+                            <th>Fecha</th>
+                            <th>Inicio</th>
+                            <th>Término</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+let v_url = "{% url 'getAllSolicitudes' %}";
+let v_url_solicitud = "{% url 'getSolicitud' %}"
+
+    let tableSolicitudes;
+    $(document).ready(function () {
+        tableSolicitudes = $('#v_table_solicitudes').DataTable({
+            "language": {
+            "sProcessing":    "Procesando...",
+            "sLengthMenu":    "Mostrar _MENU_ registros",
+            "sZeroRecords":   "No se encontraron resultados",
+            "sEmptyTable":    "Ningún dato disponible en esta tabla",
+            "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":   "",
+            "sSearch":        "Buscar:",
+            "sUrl":           "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":    "Último",
+                "sNext":    "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "id_solicitud"
+            }, {
+                "data": "rut_cliente"
+            }, {
+                "data": "nombre_solicitud"
+            }, {
+                "data": "descripcion_solicitud"
+            }, {
+                "data": "fecha"
+            }, {
+                "data": "time_start"
+            }, {
+                "data": "time_end"
+            }, {
+                "data": "tipo_solicitud"
+            }, {
+                "data": "status_solicitud"
+            }, {
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+</script>
+<script>
+    // EDIT SOLICITUD
+    function fntEditSolicitud (id_solicitud){
+        var id_solicitud = id_solicitud;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_solicitud + "?id_solicitud=" + id_solicitud;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            $('#id_solicitud').val(objData[0].id_solicitud);
+            $('#txtFecha').val(objData[0].fecha);
+            $('#txtTimeStart').val(objData[0].time_start);
+            $('#txtTimeEnd').val(objData[0].time_end);
+            $('#modalEditSolicitud').show();
+        }
+    }
+</script>
+{% endblock %}

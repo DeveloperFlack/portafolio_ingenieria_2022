@@ -47,6 +47,9 @@
                             <li><a class="dropdown-item" href="{% url 'getClientesPage' %}">Clientes</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'getAllSolicitudes' %}">Solicitudes</a>
+                    </li>
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'getUsuariosPage' %}">Usuarios</a>

@@ -51,7 +51,7 @@ def get_connection ():
     return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getDashboard (request):
-    
+    print (request.session['usuario'])
     data = {
         'id' : 1,
         'Módulo' : "Dashboard"
@@ -59,7 +59,7 @@ def getDashboard (request):
     
     a = helpers.session_user_exist(request)
     if (a == False):
-        messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
+        messages.add_message(request, messages.ERROR, 'No has Iniciado Sesión.')
         return redirect ("loginDashboard")
     
     b = helpers.session_user_role(request)
@@ -70,7 +70,7 @@ def getDashboard (request):
     
     c = helpers.request_module(request, data)
     if (c == True):
-        return render(request, "dashboard.html")
+        return render(request, "dashboard.html", data)
 
 
 def loginDashboard (request):

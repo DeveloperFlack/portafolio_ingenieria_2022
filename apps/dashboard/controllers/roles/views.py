@@ -238,8 +238,8 @@ def getPermisos(request):
                     <thead>
                         <th style='color: var(--white-color);'>#</th>
                         <th style='color: var(--white-color);'>Módulos</th>
-                        <th style='color: var(--white-color);'>Ver</th>
                         <th style='color: var(--white-color);'>Crear</th>
+                        <th style='color: var(--white-color);'>Ver</th>
                         <th style='color: var(--white-color);'>Actualizar</th>
                         <th style='color: var(--white-color);'>Eliminar</th>
                         </thead>
@@ -282,14 +282,14 @@ def getPermisos(request):
                         <td>
                             <div class='toggle-flip'>
                                 <label>
-                                    <input type='checkbox' name='m[%s][r]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
+                                    <input type='checkbox' name='m[%s][c]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
                                 </label>
                             </div>
                         </td>
                         <td>
                             <div class='toggle-flip'>
                                 <label>
-                                    <input type='checkbox' name='m[%s][c]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
+                                    <input type='checkbox' name='m[%s][r]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
                                 </label>
                             </div>
                         </td>
@@ -308,7 +308,7 @@ def getPermisos(request):
                             </div>
                         </td>
                     </tr>
-                """ % (x, v_id_module, v_id_module, v_name_module, v_id_module, v_r, v_id_module, v_c, v_id_module, v_u, v_id_module, v_d)
+                """ % (x, v_id_module, v_id_module, v_name_module, v_id_module, v_c, v_id_module, v_r, v_id_module, v_u, v_id_module, v_d)
             d_d['table'] += """</body></table> """
 
             data = {
@@ -339,22 +339,22 @@ def setPermisos(request):
         a = multiform(request.POST)
         ## print (a)
         for x in (a['m']):
-            r = "r" in a['m'][x]
             c = "c" in a['m'][x]
+            r = "r" in a['m'][x]
             u = "u" in a['m'][x]
             d = "d" in a['m'][x]
+            # Create
+            if (c == False):
+                a['m'][x]['c'] = 0
+            elif (c == True):
+                a['m'][x]['c'] = 1
+            
             # Read
             if (r == False):
                 a['m'][x]['r'] = 0
             elif (r == True):
                 a['m'][x]['r'] = 1
-
-            # Write
-            if (c == False):
-                a['m'][x]['c'] = 0
-            elif (c == True):
-                a['m'][x]['c'] = 1
-
+                
             # UPDATE
             if (u == False):
                 a['m'][x]['u'] = 0
@@ -370,8 +370,8 @@ def setPermisos(request):
             fc_insert_permisos(
                 a['m'][g]['id_module'],
                 v_id_role,
-                a['m'][g]['r'],
                 a['m'][g]['c'],
+                a['m'][g]['r'],
                 a['m'][g]['u'],
                 a['m'][g]['d'],
             )

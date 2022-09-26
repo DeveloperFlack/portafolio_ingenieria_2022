@@ -14,3 +14,4 @@ def fc_get_all_clientes():
         return result
     except Exception as ex:
         print(ex)
+

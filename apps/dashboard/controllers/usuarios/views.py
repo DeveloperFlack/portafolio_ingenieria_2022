@@ -119,7 +119,9 @@ def getAllUsuarios(request):
             "telefono": i[7],
             "direccion": i[8],
             "status_usuario": i[9],
-            "id_rol": i[10],
+            "id_rol": i[11],
+            "nombre_rol": i[12],
+            
         })
 
     # Añadir HTML
