@@ -6,7 +6,7 @@ import apps.helpers as helpers
 
 # Create your views here.
 
-def getSolicitudesPage(request):
+def dashboard_get_solicitudes_page(request):
     data = {
         'id' : 3,
         'meta_title': 'Dashboard - Solicitudes',
@@ -18,7 +18,7 @@ def getSolicitudesPage(request):
     return render(request, "solicitudes.html", data)
 
 # LIST SOLICITUDES
-def getAllSolicitudes(request):
+def dashboard_get_all_solicitudes(request):
     data_solicitudes = list(fc_get_all_solicitudes())
     data_to_array = []
     # Convertir TUPLA a Array Modificable
@@ -65,7 +65,7 @@ def getAllSolicitudes(request):
 def getSolicitud(request):
     v_id_solicitud = request.GET.get('idSolicitud')
     if (v_id_solicitud != ""):
-        data_solicitud = list(fc_get_solicitud(v_id_solicitud))
+        data_solicitud = list(fc_get_solicitudes_dash(v_id_solicitud))
         data_to_array = []
         if (data_solicitud != ()):
             for i in data_solicitud:
@@ -86,8 +86,9 @@ def getSolicitud(request):
 # UPDATE SOLICITUD
 def updateSolicitud(request):
     if (request.method) == 'POST':
-        v_id_solicitud = request.GET.get('id_solicitud')
-        exist = list(fc_get_solicitud(v_id_solicitud))
+        v_id_solicitud = request.GET.get('idSolicitud')
+        print (v_id_solicitud)
+        exist = list(fc_get_solicitudes_dash(v_id_solicitud))
         # print (exist)
         if (exist != ()):
             v_fecha = request.POST.get("txtFecha")

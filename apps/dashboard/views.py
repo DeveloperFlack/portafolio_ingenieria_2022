@@ -51,7 +51,6 @@ def get_connection ():
     return pymysql.connect (host=settings.DB_HOST, database=settings.DB_SCHEMA, user=settings.DB_USER, password=settings.DB_PASS)
 
 def getDashboard (request):
-    print (request.session['usuario'])
     data = {
         'id' : 1,
         'Módulo' : "Dashboard"

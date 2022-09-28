@@ -27,3 +27,4 @@ def fc_get_permisos_with_modulos (id_rol):
         return result
     except Exception as ex:
         print (ex)
+

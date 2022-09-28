@@ -103,7 +103,10 @@ def auth (request):
                 
                 messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["profesional"]["primer_nombre"] + ' ' + request.session["profesional"]["apellido_paterno"] + ' !')
                 return redirect ('index')
-            
+            else:
+                messages.add_message(request, messages.ERROR, 'Usuario no Existente.')
+                return redirect ('index')
+
     except Exception as ex:
         messages.add_message(request, messages.SUCCESS, ex)
         return redirect ('index')

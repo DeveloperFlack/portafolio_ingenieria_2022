@@ -136,3 +136,5 @@ if __name__ == "__main__":
         os.system('python manage.py runserver')
     elif (platform.system() == "Linux"):
         os.system('sudo python3 manage.py runserver 0.0.0.0:80')
+    elif (platform.system() == "Darwin"):
+        os.system('python3 manage.py runserver')

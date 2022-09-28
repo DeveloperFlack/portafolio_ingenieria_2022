@@ -17,7 +17,7 @@ def fc_update_solicitud(id_solicitud, fecha, time_start, time_end):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_SOLICITUDES_UPDATE(%s, %s, %s, %s)" % (id_solicitud, fecha, time_start, time_end))
+            cursor.execute("CALL USP_SOLICITUDES_UPDATE(%s, '%s', '%s', '%s')" % (id_solicitud, fecha, time_start, time_end))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -38,15 +38,28 @@ def fc_delete_solicitud(id_solicitud):
         print(ex)
         return "Error en el Proceso"
 
-# OBTENER UNA SOLICITUD
-def fc_get_solicitud_all (id_solicitud):
+# OBTENER TODAS LAS SOLICITUDES DASHBOARD
+def fc_get_solicitud_all ():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_SOLICITUDES (%s)" % (id_solicitud))
+            cursor.execute("CALL USP_SOLICITUDES()")
             result = cursor.fetchall()
             print (result)
         cx.close()
         return result
     except Exception as ex:
         print (ex)
+
+# OBTENER UNA SOLICITUD DASHBOARD
+def fc_get_solicitudes_dash (id_solicitud):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("CALL usp_solicitudes_get_dash (%s)" % (id_solicitud))
+            result = cursor.fetchall()
+        cx.close()
+        print (result)
+        return result
+    except Exception as ex:
+        print(ex)

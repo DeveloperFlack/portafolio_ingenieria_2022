@@ -102,7 +102,7 @@ if (platform.system() ==  "Linux"):
             'PORT': '3306',
         }
     }
-elif (platform.system() == "Windows"):
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -142,7 +142,7 @@ if (DEBUG == True):
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
-    elif (x == "Windows"):
+    else:
         DB_HOST = '15.228.165.227'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
@@ -161,7 +161,7 @@ else:
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
-    elif (x == "Windows"):
+    else:
         DB_HOST = '15.228.165.227'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
