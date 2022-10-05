@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .usp import *
 from apps.dashboard.views import multiform
 import apps.helpers as helpers
+from django.contrib import messages
 
 # Create your views here.
 
@@ -86,9 +87,10 @@ def getSolicitud(request):
 # UPDATE SOLICITUD
 def updateSolicitud(request):
     if (request.method) == 'POST':
-        v_id_solicitud = request.GET.get('idSolicitud')
+        v_id_solicitud = request.POST.get('idSolicitud')
         print (v_id_solicitud)
-        exist = list(fc_get_solicitudes_dash(v_id_solicitud))
+        exist = fc_get_solicitudes_dash(v_id_solicitud)
+        print (exist)
         # print (exist)
         if (exist != ()):
             v_fecha = request.POST.get("txtFecha")
@@ -96,6 +98,7 @@ def updateSolicitud(request):
             v_time_end = request.POST.get("txtTimeEnd")
 
             fc_update_solicitud(v_id_solicitud, v_fecha, v_time_start, v_time_end)
+            messages.add_message(request, messages.SUCCESS, 'Fecha y Hora solicitud actualizada')
             return redirect("getSolicitudesPage")
         else:
             return redirect("getSolicitudesPage")

@@ -45,7 +45,6 @@ def fc_get_solicitud_all ():
         with cx.cursor() as cursor:
             cursor.execute("CALL USP_SOLICITUDES()")
             result = cursor.fetchall()
-            print (result)
         cx.close()
         return result
     except Exception as ex:
@@ -59,7 +58,6 @@ def fc_get_solicitudes_dash (id_solicitud):
             cursor.execute("CALL usp_solicitudes_get_dash (%s)" % (id_solicitud))
             result = cursor.fetchall()
         cx.close()
-        print (result)
         return result
     except Exception as ex:
         print(ex)
