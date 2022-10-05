@@ -105,6 +105,7 @@ def getAllUsuarios(request):
     'apellido_paterno': 'Perez', 'apellido_materno': 'Gonzalez', 'correo
     """
     data_ususarios = list(fc_get_all_usuarios())
+    print (data_ususarios)
     data_to_array = []
     # Convertir TUPLA a Array Modificable
     for i in data_ususarios:

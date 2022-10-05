@@ -28,7 +28,7 @@ def fc_get_roles (id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_ROLES_GET({0})" % (id_modulo))
+            cursor.execute("CALL USP_ADMIN_ROLES_GET({0})" % (id_modulo))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -93,6 +93,7 @@ def fc_enable_roles(id_rol):
         return "Error en el Proceso"
 
 
+
 # Desactivar / Deshabilitar Rol
 def fc_deactivate_roles(id_rol):
     try:
@@ -120,19 +121,11 @@ def fc_delete_roles(id_rol):
         print(ex)
         return "Error en el Proceso"
 
-
-def fc_get_enabled_modulos():
-    """
-    Obtiene una conexión, crea un cursor, ejecuta un procedimiento almacenado, obtiene los resultados,
-    cierra la conexión y devuelve los resultados, en dónde llegan datos de módulos activados dentro de 
-    base de datos.
-
-    :return: Una lista de tuplas.
-    """
+def fc_get_enables_modulos_1():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_MODULOS_ENABLED()")
+            cursor.execute("SELECT * FROM nma_modulo WHERE status_modulo = 1")
             result = cursor.fetchall()
         cx.close()
         return result
@@ -143,7 +136,7 @@ def fc_get_permisos (id_rol):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_PERMISOS_GET(%s)" % (id_rol))
+            cursor.execute("CALL USP_ADMIN_PERMISOS_GET(%s)" % (id_rol))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -154,7 +147,7 @@ def fc_insert_permisos(id_modulo, id_rol, c, r, u, d):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_permisos_insert(%s, %s, %s, %s, %s, %s)" % (id_modulo, id_rol, c, r, u, d))
+            cursor.execute("call usp_admin_permisos_insert(%s, %s, %s, %s, %s, %s)" % (id_modulo, id_rol, c, r, u, d))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -166,10 +159,11 @@ def fc_delete_permisos(id_rol):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_permisos_delete(%s)" % (id_rol))
+            cursor.execute("call usp_admin_permisos_delete(%s)" % (id_rol))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
     except Exception as ex:
         print (ex)
         return "Error en el Proceso"
+
