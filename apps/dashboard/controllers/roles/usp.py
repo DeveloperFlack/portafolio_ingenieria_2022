@@ -30,6 +30,7 @@ def fc_get_roles (id_modulo):
         with cx.cursor() as cursor:
             cursor.execute("CALL USP_ADMIN_ROLES_GET({0})" % (id_modulo))
             result = cursor.fetchall()
+            print (result)
         cx.close()
         return result
     except Exception as ex:

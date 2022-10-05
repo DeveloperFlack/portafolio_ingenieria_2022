@@ -142,3 +142,15 @@ def getAllUsuarios(request):
         """ % (i['rut_usuario'], i['rut_usuario'], i['rut_usuario'], i['rut_usuario'])
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+
+def update_usuario(request):
+    if (request.method == 'POST'):
+        v_rutUsuario = request.POST.get('txtRut')
+        v_primerNombreUsuario = request.POST.get('txtPrimerNombre')
+        v_segundoNombreUsuario = request.POST.get('txtSegundoNombre')
+        v_apellidoPaternoUsuario = request.POST.get('txtApellidoPaterno')
+        v_apellidoMaternoUsuario = request.POST.get('txtApellidoMaterno')
+        v_correoUsuario = request.POST.get('txtCorreoElectronico')
+        v_telefonoUsuario = request.POST.get('txtTelefono')
+        v_direccionUsuario = request.POST.get('txtDireccion')
+        v_listRol = request.POST.get('selectRol')

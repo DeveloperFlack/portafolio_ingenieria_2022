@@ -77,7 +77,7 @@ def registerCliente(request):
         return redirect("getHome")
 
 def solicitudInsert(request):
-    status = request_session_cliente(request)
+    status = request_session(request)
     if (status == False):
         return redirect('getHome')
     
@@ -99,7 +99,7 @@ def solicitudInsert(request):
     else:
         return redirect("profileCliente")
 
-def getSolicitudes(request):
+def getSolicitud(request):
     session_check = 'cliente' in request.session
     if (session_check == True):
         v_rut_cliente = request.session['cliente']['rut_cliente']
