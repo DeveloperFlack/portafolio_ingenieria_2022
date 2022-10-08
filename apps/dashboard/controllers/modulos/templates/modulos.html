@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <form action="{% url "insertModulo" %}" id="formModulo" class="needs-validation" method="POST">
-                    {% csrf_token%}
+                    {% csrf_token %}
                     <input type="hidden" name="idModulo" id="idModulo">
                     <div class="row g-3">
                         <div class="col-12">

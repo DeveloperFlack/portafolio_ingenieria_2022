@@ -41,10 +41,6 @@ def insertModulo(request):
     if (x == False):
         return redirect ("loginDashboard")
     
-    x = 'usuario' in request.session['usuario']
-    
-    if (x == False):
-        return redirect ("loginDashboard")
     """
     Si el método de solicitud es POST, entonces comprueba si el idModulo está vacío. Si lo está, entonces inserta un nuevo
     módulo. Si no lo está, entonces actualiza el módulo.
@@ -103,7 +99,7 @@ def getAllModulos(request):
         i['options'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditModule("%s")' data-bs-toggle='modal' data-bs-target='#modalModulos'><i class='bx bxs-edit' ></i></button>
-                <a onclick='enableModule(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
+                <a onclick='enableModule("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableModule("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='deleteModule("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>

@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from .usp import *
 import hashlib
 from cryptography.fernet import Fernet
+import apps.helpers as helpers
+from django.contrib import messages
 
 """
 It returns a rendered template
@@ -14,7 +16,7 @@ It returns a rendered template
 :return: Un diccionario con las claves: breadcrumb, title, subtitle, button_add
 """
 
-def getUsuariosPage(request):
+def dashboard_get_usuarios_page(request):
     data = {
         'id' : 4,
         'meta_title': 'Dashboard - Usuarios',
@@ -39,7 +41,7 @@ def getUsuariosPage(request):
         return render(request, "usuarios.html", data)
 
 
-def insertUsuario(request):
+def dashboard_usuario_insert(request):
     """
     Si el método de solicitud es POST, entonces comprueba si el usuario existe, si no existe, entonces inserta el usuario,
     si existe, entonces actualiza el usuario.
@@ -47,6 +49,12 @@ def insertUsuario(request):
     :param request: El objeto de solicitud es un objeto HttpRequest
     :return: una redirección a la página getUsuariosPage.
     """
+    
+    session_user = helpers.session_user_exist
+    if (session_user == False):
+        messages.add_message(request, messages.ERROR, 'No has Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
     if request.method == "POST":
         v_rut_usuario = request.POST.get("txtRut")
         exist = fc_get_usuario(v_rut_usuario)
@@ -96,7 +104,7 @@ def insertUsuario(request):
         return redirect("getUsuariosPage")
 
 
-def getAllUsuarios(request):
+def dashboard_get_usuarios_all(request):
     """
     Toma una tupla de tuplas y la convierte en una lista de diccionarios
 
@@ -104,6 +112,12 @@ def getAllUsuarios(request):
     :return: [{'rut_usuario': '17.876.876-8', 'primer_nombre': 'Juan', 'segundo_nombre': 'Andres',
     'apellido_paterno': 'Perez', 'apellido_materno': 'Gonzalez', 'correo
     """
+    
+    session_user = helpers.session_user_exist
+    if (session_user == False):
+        messages.add_message(request, messages.ERROR, 'No has Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
     data_ususarios = list(fc_get_all_usuarios())
     data_to_array = []
     # Convertir TUPLA a Array Modificable
@@ -141,3 +155,36 @@ def getAllUsuarios(request):
         """ % (i['rut_usuario'], i['rut_usuario'], i['rut_usuario'], i['rut_usuario'])
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+
+
+def dashboard_get_user(request):
+    session_user = helpers.session_user_exist
+    if (session_user == False):
+        messages.add_message(request, messages.ERROR, 'No has Iniciado Sesión.')
+        return redirect ("loginDashboard")
+    
+    if (request.method == "GET"):
+        v_rut_usuario = request.GET.get('idUsuario')
+        
+        data_user =  fc_get_usuario(v_rut_usuario)
+        
+        if (data_user != ()):
+            for i in data_user:
+                data_to_array = {
+                    "rut_usuario": i[0],
+                    "primer_nombre": i[1],
+                    "segundo_nombre": i[2],
+                    "apellido_paterno": i[3],
+                    "apellido_materno": i[4],
+                    "correo": i[5],
+                    "password_usuario": i[6],
+                    "telefono": i[7],
+                    "direccion": i[8],
+                    "status_usuario": i[9],
+                    "id_rol": i[10],
+                }
+            return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+        else:
+            return redirect("getUsuariosPage")
+    else:
+        return redirect("getUsuariosPage")

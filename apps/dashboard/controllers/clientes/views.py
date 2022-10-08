@@ -1,8 +1,13 @@
+from genericpath import exists
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.http import JsonResponse
 from .usp import *
-import apps.helpers as helpers
-from django.http import HttpResponse
+import pymysql
+import hashlib
+from apps.dashboard.controllers.roles.usp import fc_get_permisos
+from django.contrib import messages
+from apps.helpers import request_session
 
 
 # Create your views here.
@@ -29,9 +34,6 @@ def getClientesPage(request):
     c = helpers.request_module(request, data)
     if (c == True):
         return render(request, "clientes.html", data)
-
-
-
 
 def getAllClients(request):
     return HttpResponse("Salida")

@@ -175,6 +175,22 @@
         $('#selectRol').val('');
     }
 
+    function fntEditUsuario(id_usuario) {
+        var rut_usuario = id_usuario;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = v_url_roles + "?idUsuario=" + rut_usuario;
+            request.open("GET", ajaxUrl, true);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send(ajaxUrl);
+            request.onreadystatechange = function () {
+                let objData = JSON.parse(request.responseText);
+                $('#idRol').val(objData[0].id_modulo);
+                $('#txtNombreRol').val(objData[0].nombre_modulo);
+                $('#txtDescripcionRol').val(objData[0].descripcion_modulo);
+                $('#modalRoles').show();
+            }
+    }
+
 </script>
 
 {% endblock%}

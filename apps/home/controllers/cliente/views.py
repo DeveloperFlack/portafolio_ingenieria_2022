@@ -77,7 +77,7 @@ def registerCliente(request):
         return redirect("getHome")
 
 def solicitudInsert(request):
-    status = request_session_cliente(request)
+    status = request_session(request)
     if (status == False):
         return redirect('getHome')
     
@@ -89,14 +89,16 @@ def solicitudInsert(request):
         v_nombre_solicitud = request.POST.get("txtNombreSolicitud")
         v_descripcion_solicitud = request.POST.get("txtDescripcionSolicitud")
         v_tipo_solicitud = request.POST.get("selectTipoSolicitud")
-        v_estado_solicitud = 1
+        v_estado_solicitud = 0
         v_status_solicitud = 1
 
         fc_solicitud_insert(v_rut_cliente, v_id_capacitacion, v_nombre_solicitud, v_descripcion_solicitud, v_tipo_solicitud, v_estado_solicitud, v_status_solicitud)
 
+        messages.add_message(request, messages.SUCCESS, 'Solicitud enviada con éxito')
         #print (urls.urlpatterns[0])
         return redirect("profileCliente")
     else:
+        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
         return redirect("profileCliente")
 
 def getSolicitudes(request):

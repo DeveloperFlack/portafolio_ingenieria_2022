@@ -10,7 +10,7 @@ def fc_get_all_usuarios():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_all()")
+            cursor.execute("call usp_admin_usuarios_all()")
             result = cursor.fetchall()
         cx.close()
         return result
@@ -29,7 +29,7 @@ def fc_get_usuario(rut_usuario):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_usuarios_get('%s')" % (rut_usuario))
+            cursor.execute("CALL usp_admin_usuarios_get('%s')" % (rut_usuario))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -57,7 +57,7 @@ def fc_insert_usuario(rut_usuario, primer_nombre, segundo_nombre, apellido_pater
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_insert('%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', %s, %s)" %
+            cursor.execute("call usp_admin_usuarios_insert('%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', %s, %s)" %
                            (rut_usuario, primer_nombre, segundo_nombre, apellido_paterno, apellido_materno, correo, password_usuario, telefono, direccion, status_ususario, id_rol))
             cx.commit()
         cx.close()
@@ -88,7 +88,7 @@ def fc_update_usuario(rut_usuario, primer_nombre, segundo_nombre, apellido_pater
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_update('%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', %s, %s)" %
+            cursor.execute("call usp_admin_usuarios_update('%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', %s, %s)" %
                            (rut_usuario, primer_nombre, segundo_nombre, apellido_paterno, apellido_materno, correo, password_usuario, telefono, direccion, status_ususario, id_rol))
             cx.commit()
         cx.close()
@@ -108,7 +108,7 @@ def fc_enable_usuario(rut_usuario):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_enable('%s')" % (rut_usuario))
+            cursor.execute("call usp_admin_usuarios_enable('%s')" % (rut_usuario))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -127,7 +127,7 @@ def fc_deactivate_usuario(rut_usuario):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_deactivate('%s')" % (rut_usuario))
+            cursor.execute("call usp_admin_usuarios_deactive('%s')" % (rut_usuario))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -146,7 +146,7 @@ def fc_delete_usuario(rut_usuario):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_usuarios_delete('%s')" % (rut_usuario))
+            cursor.execute("call usp_admin_usuarios_delete('%s')" % (rut_usuario))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"

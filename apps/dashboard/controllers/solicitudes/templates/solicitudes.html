@@ -10,20 +10,20 @@
             </div>
             <div class="modal-body">
                 <form action="{% url "updateSolicitud" %}" id="formSolicitud" class="needs-validation" method="POST" enctype="multipart/form-data">
-                    {% csrf_token%}
+                    {% csrf_token %}
                     <input type="hidden" name="idSolicitud" id="idSolicitud">
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="fechaSolicitud" class="form-label">Fecha</label>
-                            <input class="form-control" type="date" name="txtFecha" id="txtFecha" required>
+                            <input class="form-control" type="date" name="txtFecha" id="txtFecha">
                         </div>
                         <div class="col-12">
                             <label for="timeStart" class="form-label">Hora de Inicio</label>
-                            <input class="form-control" type="time" name="txtTimeStart" id="txtTimeStart" required>
+                            <input class="form-control" type="time" name="txtTimeStart" id="txtTimeStart">
                         </div>
                         <div class="col-12">
                             <label for="timeEnd" class="form-label">Hora de Término</label>
-                            <input class="form-control" type="time" name="txtTimeEnd" id="txtTimeEnd" required>
+                            <input class="form-control" type="time" name="txtTimeEnd" id="txtTimeEnd">
                         </div>
                         <hr>
                         <div class="col-12">
@@ -99,11 +99,16 @@
     </div>
 </div>
 {% endblock %}
+
 {% block scripts %}
 <script>
-let v_url = "{% url 'getAllSolicitudes' %}";
-let v_url_solicitud = "{% url 'getSolicitud' %}"
-
+    let v_url = "{% url 'getAllSolicitudes' %}";
+    let v_url_solicitud = "{% url 'getSolicitud' %}";
+    let v_delete_solicitudes = "{% url 'deleteSolicitud' %}";
+    let v_enable_solicitudes = "{% url 'enableSolicitud' %}";
+    let v_disable_solicitudes = "{% url 'disableSolicitud' %}";
+</script>
+<script>
     let tableSolicitudes;
     $(document).ready(function () {
         tableSolicitudes = $('#v_table_solicitudes').DataTable({
@@ -180,6 +185,42 @@ let v_url_solicitud = "{% url 'getSolicitud' %}"
             $('#txtTimeStart').val(objData[0].time_start);
             $('#txtTimeEnd').val(objData[0].time_end);
             $('#modalEditSolicitud').show();
+        }
+    }
+
+    function fntEnableSolicitud(id_solicitud) {
+        var id_solicitud = id_solicitud;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_enable_solicitudes + "?idSolicitud=" + id_solicitud;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntDisableSolicitud(id_solicitud) {
+        var id_solicitud = id_solicitud;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_disable_solicitudes + "?idSolicitud=" + id_solicitud;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntDeleteSolicitud(id_solicitud) {
+        var id_solicitud = id_solicitud;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_delete_solicitudes + "?idSolicitud=" + id_solicitud;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
         }
     }
 </script>

@@ -95,6 +95,8 @@ def loginAdministrador (request):
         v_contraseña_usuario = hashlib.sha256((v_c).encode('utf-8')).hexdigest()
 
         exists = fc_user_login(v_rut_usuario, v_contraseña_usuario)
+        # type(exists)
+
         if (exists != ()):
             data_to_array = []
             for x in exists:

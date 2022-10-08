@@ -40,7 +40,6 @@ sobre la solicitud enviada por el usuario
 def insertRol(request):
     if request.method == "POST":
         v_idRol = request.POST.get("idRol")
-
         if (v_idRol == ""):
             # INSERTAR Roles
             v_nombre_roles = request.POST.get("txtNombreRol")
@@ -224,7 +223,7 @@ def getPermisos(request):
                 for x in range(len(data_modulos_array)):
                     d_c = {
                         'id_rol': v_id_rol,
-                        'c': data_permisos_array[x]['c'],
+                        'c': data_permisos_array[x]['c'], 
                         'r': data_permisos_array[x]['r'],
                         'u': data_permisos_array[x]['u'],
                         'd': data_permisos_array[x]['d']
@@ -238,8 +237,8 @@ def getPermisos(request):
                     <thead>
                         <th style='color: var(--white-color);'>#</th>
                         <th style='color: var(--white-color);'>Módulos</th>
-                        <th style='color: var(--white-color);'>Crear</th>
                         <th style='color: var(--white-color);'>Ver</th>
+                        <th style='color: var(--white-color);'>Crear</th>
                         <th style='color: var(--white-color);'>Actualizar</th>
                         <th style='color: var(--white-color);'>Eliminar</th>
                         </thead>
@@ -282,14 +281,14 @@ def getPermisos(request):
                         <td>
                             <div class='toggle-flip'>
                                 <label>
-                                    <input type='checkbox' name='m[%s][c]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
+                                    <input type='checkbox' name='m[%s][r]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
                                 </label>
                             </div>
                         </td>
                         <td>
                             <div class='toggle-flip'>
                                 <label>
-                                    <input type='checkbox' name='m[%s][r]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
+                                    <input type='checkbox' name='m[%s][c]' %s><span class='flip-indecator' data-toggle-on='ON' data-toggle-off='OFF'></span>
                                 </label>
                             </div>
                         </td>
@@ -308,7 +307,7 @@ def getPermisos(request):
                             </div>
                         </td>
                     </tr>
-                """ % (x, v_id_module, v_id_module, v_name_module, v_id_module, v_c, v_id_module, v_r, v_id_module, v_u, v_id_module, v_d)
+                """ % (x, v_id_module, v_id_module, v_name_module, v_id_module, v_r, v_id_module, v_c, v_id_module, v_u, v_id_module, v_d)
             d_d['table'] += """</body></table> """
 
             data = {

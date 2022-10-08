@@ -15,3 +15,14 @@ def fc_get_all_clientes():
     except Exception as ex:
         print(ex)
 
+def fc_enable_disable_clientes(rut_cliente):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("CALL USP_ENABLE_DISABLE_CLIENTES(%s)" % (rut_cliente))
+            result = cursor.fetchall()
+        cx.close()
+        return result
+    except Exception as ex:
+        print(ex)
+

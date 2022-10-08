@@ -10,7 +10,7 @@ urlpatterns = [
     path('roles/', include("apps.dashboard.controllers.roles.urls")),
     path('solicitudes/', include("apps.dashboard.controllers.solicitudes.urls")),
     path('login/', loginDashboard, name="loginDashboard"),
-    path('login/adm/', loginAdministrador, name="loginAdministrador"),
+    path('login/auth/', loginAdministrador, name="loginAdministrador"),
     path('logout/', logoutAdm, name="logoutAdm"),
 
 ]

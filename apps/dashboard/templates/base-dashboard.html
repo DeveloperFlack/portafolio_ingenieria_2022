@@ -47,9 +47,21 @@
                             <li><a class="dropdown-item" href="{% url 'getClientesPage' %}">Clientes</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'getAllSolicitudes' %}">Solicitudes</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-warning" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Solicitudes
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'getSolicitudesPage' %}">Todas las solicitudes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Capacitaciones</a>
+                            </li>
+                        </ul>
                     </li>
+                    
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'getUsuariosPage' %}">Usuarios</a>
@@ -64,6 +76,29 @@
             </div>
         </nav>
     </header>
+    <div class="messagges" style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); z-index: 10000 !important;">
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.tags == "success" %}
+                <div class="alert alert-success" role="alert" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(8, 181, 14);transform: ;msFilter:;">
+                      <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path>
+                    </svg>
+                    {{ message }}
+                    <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% elif message.tags == "error" %}
+                <div class="alert alert-danger" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(216, 0, 0);transform: ;msFilter:;">
+                      <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM13 17h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                    </svg>
+                    {{ message }}
+                    <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {%  endif %}
+        {% endfor %}
+      {% endif %}
+      </div>
     <main class="container-fluid bg-light">
         <section class="row mx-5">
             {% block content %}

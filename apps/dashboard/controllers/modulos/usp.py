@@ -9,7 +9,7 @@ def fc_get_all_modules():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_MODULOS_ALL()")
+            cursor.execute("CALL usp_admin_modulos_all()")
             result = cursor.fetchall()
         cx.close()
         return result
@@ -29,7 +29,7 @@ def fc_get_module(id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_modulos_get(%s)" % (id_modulo))
+            cursor.execute("CALL usp_admin_modulos_get(%s)" % (id_modulo))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -49,7 +49,7 @@ def fc_insert_module(nombre_modulo, descripcion_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_modulos_insert('%s', '%s', %s)" %
+            cursor.execute("call usp_admin_modulos_insert('%s', '%s', %s)" %
                            (nombre_modulo, descripcion_modulo, 0))
             cx.commit()
         cx.close()
@@ -72,7 +72,7 @@ def fc_update_module(id_modulo, nombre_modulo, descripcion_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_modulos_update(%s, '%s', '%s', %s)" %
+            cursor.execute("call usp_admin_modulos_update(%s, '%s', '%s', %s)" %
                            (id_modulo, nombre_modulo, descripcion_modulo, 0))
             cx.commit()
         cx.close()
@@ -93,7 +93,7 @@ def fc_enable_modulo(id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_modulos_enable(%s)" % (id_modulo))
+            cursor.execute("call usp_admin_modulos_enable(%s)" % (id_modulo))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -113,7 +113,7 @@ def fc_deactivate_modulo(id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_modulos_deactivate(%s)" % (id_modulo))
+            cursor.execute("call usp_admin_modulos_deactivate(%s)" % (id_modulo))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -133,7 +133,7 @@ def fc_delete_modulo(id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_modulos_delete(%s)" % (id_modulo))
+            cursor.execute("call usp_admin_modulos_delete(%s)" % (id_modulo))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"

@@ -28,7 +28,7 @@ def fc_get_roles (id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_ROLES_GET({0})" % (id_modulo))
+            cursor.execute("CALL usp_admin_roles_get({0})" % (id_modulo))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -132,7 +132,7 @@ def fc_get_enabled_modulos():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_MODULOS_ENABLED()")
+            cursor.execute("CALL usp_admin_modulos_enabled ()")
             result = cursor.fetchall()
         cx.close()
         return result
@@ -143,7 +143,7 @@ def fc_get_permisos (id_rol):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL USP_PERMISOS_GET(%s)" % (id_rol))
+            cursor.execute("CALL USP_ADMIN_PERMISOS_GET(%s)" % (id_rol))
             result = cursor.fetchall()
         cx.close()
         return result
@@ -154,7 +154,7 @@ def fc_insert_permisos(id_modulo, id_rol, c, r, u, d):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_permisos_insert(%s, %s, %s, %s, %s, %s)" % (id_modulo, id_rol, c, r, u, d))
+            cursor.execute("call usp_admin_permisos_insert(%s, %s, %s, %s, %s, %s)" % (id_modulo, id_rol, c, r, u, d))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
@@ -166,7 +166,7 @@ def fc_delete_permisos(id_rol):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_permisos_delete(%s)" % (id_rol))
+            cursor.execute("call usp_admin_permisos_delete(%s)" % (id_rol))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"
