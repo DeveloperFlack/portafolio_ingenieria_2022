@@ -16,7 +16,7 @@ def profileCliente(request):
         return redirect('index')
     
     data = {
-        'table' : getSolicitudes(request)
+        'table' : getSolicitud(request)
     }
     
     return render(request, 'profile-cliente.html', data)
