@@ -5,6 +5,7 @@ from apps.dashboard.views import multiform
 from django.contrib import messages
 import apps.helpers as helpers
 from apps.dashboard.views import get_connection
+from django.contrib import messages
 
 # Create your views here.
 
@@ -102,13 +103,19 @@ def dashboard_update_solicitud(request):
     if (request.method) == 'POST':
         v_id_solicitud = request.POST.get("idSolicitud")
         exist = fc_get_solicitudes_dash(v_id_solicitud)
+        v_id_solicitud = request.POST.get('idSolicitud')
+        print (v_id_solicitud)
+        exist = fc_get_solicitudes_dash(v_id_solicitud)
+        print (exist)
+        # print (exist)
         if (exist != ()):
             v_fecha = request.POST.get("txtFecha")
             v_time_start = request.POST.get("txtTimeStart")
             v_time_end = request.POST.get("txtTimeEnd")
 
             fc_update_solicitud(v_id_solicitud, v_fecha, v_time_start, v_time_end)
-            messages.add_message(request, messages.SUCCESS, 'Solicitud Actualizada exitosamente!')
+            messages.add_message(request, messages.SUCCESS, 'Fecha y Hora solicitud actualizada')
+
             return redirect("getSolicitudesPage")
         else:
             messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')

@@ -184,7 +184,7 @@ def getPermisos(request):
         if (exist != ()):
 
             # Obtener los módulos habilitados y colocarlos en una matriz.
-            d_a = fc_get_enabled_modulos()
+            d_a = fc_get_enables_modulos_1()
             data_modulos_array = []
 
             # Iterando a través de la lista de tuplas y agregando los valores a una lista de
@@ -202,6 +202,18 @@ def getPermisos(request):
 
             # Iterando a través de la lista de tuplas y agregando los valores a una lista de
             # diccionarios.
+            """
+            for x in d_b:
+                data_permisos_array.append({
+                    "id_permiso": x[0],
+                    "id_modulo": x[1],
+                    "id_rol": x[2],
+                    "c": x[3],
+                    "r": x[4],
+                    "u": x[5],
+                    "d": x[6],
+                })
+            """
             for x in range(len(d_b)):
                 data_permisos_array.append({
                     "id_permiso": d_b[x][0],

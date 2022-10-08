@@ -30,6 +30,7 @@ def fc_get_roles (id_modulo):
         with cx.cursor() as cursor:
             cursor.execute("CALL usp_admin_roles_get({0})" % (id_modulo))
             result = cursor.fetchall()
+            print (result)
         cx.close()
         return result
     except Exception as ex:
@@ -93,6 +94,7 @@ def fc_enable_roles(id_rol):
         return "Error en el Proceso"
 
 
+
 # Desactivar / Deshabilitar Rol
 def fc_deactivate_roles(id_rol):
     try:
@@ -120,15 +122,7 @@ def fc_delete_roles(id_rol):
         print(ex)
         return "Error en el Proceso"
 
-
-def fc_get_enabled_modulos():
-    """
-    Obtiene una conexión, crea un cursor, ejecuta un procedimiento almacenado, obtiene los resultados,
-    cierra la conexión y devuelve los resultados, en dónde llegan datos de módulos activados dentro de 
-    base de datos.
-
-    :return: Una lista de tuplas.
-    """
+def fc_get_enables_modulos_1():
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
@@ -173,3 +167,4 @@ def fc_delete_permisos(id_rol):
     except Exception as ex:
         print (ex)
         return "Error en el Proceso"
+

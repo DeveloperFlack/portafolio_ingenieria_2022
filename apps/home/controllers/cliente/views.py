@@ -101,7 +101,7 @@ def solicitudInsert(request):
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
         return redirect("profileCliente")
 
-def getSolicitudes(request):
+def getSolicitud(request):
     session_check = 'cliente' in request.session
     if (session_check == True):
         v_rut_cliente = request.session['cliente']['rut_cliente']

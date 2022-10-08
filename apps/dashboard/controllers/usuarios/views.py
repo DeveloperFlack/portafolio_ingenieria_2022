@@ -119,6 +119,7 @@ def dashboard_get_usuarios_all(request):
         return redirect ("loginDashboard")
     
     data_ususarios = list(fc_get_all_usuarios())
+    print (data_ususarios)
     data_to_array = []
     # Convertir TUPLA a Array Modificable
     for i in data_ususarios:
@@ -156,7 +157,6 @@ def dashboard_get_usuarios_all(request):
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
 
-
 def dashboard_get_user(request):
     session_user = helpers.session_user_exist
     if (session_user == False):
@@ -188,3 +188,15 @@ def dashboard_get_user(request):
             return redirect("getUsuariosPage")
     else:
         return redirect("getUsuariosPage")
+
+def update_usuario(request):
+    if (request.method == 'POST'):
+        v_rutUsuario = request.POST.get('txtRut')
+        v_primerNombreUsuario = request.POST.get('txtPrimerNombre')
+        v_segundoNombreUsuario = request.POST.get('txtSegundoNombre')
+        v_apellidoPaternoUsuario = request.POST.get('txtApellidoPaterno')
+        v_apellidoMaternoUsuario = request.POST.get('txtApellidoMaterno')
+        v_correoUsuario = request.POST.get('txtCorreoElectronico')
+        v_telefonoUsuario = request.POST.get('txtTelefono')
+        v_direccionUsuario = request.POST.get('txtDireccion')
+        v_listRol = request.POST.get('selectRol')

@@ -17,14 +17,13 @@ def fc_user_login (rut_usuario, password_usuario):
     except Exception as ex:
         print(ex)
 
-def fc_get_permisos_with_modulos (id_rol):
+def fc_get_permisos_with_modulos_1(id_rol):
     try:
-        cx = get_connection()
+        cx =  get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_admin_permisos_get_with_modules(%s)" % (id_rol))
+            cursor.execute("SELECT * FROM nma_modulo USS JOIN nma_permisos PER ON (USS.id_modulo = PER.id_modulo) WHERE PER.id_rol = %s" % (id_rol))
             result = cursor.fetchall()
         cx.close()
         return result
     except Exception as ex:
         print (ex)
-

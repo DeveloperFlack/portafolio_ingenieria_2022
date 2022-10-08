@@ -54,7 +54,7 @@ def getDashboard (request):
     data = {
         'id' : 1,
         'Módulo' : "Dashboard"
-        }
+    }
     
     a = helpers.session_user_exist(request)
     if (a == False):
@@ -127,7 +127,7 @@ def loginAdministrador (request):
                 "id_rol" : data_to_array[0]["id_rol"],
             }
             
-            permisos = fc_get_permisos_with_modulos(request.session['usuario']['id_rol'])
+            permisos = fc_get_permisos_with_modulos_1(request.session['usuario']['id_rol'])
             data_to_array_permisos = []
             for x in permisos:
                 data_to_array_permisos.append({
