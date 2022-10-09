@@ -32,7 +32,7 @@ def insertCapacitacion(request):
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
 
             messages.add_message(request, messages.SUCCESS, 'Capacitación creada exitosamente!')
-            fc_insert_capacitacion(v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+            fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
             return redirect("getCapacitacionesPage")
 
