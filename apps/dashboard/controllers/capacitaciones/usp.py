@@ -39,11 +39,24 @@ def fc_get_capacitacion(id_capacitacion):
         print(ex)
 
 # ACTUALIZAR CAPACITACIÓN
-def fc_update_capacitacion(nombre_capacitacion, rut_usuario, descripcion_capacitacion, total_capacitacion):
+def fc_update_capacitacion(id_capacitacion, nombre_capacitacion, descripcion_capacitacion, total_capacitacion):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_capacitaciones_update('%s', '%s', '%s', %s)" % (nombre_capacitacion, rut_usuario, descripcion_capacitacion, total_capacitacion))
+            cursor.execute("CALL usp_capacitaciones_update('%s', '%s', '%s', %s)" % (id_capacitacion, nombre_capacitacion, descripcion_capacitacion, total_capacitacion))
+            cx.commit()
+        cx.close()
+        return "Realizado con Éxito"
+    except Exception as ex:
+        print(ex)
+        return "Error en el Proceso"
+
+# DELETE CAPACITACION
+def fc_delete_capacitacion(id_capacitacion):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("CALL usp_capacitaciones_delete(%s)" % (id_capacitacion))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"

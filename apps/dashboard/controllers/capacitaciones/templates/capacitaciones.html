@@ -82,7 +82,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Nombre</th>
-                            <th>Profesional</th>
+                            <th style="width: 60px !important;">Profesional</th>
                             <th>Descripción</th>
                             <th>Total</th>
                             <th>Opciones</th>
@@ -91,7 +91,7 @@
                     <tfoot class="table-dark">
                         <tr>
                             <th>Nombre</th>
-                            <th>Profesional</th>
+                            <th style="width: 60px !important;">Profesional</th>
                             <th>Descripción</th>
                             <th>Total</th>
                             <th>Opciones</th>
@@ -109,10 +109,9 @@
 <script>
     let v_url = "{% url 'getAllCapacitaciones' %}";
     let v_url_capacitacion = "{% url 'getCapacitacion' %}";
-    let v_url_enable_modulo = "{% url 'enableModulo' %}";
-    let v_url_disable_modulo = "{% url 'disableModulo' %}";
-    let v_url_delete_modulo = "{% url 'deleteModulo' %}";
-    let v_url_update_capacitacion = "{% url 'updateCapacitacion' %}"
+    // let v_url_enable_modulo = "{% url 'enableModulo' %}";
+    // let v_url_disable_modulo = "{% url 'disableModulo' %}";
+    let v_url_delete_capacitacion = "{% url 'deleteCapacitacion' %}";
 </script>
 <script>
     let tableCapacitaciones;
@@ -143,7 +142,7 @@
     function fntEditCapacitacion (id_capacitacion){
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_update_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -157,7 +156,6 @@
         }
     }
 
-
     function openModal() {
         var myModal = new bootstrap.Modal(document.getElementById('modalCapacitaciones'), {
             keyboard: false
@@ -169,6 +167,18 @@
         $('#txtNombreCapacitacion').val('');
         $('#txtDescripcionCapacitacion').val('');
         $('#txtTotalCapacitacion').val('');
+    }
+
+    function fntDeleteCapacitacion(id_capacitacion) {
+        var id_capacitacion = id_capacitacion;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
     }
 </script>
 {% endblock %}
