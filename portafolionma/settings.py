@@ -61,6 +61,7 @@ TEMPLATES = [
                  "apps/dashboard/controllers/roles/templates",
                  "apps/dashboard/controllers/clientes/templates",
                  "apps/dashboard/controllers/solicitudes/templates",
+                 "apps/dashboard/controllers/capacitaciones/templates",
                  "apps/home/controllers/profesional/templates",
                  "apps/home/controllers/cliente/templates",
                  ],

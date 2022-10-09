@@ -18,7 +18,7 @@ It returns a rendered template
 
 def dashboard_get_usuarios_page(request):
     data = {
-        'id' : 4,
+        'id': 4,
         'meta_title': 'Dashboard - Usuarios',
         'breadcrumb': "Usuarios",
         'title': 'Lista de Usuarios',
@@ -28,16 +28,17 @@ def dashboard_get_usuarios_page(request):
     a = helpers.session_user_exist(request)
     if (a == False):
         messages.add_message(request, messages.ERROR, 'No haz Iniciado Sesión.')
-        return redirect ("loginDashboard")
-    
+        return redirect("loginDashboard")
+
     b = helpers.session_user_role(request)
     if (b == True):
         del request.session['usuario']
         messages.add_message(request, messages.ERROR, 'No tienes Permiso.')
-        return redirect ("loginDashboard")
-    
+        return redirect("loginDashboard")
+
     c = helpers.request_module(request, data)
     if (c == True):
+        data['usuarios'] = dashboard_get_usuarios_all(request)
         return render(request, "usuarios.html", data)
 
 
@@ -103,59 +104,45 @@ def dashboard_usuario_insert(request):
     else:
         return redirect("getUsuariosPage")
 
-
 def dashboard_get_usuarios_all(request):
-    """
-    Toma una tupla de tuplas y la convierte en una lista de diccionarios
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(
+                "SELECT rut_usuario, primer_nombre, apellido_paterno, direccion, correo, status_usuario, nombre_rol FROM nma_usuario nmu join nma_roles nmr on(nmu.id_rol = nmr.id_rol)")
+            data = cursor.fetchall()
 
-    :param request: El objeto de la solicitud
-    :return: [{'rut_usuario': '17.876.876-8', 'primer_nombre': 'Juan', 'segundo_nombre': 'Andres',
-    'apellido_paterno': 'Perez', 'apellido_materno': 'Gonzalez', 'correo
-    """
-    
-    session_user = helpers.session_user_exist
-    if (session_user == False):
-        messages.add_message(request, messages.ERROR, 'No has Iniciado Sesión.')
-        return redirect ("loginDashboard")
-    
-    data_ususarios = list(fc_get_all_usuarios())
-    print (data_ususarios)
-    data_to_array = []
-    # Convertir TUPLA a Array Modificable
-    for i in data_ususarios:
-        data_to_array.append({
-            "rut_usuario": i[0],
-            "primer_nombre": i[1],
-            "segundo_nombre": i[2],
-            "apellido_paterno": i[3],
-            "apellido_materno": i[4],
-            "correo": i[5],
-            "password_usuario": i[6],
-            "telefono": i[7],
-            "direccion": i[8],
-            "status_usuario": i[9],
-            "id_rol": i[11],
-            "nombre_rol": i[12],
-            
-        })
-
-    # Añadir HTML
-    for i in data_to_array:
-        if (i['status_usuario'] == 1):
-            i['status_usuario'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
-        else:
-            i['status_usuario'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
-
-        i['options'] = """
-            <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditUsuario("%s")' data-bs-toggle='modal' data-bs-target='#modalUsuarios'><i class='bx bxs-edit' ></i></button>
-                <a onclick='enableUsuario(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
-                <a onclick='disableUsuario("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
-                <a onclick='deleteUsuario("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
-            </div>
-        """ % (i['rut_usuario'], i['rut_usuario'], i['rut_usuario'], i['rut_usuario'])
-
-    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+            data_to_array = []
+            for i in range(len(data)):
+                data_to_array.append(
+                    {
+                        "rut_usuario": data[i][0],
+                        "primer_nombre": data[i][1],
+                        "apellido_paterno": data[i][2],
+                        "direccion": data[i][3],
+                        "correo": data[i][4],
+                        "status_usuario": data[i][5],
+                        "nombre_rol": data[i][6]
+                    }
+                )
+            for i in range (len(data_to_array)):
+                if (data_to_array[i]['status_usuario'] == 1):
+                    data_to_array[i]['status_usuario']  = "<div class='text-center'><button class='btn btn-sm btn-success'>Activado</button></div>"
+                else:
+                    data_to_array[i]['status_usuario']  = "<div class='text-center'><button class='btn btn-sm btn-danger'>Desactivado</button></div>"
+                    
+                data_to_array[i]['options'] = """
+                    <div class='text-center'>
+                        <button type='button' class='btn btn-sm btn-primary' onclick='fntEditSolicitud("%s")' data-bs-toggle='modal' data-bs-target='#modalEditSolicitud'><i class='bx bxs-edit' ></i></button>
+                        <a onclick='enableUsuario("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
+                        <a onclick='disableUsuario("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
+                        <a onclick='deleteUsuario("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
+                    </div>
+                """ % (data_to_array[i]['rut_usuario'], data_to_array[i]['rut_usuario'], data_to_array[i]['rut_usuario'], data_to_array[i]['rut_usuario'])
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+        return redirect("getUsuariosPage")
 
 def dashboard_get_user(request):
     session_user = helpers.session_user_exist

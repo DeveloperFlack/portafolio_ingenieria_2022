@@ -91,22 +91,38 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Rut</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Dirección</th>
+                            <th>Primer Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Direccion</th>
+                            <th>Correo</th>
                             <th>Rol</th>
-                            <th>Estado</th>
+                            <th>Status</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <tbody>
+                    {% for i in usuarios %}
+                    <tr>
+                        <td>{{ i.rut_usuario }}</td>
+                        <td>{{ i.primer_nombre }}</td>
+                        <td>{{ i.apellido_paterno }}</td>
+                        <td>{{ i.direccion }}</td>
+                        <td>{{ i.correo }}</td>
+                        <td>{{ i.nombre_rol }}</td>
+                        <td>{{ i.status_usuario | safe}}</td>
+                        <td>{{ i.options | safe }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot class="table-dark">
                         <tr>
                             <th>Rut</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Dirección</th>
+                            <th>Primer Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Direccion</th>
+                            <th>Correo</th>
                             <th>Rol</th>
-                            <th>Estado</th>
+                            <th>Status</th>
                             <th>Opciones</th>
                         </tr>
                     </tfoot>
@@ -131,25 +147,6 @@
     $(document).ready(function () {
         tableUsuarios = $('#v_table_usuarios').DataTable({
             pagingType: "full_numbers",
-            "ajax": {
-                "url": v_url,
-                "dataSrc": ""
-            },
-            "columns": [{
-                "data": "rut_usuario"
-            }, {
-                "data": "primer_nombre"
-            }, {
-                "data": "apellido_paterno"
-            }, {
-                "data": "direccion"
-            }, {
-                "data": "nombre_rol"
-            }, {
-                "data": "status_usuario"
-            }, {
-                "data": "options"
-            }],
             "order": [
                 [0, "desc"]
             ]

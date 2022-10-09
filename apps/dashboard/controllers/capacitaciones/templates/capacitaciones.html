@@ -1,31 +1,39 @@
-{% extends 'base-dashboard.html'%}
+{% extends 'base-dashboard.html' %}
 {% block content %}
-
-<div class="modal fade" id="modalModulos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="modalModulosLabel" aria-hidden="true">
+<div class="modal fade" id="modalCapacitaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalCapacitacionesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalModulosLabel">Modal title</h5>
+                <h5 class="modal-title" id="modalCapacitacionesLabel">Modal title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url "insertModulo" %}" id="formModulo" class="needs-validation" method="POST">
+                <form action="{% url "insertCapacitacion" %}" id="formCapacitacion" class="needs-validation" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="idModulo" id="idModulo">
+                    <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="nombreModulo" class="form-label">Nombre Módulo</label>
-                            <input class="form-control" type="text" name="txtNombreModulo" id="txtNombreModulo"
+                            <label for="nombreCapacitacion" class="form-label">Nombre Capacitación</label>
+                            <input class="form-control" type="text" name="txtNombreCapacitacion" id="txtNombreCapacitacion"
                                 required>
                             <div class="invalid-feedback">
-                                Nombre Módulo Requerido
+                                Nombre Capacitación Requerido
                             </div>
                         </div>
                         <div class="col-12">
-                            <label for="descripcionModulo" class="form-label">Descripción Módulo</label>
-                            <textarea class="form-control" name="txtDescripcionModulo" id="txtDescripcionModulo"
-                                cols="30" rows="10"></textarea>
+                            <label for="descripcionCaapcitacion" class="form-label">Descripción Capacitación</label>
+                            <textarea class="form-control" name="txtDescripcionCapacitacion" id="txtDescripcionCapacitacion"
+                                cols="30" rows="10">
+                            </textarea>
+                        </div>
+                        <div class="col-12">
+                            <label for="totalCapacitacion" class="form-label">Total Capacitación</label>
+                            <input class="form-control" type="number" name="txtTotalCapacitacion" id="txtTotalCapacitacion"
+                                required>
+                            <div class="invalid-feedback">
+                                Total Capacitación Requerido
+                            </div>
                         </div>
                         <hr>
                         <div class="col-12">
@@ -70,20 +78,22 @@
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
-                <table class="table table-bordered table-striped v_table_modules my-3" style="width: 100%;" id="v_table_modules">
+                <table class="table table-bordered table-striped v_table_capacitaciones my-3" style="width: 100%;" id="v_table_capacitaciones">
                     <thead class="table-dark">
                         <tr>
                             <th>Nombre</th>
+                            <th>Profesional</th>
                             <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Total</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <tfoot class="table-dark">
                         <tr>
                             <th>Nombre</th>
+                            <th>Profesional</th>
                             <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Total</th>
                             <th>Opciones</th>
                         </tr>
                     </tfoot>
@@ -97,27 +107,30 @@
 
 {% block scripts %}
 <script>
-    let v_url = "{% url 'getAllModulos' %}";
-    let v_url_modulo = "{% url 'getModulo' %}";
+    let v_url = "{% url 'getAllCapacitaciones' %}";
+    let v_url_capacitacion = "{% url 'getCapacitacion' %}";
     let v_url_enable_modulo = "{% url 'enableModulo' %}";
     let v_url_disable_modulo = "{% url 'disableModulo' %}";
     let v_url_delete_modulo = "{% url 'deleteModulo' %}";
+    let v_url_update_capacitacion = "{% url 'updateCapacitacion' %}"
 </script>
 <script>
-    let tableModulos;
+    let tableCapacitaciones;
     $(document).ready(function () {
-        tableModulos = $('#v_table_modules').DataTable({
+        tableCapacitaciones = $('#v_table_capacitaciones').DataTable({
             pagingType: "full_numbers",
             "ajax": {
                 "url": v_url,
                 "dataSrc": ""
             },
             "columns": [{
-                "data": "nombre_modulo"
+                "data": "nombre_capacitacion"
             }, {
-                "data": "descripcion_modulo"
+                "data": "usuarios"
             }, {
-                "data": "status_modulo"
+                "data": "descripcion_capacitacion"
+            }, {
+                "data": "total_capacitacion"
             }, {
                 "data": "options"
             }],
@@ -127,69 +140,35 @@
         });
     });
 
-    function fntEditModule (id_modulo){
-        var id_modulo = id_modulo;
+    function fntEditCapacitacion (id_capacitacion){
+        var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_modulo + "?idModulo=" + id_modulo;
+        var ajaxUrl = v_url_update_capacitacion + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
-            $('#idModulo').val(objData[0].id_modulo);
-            $('#txtNombreModulo').val(objData[0].nombre_modulo);
-            $('#txtDescripcionModulo').val(objData[0].descripcion_modulo);
-            $('#modalModulos').show();
+            $('#idCapacitacion').val(objData[0].id_capacitacion);
+            $('#txtNombreCapacitacion').val(objData[0].nombre_capacitacion);
+            $('#txtDescripcionCapacitacion').val(objData[0].descripcion_capacitacion);
+            $('#txtTotalCapacitacion').val(objData[0].total_capacitacion);
+            $('#modalCapacitaciones').show();
         }
     }
 
+
     function openModal() {
-        var myModal = new bootstrap.Modal(document.getElementById('modalModulos'), {
+        var myModal = new bootstrap.Modal(document.getElementById('modalCapacitaciones'), {
             keyboard: false
         })
         var a = document.querySelector('.needs-validation').reset();
-        var modalToggle = document.getElementById('formModulo');
+        var modalToggle = document.getElementById('formCapacitacion');
         myModal.show(modalToggle);
-        $('#idModulo').val('');
-        $('#txtNombreModulo').val('');
-        $('#txtDescripcionModulo').val('');
-    }
-
-    function enableModule(id_modulo) {
-        var id_modulo = id_modulo;
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_enable_modulo + "?idModulo=" + id_modulo;
-        request.open("GET", ajaxUrl, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(ajaxUrl);
-        request.onreadystatechange = function () {
-            window.location.reload()
-        }
-    }
-
-    function disableModule(id_modulo) {
-        var id_modulo = id_modulo;
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_disable_modulo + "?idModulo=" + id_modulo;
-        request.open("GET", ajaxUrl, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(ajaxUrl);
-        request.onreadystatechange = function () {
-            window.location.reload()
-        }
-    }
-
-    function deleteModule(id_modulo) {
-        var id_modulo = id_modulo;
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_delete_modulo + "?idModulo=" + id_modulo;
-        request.open("GET", ajaxUrl, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(ajaxUrl);
-        request.onreadystatechange = function () {
-            window.location.reload()
-        }
+        $('#idCapacitacion').val('');
+        $('#txtNombreCapacitacion').val('');
+        $('#txtDescripcionCapacitacion').val('');
+        $('#txtTotalCapacitacion').val('');
     }
 </script>
-
 {% endblock %}
