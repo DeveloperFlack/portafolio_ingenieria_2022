@@ -1,6 +1,7 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
 
+
 <div class="modal fade" id="modalUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalUsuariosLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -16,35 +17,51 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="rutUsuario" class="form-label">RUT</label>
-                            <input class="form-control" type="text" name="txtRut" id="txtRut"
-                                required>
+                            <input class="form-control" type="text" name="txtRut" id="txtRut" required>
+                        </div>
+                        <div class="col-12">
                             <label for="primerNombreUsuario" class="form-label">Primer Nombre</label>
-                            <input class="form-control" type="text" name="txtPrimerNombre" id="txtPrimerNombre"
-                                required>
+                            <input class="form-control" type="text" name="txtPrimerNombre" id="txtPrimerNombre"required>
+                        </div>
+                        <div class="col-12">
                             <label for="segundoNombreUsuario" class="form-label">Segundo Nombre</label>
                             <input class="form-control" type="text" name="txtSegundoNombre" id="txtSegundoNombre"
                                 required>
+                        </div>
+                        <div class="col-12">
                             <label for="apellidoPaternoUsuario" class="form-label">Apellido Paterno</label>
                             <input class="form-control" type="text" name="txtApellidoPaterno" id="txtApellidoPaterno"
                                 required>
+                        </div>
+                        <div class="col-12">
                             <label for="apellidoMaternoUsuario" class="form-label">Apellido Materno</label>
                             <input class="form-control" type="text" name="txtApellidoMaterno" id="txtApellidoMaterno"
                                 required>
+                        </div>
+                        <div class="col-12">
                             <label for="correoElectronicoUsuario" class="form-label">Correo Electrónico</label>
                             <input class="form-control" type="email" name="txtCorreoElectronico" id="txtCorreoElectronico"
                                 required>
+                        </div>
+                        <div class="col-12">
                             <label for="telefonoUsuario" class="form-label">Teléfono Contacto</label>
                             <input class="form-control" type="number" name="txtTelefono" id="txtTelefono"
                                 required>
+                        </div>
+                        <div class="col-12">
                             <label for="direccionUsuario" class="form-label">Dirección Domicilio</label>
                             <input class="form-control" type="text" name="txtDireccion" id="txtDireccion"
                                 required>
-                            <select name="selectRol" id="selectRol">
-                                <option value="1">Administrador</option>
-                                <option value="2">Profesional</option>
-                            </select>
-                            <div class="invalid-feedback">Rut del Usuario Requerido</div>
                         </div>
+                        <div class="col-12">
+                            <select class="form-select" name="selectRol" id="selectRol">
+                                <option value="0" selected>Selecciona Rol</option>
+                                {% for x in roles %}
+                                <option value="{{ x.id_rol | safe }}">{{ x.nombre_rol }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="invalid-feedback">Rut del Usuario Requerido</div>
                         <hr>
                         <div class="col-12">
                             <div class="">
@@ -59,7 +76,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
@@ -69,8 +85,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item" aria-current="page">Dashboard</li>
-                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
-            </ol>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %} </li>
+            </ol>   
         </nav>
         <hr>
         <div class="">
@@ -94,35 +110,32 @@
                             <th>Primer Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Direccion</th>
-                            <th>Correo</th>
                             <th>Rol</th>
                             <th>Status</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for i in usuarios %}
-                    <tr>
-                        <td>{{ i.rut_usuario }}</td>
-                        <td>{{ i.primer_nombre }}</td>
-                        <td>{{ i.apellido_paterno }}</td>
-                        <td>{{ i.direccion }}</td>
-                        <td>{{ i.correo }}</td>
-                        <td>{{ i.nombre_rol }}</td>
-                        <td>{{ i.status_usuario | safe}}</td>
-                        <td>{{ i.options | safe }}</td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
+                            {% for i in usuarios %}
+                            <tr>
+                                <td>{{ i.rut_usuario }}</td>
+                                <td>{{ i.primer_nombre }}</td>
+                                <td>{{ i.apellido_paterno }}</td>
+                                <td>{{ i.direccion }}</td>
+                                <td>{{ i.nombre_rol }}</td>
+                                <td>{{ i.status_usuario | safe}}</td>
+                                <td>{{ i.options | safe }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
                     <tfoot class="table-dark">
                         <tr>
                             <th>Rut</th>
                             <th>Primer Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Direccion</th>
-                            <th>Correo</th>
-                            <th>Rol</th>
                             <th>Status</th>
+                            <th>Rol</th>
                             <th>Opciones</th>
                         </tr>
                     </tfoot>
@@ -137,10 +150,10 @@
 {% block scripts %}
 <script>
     let v_url = "{% url 'getAllUsuarios' %}";
-    /*let v_url_modulo = "{% url 'getModulo' %}";
-    let v_url_enable_modulo = "{% url 'enableModulo' %}";
-    let v_url_disable_modulo = "{% url 'disableModulo' %}";
-    let v_url_delete_modulo = "{% url 'deleteModulo' %}";*/
+    let v_url_usuario = "{% url 'getUser' %}";
+    let v_url_enable_usuario = "{% url 'enableUser' %}";
+    let v_url_disable_usuario = "{% url 'disableUser' %}";
+    let v_url_delete_usuario = "{% url 'deleteUser' %}";
 </script>
 <script>
     let tableUsuarios;
@@ -170,24 +183,89 @@
         $('#txtTelefono').val('');
         $('#txtDireccion').val('');
         $('#selectRol').val('');
-    }
+        $('#modalUsuario').show();
+    } 
 
-    function fntEditUsuario(id_usuario) {
-        var rut_usuario = id_usuario;
+    function fntEditUsuario(rut_usuario) {
+        var rut_usuario = rut_usuario;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-            var ajaxUrl = v_url_roles + "?idUsuario=" + rut_usuario;
-            request.open("GET", ajaxUrl, true);
-            request.setRequestHeader("Content-Type", "application/json");
-            request.send(ajaxUrl);
-            request.onreadystatechange = function () {
-                let objData = JSON.parse(request.responseText);
-                $('#idRol').val(objData[0].id_modulo);
-                $('#txtNombreRol').val(objData[0].nombre_modulo);
-                $('#txtDescripcionRol').val(objData[0].descripcion_modulo);
-                $('#modalRoles').show();
-            }
+        var ajaxUrl = v_url_usuario + "?idUsuario=" + rut_usuario;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+
+            $('#txtRut').val(objData.rut_usuario);
+            $('#txtPrimerNombre').val(objData.primer_nombre);
+            $('#txtSegundoNombre').val(objData.segundo_nombre);
+            $('#txtApellidoPaterno').val(objData.apellido_paterno);
+            $('#txtApellidoMaterno').val(objData.apellido_materno);
+            $('#txtCorreoElectronico').val(objData.correo);
+            $('#txtContraseña').val(objData.password_usuario);
+            $('#txtTelefono').val(objData.telefono);
+            $('#txtDireccion').val(objData.direccion);
+            $('#selectRol option[value="'+objData.id_rol+'"]').prop('selected', true);
+        }
     }
 
+    function enableUsuario(rut_usuario) {
+        var rut_usuario = rut_usuario;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_enable_usuario + "?idUsuario=" + rut_usuario;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function disableUsuario(rut_usuario) {
+        var rut_usuario = rut_usuario;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_disable_usuario + "?idUsuario=" + rut_usuario;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntDeleteUsuario(rut_usuario) {
+        var rut_usuario = rut_usuario;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_usuario + "?idUsuario=" + rut_usuario;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntConfirmDelete(rut_usuario){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteUsuario(rut_usuario);
+                Swal.fire(
+                'Eliminado!',
+                'Usuario eliminado exitosamente',
+                'success'
+                )
+            }
+        })
+    }
 </script>
 
 {% endblock%}

@@ -85,6 +85,7 @@
                             <th style="width: 60px !important;">Profesional</th>
                             <th>Descripción</th>
                             <th>Total</th>
+                            <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -94,6 +95,7 @@
                             <th style="width: 60px !important;">Profesional</th>
                             <th>Descripción</th>
                             <th>Total</th>
+                            <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
                     </tfoot>
@@ -109,8 +111,8 @@
 <script>
     let v_url = "{% url 'getAllCapacitaciones' %}";
     let v_url_capacitacion = "{% url 'getCapacitacion' %}";
-    // let v_url_enable_modulo = "{% url 'enableModulo' %}";
-    // let v_url_disable_modulo = "{% url 'disableModulo' %}";
+    let v_url_enable_capacitacion = "{% url 'enableCapacitacion' %}";
+    let v_url_disable_capacitacion = "{% url 'disableCapacitacion' %}";
     let v_url_delete_capacitacion = "{% url 'deleteCapacitacion' %}";
 </script>
 <script>
@@ -131,6 +133,8 @@
             }, {
                 "data": "total_capacitacion"
             }, {
+                "data": "status_capacitaciones",
+            }, { 
                 "data": "options"
             }],
             "order": [
@@ -153,6 +157,30 @@
             $('#txtDescripcionCapacitacion').val(objData[0].descripcion_capacitacion);
             $('#txtTotalCapacitacion').val(objData[0].total_capacitacion);
             $('#modalCapacitaciones').show();
+        }
+    }
+
+    function fntEnableCapacitacion(id_capacitacion){
+        var id_capacitacion = id_capacitacion;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_enable_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntDisableCapacitacion(id_capacitacion){
+        var id_capacitacion = id_capacitacion;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_disable_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
         }
     }
 
@@ -179,6 +207,27 @@
         request.onreadystatechange = function () {
             window.location.reload()
         }
+    }
+
+    function fntConfirmDelete(id_capacitacion){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteCapacitacion(id_capacitacion);
+                Swal.fire(
+                'Eliminado!',
+                'Tu elemento ha sido eliminado exitosamente',
+                'success'
+                )
+            }
+        })
     }
 </script>
 {% endblock %}

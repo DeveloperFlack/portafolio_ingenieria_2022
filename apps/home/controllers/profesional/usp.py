@@ -26,6 +26,4 @@ def fc_usuarios_login (rut_usuario, password_usuario):
         return result
     except Exception as ex:
         print(ex)
-
-
-    
+ 

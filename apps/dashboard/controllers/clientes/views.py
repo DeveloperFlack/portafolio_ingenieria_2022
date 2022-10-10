@@ -35,9 +35,7 @@ def getClientesPage(request):
     if (c == True):
         return render(request, "clientes.html", data)
 
-def getAllClients(request):
-    return HttpResponse("Salida")
-
+# OBTENER TODOS LOS CLIENTES
 def getAllClientes(request):
     data_clientes = list(fc_get_all_clientes())
     data_to_array = []
@@ -45,6 +43,7 @@ def getAllClientes(request):
     for i in data_clientes:
         data_to_array.append({
             "rut_cliente": i[0],
+            "contrasena_cliente": i[1],
             "n1_cliente": i[2],
             "n2_cliente": i[3],
             "ap_cliente": i[4],
@@ -53,17 +52,64 @@ def getAllClientes(request):
             "telefono_cliente": i[7],
             "rut_empresa_cliente": i[8],
             "nombre_empresa": i[9],
+            "id_rol": i[10],
+            "status_cliente": i[11],
         })
 
-    print(data_clientes)
-    print(' - ')
-    print(data_to_array)
-    # Añadir HTML
     for i in data_to_array:
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCLiente("%s")' data-bs-toggle='modal' data-bs-target='#modalCLiente'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCliente("%s")' data-bs-toggle='modal' data-bs-target='#modalEditClientes'><i class='bx bxs-edit' ></i></button>
             </div>
-        """ % (i['n1_cliente'])
+        """ % (i['rut_cliente'])
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+
+# OBTENER UN CLIENTE
+def dashboard_get_cliente(request):
+    v_rut_cliente = request.GET.get('rutCliente')
+    if (v_rut_cliente != ""):
+        data_cliente = list(fc_get_cliente_dash(v_rut_cliente))
+        data_to_array = []
+        if (data_cliente != ()):
+            for i in data_cliente:
+                data_to_array.append({
+                    "rut_cliente": i[0],
+                    "contrasena_cliente": i[1],
+                    "n1_cliente": i[2],
+                    "n2_cliente": i[3],
+                    "ap_cliente": i[4],
+                    "am_cliente": i[5],
+                    "correo_cliente": i[6],
+                    "telefono_cliente": i[7],
+                    "rut_empresa_cliente": i[8],
+                    "nombre_empresa": i[9],
+                })
+            return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+        else:
+            return redirect("getClientesPage")
+    else:
+        return redirect("getClientesPage")
+
+# UPDATE CLIENTE
+def dashboard_update_cliente(request):
+    if (request.method) == 'POST':
+        v_rut_cliente = request.POST.get("rutCliente")
+        exist = fc_get_cliente_dash(v_rut_cliente)
+        # print (exist)
+        if (exist != ()):
+            v_contrasena_cliente = request.POST.get("txtContrasenaCliente")
+            v_correo_cliente = request.POST.get("txtCorreoCliente")
+            v_telefono_cliente = request.POST.get("txtTelefonoCliente")
+            v_nombre_empresa = request.POST.get("txtNombreEmpresaCliente")
+
+            fc_update_cliente(v_rut_cliente, v_contrasena_cliente, v_correo_cliente, v_telefono_cliente, v_nombre_empresa)
+            messages.add_message(request, messages.SUCCESS, 'Datos del Cliente actualizados!')
+
+            return redirect("getClientesPage")
+        else:
+            messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
+            return redirect("getClientesPage")
+    else:
+        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
+        return redirect("getClientesPage")

@@ -79,7 +79,7 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <tfoot class="table-dark">
                         <tr>
                             <th style="width: 40px;">Id</th>
                             <th>Rut Cliente</th>
@@ -180,7 +180,7 @@
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
             $('#idSolicitud').val(objData[0].id_solicitud);
-            console.log(objData[0].id_solicitud)
+            // console.log(objData[0].id_solicitud)
             $('#txtFecha').val(objData[0].fecha);
             $('#txtTimeStart').val(objData[0].time_start);
             $('#txtTimeEnd').val(objData[0].time_end);
@@ -222,6 +222,27 @@
         request.onreadystatechange = function () {
             window.location.reload()
         }
+    }
+
+    function fntConfirmDelete(id_solicitud){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteSolicitud(id_solicitud);
+                Swal.fire(
+                'Eliminado!',
+                'Solicitud eliminada exitosamente',
+                'success'
+                )
+            }
+        })
     }
 </script>
 {% endblock %}

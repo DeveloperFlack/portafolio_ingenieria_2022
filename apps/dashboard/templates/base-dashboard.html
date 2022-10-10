@@ -17,7 +17,7 @@
 <body>
     <header class="bg-dark">
         <nav class="navbar navbar-expand-lg navbar-dark mx-5">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#asdasdasd">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -54,10 +54,13 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'getSolicitudesPage' %}">Todas las solicitudes</a>
+                                <a class="nav-link" href="{% url 'getSolicitudesPage' %}">Solicitudes</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'getCapacitacionesPage' %}">Capacitaciones</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'getAsesoriasPage' %}">Asesorías</a>
                             </li>
                         </ul>
                     </li>
@@ -129,6 +132,7 @@
     <script src="{% static 'adm/vendor/datatable/js/datatable.js' %}"></script>
     <script src="{% static 'adm/vendor/datatable/js/datatable.bootstrap.js' %}"></script>
     <script src="{% static 'adm/js/main.js' %}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {% block scripts %}
     {% endblock %}

@@ -46,6 +46,7 @@ def registerCliente(request):
                 v_rut_cliente, v_password_cliente, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, 
                 v_correo_cliente, v_contacto_cliente, v_rut_empresa, v_nombre_empresa, v_id_rol, v_status_cliente
             )
+            messages.add_message(request, messages.SUCCESS, 'Cuenta creada exitosamente!')
             # print (urls.urlpatterns[0])
             return redirect("getHome")
 
@@ -69,11 +70,13 @@ def registerCliente(request):
                 v_id_rol = 2
                 v_status_cliente = 1
 
-                #fc_update_cliente(v_rut_empresa, v_nombre_empresa, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, v_rut_cliente, v_contacto_cliente, v_correo_cliente, v_password_cliente, v_id_rol, v_status_cliente)
+                fc_update_cliente(v_rut_empresa, v_nombre_empresa, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, v_rut_cliente, v_contacto_cliente, v_correo_cliente, v_password_cliente, v_id_rol, v_status_cliente)
                 return redirect("getHome")
             else:
+                messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
                 return redirect("getHome")
     else:
+        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
         return redirect("getHome")
 
 def solicitudInsert(request):
@@ -84,7 +87,6 @@ def solicitudInsert(request):
     if request.method == "POST":  
         # INSERTAR USUARIO HOME (CLIENTE)
         v_rut_cliente = request.session['cliente']['rut_cliente']
-        # v_rut_cliente = "19934512-5"
         v_id_capacitacion = request.POST.get("selectNombreSolicitud")
         v_nombre_solicitud = request.POST.get("txtNombreSolicitud")
         v_descripcion_solicitud = request.POST.get("txtDescripcionSolicitud")
@@ -95,7 +97,7 @@ def solicitudInsert(request):
         fc_solicitud_insert(v_rut_cliente, v_id_capacitacion, v_nombre_solicitud, v_descripcion_solicitud, v_tipo_solicitud, v_estado_solicitud, v_status_solicitud)
 
         messages.add_message(request, messages.SUCCESS, 'Solicitud enviada con éxito')
-        #print (urls.urlpatterns[0])
+        # print (urls.urlpatterns[0])
         return redirect("profileCliente")
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
@@ -106,7 +108,7 @@ def getSolicitud(request):
     if (session_check == True):
         v_rut_cliente = request.session['cliente']['rut_cliente']
         data_solicitudes = fc_get_solicitudes(v_rut_cliente)
-        print (data_solicitudes)
+        # print (data_solicitudes)
         data_to_array = []
         if (data_solicitudes != ()):
             for x in data_solicitudes:

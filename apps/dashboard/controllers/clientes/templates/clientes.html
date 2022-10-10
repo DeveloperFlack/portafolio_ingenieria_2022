@@ -1,5 +1,54 @@
 {% extends 'base-dashboard.html'%}
 {% block content %}
+<div class="modal fade" id="modalEditClientes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalClientesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalClientesLabel">Actualizar datos Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "updateCliente" %}" id="formEditClientes" class="needs-validation" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="rutCliente" id="rutCliente">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="contrasenaCliente" class="form-label">Contraseña</label>
+                            <input class="form-control" type="text" name="txtContrasenaCliente" id="txtContrasenaCliente">
+                        </div>
+                        <div class="col-12">
+                            <label for="correoCliente" class="form-label">Correo Electrónico</label>
+                            <input class="form-control" type="email" name="txtCorreoCliente" id="txtCorreoCliente">
+                        </div>
+                        <div class="col-12">
+                            <label for="telefonoCliente" class="form-label">Teléfono</label>
+                            <input class="form-control" type="number" name="txtTelefonoCliente" id="txtTelefonoCliente">
+                        </div>
+                        <div class="col-12">
+                            <label for="nombreEmpresaCliente" class="form-label">Nombre Empresa</label>
+                            <input class="form-control" type="text" name="txtNombreEmpresaCliente" id="txtNombreEmpresaCliente">
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="col-12">
     <div class="my-3">
         <nav aria-label="breadcrumb">
@@ -16,10 +65,10 @@
                         <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
-                <div class="d-flex">
+                <!-- <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
-                </div>
+                </div> -->
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
@@ -27,7 +76,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Rut Cliente</th>
-                            <th>Nombre</th>
+                            <th>Primer Nombre</th>
                             <th>Segundo Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
@@ -41,7 +90,7 @@
                     <tfoot>
                         <tr>
                             <th>Rut Cliente</th>
-                            <th>Nombre</th>
+                            <th>Primer Nombre</th>
                             <th>Segundo Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
@@ -61,6 +110,7 @@
 {% block scripts %}
 <script>
 let v_url = "{% url 'getAllClientes' %}";
+let v_url_get_cliente = "{% url 'getCliente' %}"
 
     let tableClientes;
     $(document).ready(function () {
@@ -96,5 +146,26 @@ let v_url = "{% url 'getAllClientes' %}";
             ]
         });
     });
+</script>
+<script>
+    // EDIT CLIENTE
+    function fntEditCliente (rut_cliente){
+        var rut_cliente = rut_cliente;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_get_cliente + "?rutCliente=" + rut_cliente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            $('#rutCliente').val(objData[0].rut_cliente);
+            // console.log(objData[0].rut_cliente)
+            $('#txtContrasenaCliente').val(objData[0].contrasena_cliente);
+            $('#txtCorreoCliente').val(objData[0].correo_cliente);
+            $('#txtTelefonoCliente').val(objData[0].telefono_cliente);
+            $('#txtNombreEmpresaCliente').val(objData[0].nombre_empresa)
+            $('#modalEditClientes').show();
+        }
+    }
 </script>
 {% endblock %}

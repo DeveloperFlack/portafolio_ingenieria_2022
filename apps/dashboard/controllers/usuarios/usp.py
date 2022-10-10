@@ -12,7 +12,6 @@ def fc_get_all_usuarios():
         with cx.cursor() as cursor:
             cursor.execute("call usp_admin_usuarios_all()")
             result = cursor.fetchall()
-            print (result)
         cx.close()
         return result
     except Exception as ex:

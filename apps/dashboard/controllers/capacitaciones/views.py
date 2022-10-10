@@ -32,7 +32,7 @@ def insertCapacitacion(request):
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
 
             messages.add_message(request, messages.SUCCESS, 'Capacitación creada exitosamente!')
-            fc_insert_capacitacion(v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+            fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
             return redirect("getCapacitacionesPage")
 
@@ -68,7 +68,15 @@ def getAllCapacitaciones(request):
             "nombre_capacitacion": i[2],
             "descripcion_capacitacion": i[3],
             "total_capacitacion": i[4],
+            "status_capacitaciones": i[5],
         })
+    
+    # Añadir HTML}
+    for i in data_to_array:
+        if (i['status_capacitaciones'] == 1):
+            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
+        else:
+            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
 
     # Añadir HTML
     for i in data_to_array:
@@ -82,9 +90,9 @@ def getAllCapacitaciones(request):
         i['options'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCapacitacion(%s)' data-bs-toggle='modal' data-bs-target='#modalCapacitaciones'><i class='bx bxs-edit' ></i></button>
-                <a onclick='enableModule(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
-                <a onclick='disableModule(%s)' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
-                <a onclick='fntDeleteCapacitacion(%s)' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
+                <a onclick='fntEnableCapacitacion(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
+                <a onclick='fntDisableCapacitacion(%s)' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
+                <a onclick='fntConfirmDelete(%s)' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>
         """ % (i['id_capacitacion'], i['id_capacitacion'], i['id_capacitacion'], i['id_capacitacion'])
 
@@ -103,6 +111,7 @@ def getCapacitacion(request):
                     "nombre_capacitacion": i[2],
                     "descripcion_capacitacion": i[3],
                     "total_capacitacion": i[4],
+                    "status_capacitaciones": i[5],
                 })
             return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
         else:
@@ -125,3 +134,49 @@ def dashboard_delete_capacitacion(request):
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
         return redirect("getCapacitacionesPage")
+
+def dashoard_disable_capacitacion(request):
+    if (request.method == 'GET'):
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                v_id_capacitacion = request.GET.get('idCapacitacion')
+                cursor.execute("SELECT * FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                exist = cursor.fetchall()
+
+                if (exist != ()):
+                    cursor.execute("UPDATE nma_capacitacion SET status_capacitaciones = 0 WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                    cx.commit()
+                    messages.add_message(request, messages.SUCCESS, 'Asesoria Desactivada exitosamente!')
+                    return redirect("getAsesoriasPage")
+                else:
+                    messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
+                    return redirect("getAsesoriasPage")
+        except Exception as ex:
+            print(ex)
+            return redirect("getAsesoriasPage")
+    else:
+        return redirect("getAsesoriasPage")
+
+def dashoard_enable_capacitacion(request):
+    if (request.method == 'GET'):
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                v_id_capacitacion = request.GET.get('idCapacitacion')
+                cursor.execute("SELECT * FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                exist = cursor.fetchall()
+
+                if (exist != ()):
+                    cursor.execute("UPDATE nma_capacitacion SET status_capacitaciones = 1 WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                    cx.commit()
+                    messages.add_message(request, messages.SUCCESS, 'Asesoria Desactivada exitosamente!')
+                    return redirect("getAsesoriasPage")
+                else:
+                    messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
+                    return redirect("getAsesoriasPage")
+        except Exception as ex:
+            print(ex)
+            return redirect("getAsesoriasPage")
+    else:
+        return redirect("getAsesoriasPage")

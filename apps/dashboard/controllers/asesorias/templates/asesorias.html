@@ -1,0 +1,235 @@
+{% extends 'base-dashboard.html' %}
+{% block content %}
+<div class="modal fade" id="modalAsesoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalAsesoriaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAsesoriaLabel">Insertar Asesoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'insertAsesoria' %}" id="formAsesoria" class="needs-validation" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="idAsesoria" id="idAsesoria">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="nombreAsesoria" class="form-label">Nombre Asesoría</label>
+                            <input class="form-control" type="text" name="txtNombreAsesoria" id="txtNombreAsesoria"
+                                required>
+                            <div class="invalid-feedback">
+                                Nombre Asesoría Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="descripcionAsesoria" class="form-label">Descripción Asesoría</label>
+                            <textarea class="form-control" name="txtDescripcionAsesoria" id="txtDescripcionAsesoria"
+                                cols="30" rows="10">
+                            </textarea>
+                        </div>
+                        <div class="col-12">
+                            <label for="totalAsesoria" class="form-label">Total Asesoría</label>
+                            <input class="form-control" type="number" name="txtTotalAsesoria" id="txtTotalAsesoria"
+                                required>
+                            <div class="invalid-feedback">
+                                Total Asesoría Requerido
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                    </button>
+                </div>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped v_table_Asesorias my-3" style="width: 100%;" id="v_table_Asesorias">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th style="width: 60px !important;">Profesional</th>
+                            <th>Descripción</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot class="table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th style="width: 60px !important;">Profesional</th>
+                            <th>Descripción</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let v_url = "{% url 'getAllAsesoria' %}";
+    let v_url_asesoria = "{% url 'getAsesoria' %}";
+    let v_url_enable_asesoria = "{% url 'enableAsesoria' %}";
+    let v_url_disable_asesoria = "{% url 'disableAsesoria' %}";
+    let v_url_delete_Asesoria = "{% url 'deleteAsesoria' %}";
+</script>
+<script>
+    let tableAsesoria;
+    $(document).ready(function () {
+        tableAsesoria = $('#v_table_Asesorias').DataTable({
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "nombre_asesoria"
+            }, {
+                "data": "usuarios"
+            }, {
+                "data": "descripcion_asesoria"
+            }, {
+                "data": "total_asesoria"
+            }, {
+                "data": "status_asesoria",
+            }, { 
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+
+    function fntEditAsesoria (id_asesoria){
+        var id_asesoria = id_asesoria;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_asesoria + "?idAsesoria=" + id_asesoria;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            $('#idAsesoria').val(objData[0].id_asesoria);
+            $('#txtNombreAsesoria').val(objData[0].nombre_asesoria);
+            $('#txtDescripcionAsesoria').val(objData[0].descripcion_asesoria);
+            $('#txtTotalAsesoria').val(objData[0].total_asesoria);
+            $('#modalAsesoria').show();
+        }
+    }
+
+    function fntEnableAsesoria(id_asesoria){
+        var id_asesoria = id_asesoria;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_enable_asesoria + "?idAsesoria=" + id_asesoria;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntDisableAsesoria(id_asesoria){
+        var id_asesoria = id_asesoria;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_disable_asesoria + "?idAsesoria=" + id_asesoria;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalAsesoria'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formAsesoria');
+        myModal.show(modalToggle);
+        $('#idAsesoria').val('');
+        $('#txtNombreAsesoria').val('');
+        $('#txtDescripcionAsesoria').val('');
+        $('#txtTotalAsesoria').val('');
+        $('#modalAsesoria').show();
+    }
+
+    function fntDeleteAsesoria(id_asesoria) {
+        var id_asesoria = id_asesoria;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_Asesoria + "?idAsesoria=" + id_asesoria;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntConfirmDelete(id_asesoria){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteAsesoria(id_asesoria);
+                Swal.fire(
+                'Eliminado!',
+                'Tu elemento ha sido eliminado exitosamente',
+                'success'
+                )
+            }
+        })
+    }
+</script>
+{% endblock %}

@@ -63,7 +63,7 @@ def dashboard_get_all_solicitudes(request):
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditSolicitud("%s")' data-bs-toggle='modal' data-bs-target='#modalEditSolicitud'><i class='bx bxs-edit' ></i></button>
                 <a onclick='fntEnableSolicitud("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntDisableSolicitud("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
-                <a onclick='fntDeleteSolicitud("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
+                <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>
         """ % (i['id_solicitud'], i['id_solicitud'], i['id_solicitud'], i['id_solicitud'])
 
@@ -103,10 +103,6 @@ def dashboard_update_solicitud(request):
     if (request.method) == 'POST':
         v_id_solicitud = request.POST.get("idSolicitud")
         exist = fc_get_solicitudes_dash(v_id_solicitud)
-        v_id_solicitud = request.POST.get('idSolicitud')
-        print (v_id_solicitud)
-        exist = fc_get_solicitudes_dash(v_id_solicitud)
-        print (exist)
         # print (exist)
         if (exist != ()):
             v_fecha = request.POST.get("txtFecha")
