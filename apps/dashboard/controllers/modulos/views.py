@@ -101,7 +101,7 @@ def getAllModulos(request):
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditModule("%s")' data-bs-toggle='modal' data-bs-target='#modalModulos'><i class='bx bxs-edit' ></i></button>
                 <a onclick='enableModule("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableModule("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
-                <a onclick='deleteModule("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
+                <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>
         """ % (i['id_modulo'], i['id_modulo'], i['id_modulo'], i['id_modulo'])
 

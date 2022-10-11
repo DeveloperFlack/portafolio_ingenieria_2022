@@ -87,7 +87,7 @@ def getAllRoles(request):
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditRol("%s")' data-bs-toggle='modal' data-bs-target='#modalRoles'><i class='bx bxs-edit' ></i></button>
                 <a onclick='enableRol(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableRol("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
-                <a onclick='deleteRol("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
+                <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>
         """ % (i['id_rol'], i['id_rol'], i['id_rol'], i['id_rol'], i['id_rol'])
 
@@ -97,7 +97,8 @@ def getAllRoles(request):
 def getRol(request):
     v_idMRol = request.GET.get('idRol')
     if (v_idMRol != ""):
-        data_rol = list(fc_get_roles(v_idMRol))
+        data_rol = fc_get_roles(v_idMRol)
+        print(data_rol)
         data_to_array = []
         if (data_rol != ()):
             for i in data_rol:

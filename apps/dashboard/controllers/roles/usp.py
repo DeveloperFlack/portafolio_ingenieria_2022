@@ -17,7 +17,7 @@ def fc_get_all_roles():
         print (ex)
 
 # OBTENER UN ROL
-def fc_get_roles (id_modulo):
+def fc_get_roles (id_rol):
     """
     Obtiene una conexión a la base de datos, crea un cursor, ejecuta un procedimiento almacenado,
     obtiene los resultados, cierra la conexión y devuelve los resultados.
@@ -28,7 +28,7 @@ def fc_get_roles (id_modulo):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_admin_roles_get({0})" % (id_modulo))
+            cursor.execute("SELECT * FROM nma_roles WHERE id_rol = %s" % (id_rol))
             result = cursor.fetchall()
             print (result)
         cx.close()

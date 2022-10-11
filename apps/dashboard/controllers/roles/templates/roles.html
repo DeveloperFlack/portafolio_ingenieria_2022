@@ -95,7 +95,7 @@
 {% block scripts %}
     <script>
         let v_url = "{% url 'getAllRoles' %}";
-        let v_url_roles = "{% url 'getModulo' %}";
+        let v_url_roles = "{% url 'getRol' %}";
         let v_url_enable_roles = "{% url 'enableRol' %}";
         let v_url_disable_roles = "{% url 'disableRol' %}";
         let v_url_delete_roles = "{% url 'deleteRol' %}";
@@ -134,9 +134,9 @@
             request.send(ajaxUrl);
             request.onreadystatechange = function () {
                 let objData = JSON.parse(request.responseText);
-                $('#idRol').val(objData[0].id_modulo);
-                $('#txtNombreRol').val(objData[0].nombre_modulo);
-                $('#txtDescripcionRol').val(objData[0].descripcion_modulo);
+                $('#idRol').val(objData[0].id_rol);
+                $('#txtNombreRol').val(objData[0].nombre_rol);
+                $('#txtDescripcionRol').val(objData[0].descripcion_rol);
                 $('#modalRoles').show();
             }
         }
@@ -177,7 +177,7 @@
             }
         }
 
-        function deleteRol(id_rol) {
+        function fnDeleteRol(id_rol) {
             var id_rol = id_rol;
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = v_url_delete_roles + "?idRol=" + id_rol;
@@ -203,6 +203,28 @@
                     $('.modalPermisos').modal('show');
                 }
             }
+        }
+
+        function fntConfirmDelete(id_rol){
+            Swal.fire({
+                title: 'Está seguro que desea eliminar este elemento?',
+                text: "No podrás deshacer los cambios!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    fnDeleteRol(id_rol);
+                    Swal.fire(
+                    'Eliminado!',
+                    'Tu elemento ha sido eliminado exitosamente',
+                    'success'
+                    )
+                }
+            })
         }
     </script>
 

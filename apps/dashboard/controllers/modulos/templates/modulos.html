@@ -179,7 +179,7 @@
         }
     }
 
-    function deleteModule(id_modulo) {
+    function fntDeleteModule(id_modulo) {
         var id_modulo = id_modulo;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_delete_modulo + "?idModulo=" + id_modulo;
@@ -189,6 +189,28 @@
         request.onreadystatechange = function () {
             window.location.reload()
         }
+    }
+
+    function fntConfirmDelete(id_modulo){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteModule(id_modulo);
+                Swal.fire(
+                'Eliminado!',
+                'Tu elemento ha sido eliminado exitosamente',
+                'success'
+                )
+            }
+        })
     }
 </script>
 
