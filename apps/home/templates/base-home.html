@@ -87,7 +87,7 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="holitas">
+              <form method="POST" action="{% url 'auth' %}" class="needs-validation" enctype="application/x-www-form-urlencoded" id="holitas">
                 {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
@@ -240,75 +240,70 @@
   </script>
   <script src="{% static 'usr/vendor/boxicons/js/boxicons.js' %}"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'usr/js/loginUser.js' %}"></script>
-  <script src="{% static 'usr/js/loginUserError.js' %}"></script>
 
 
   {% block scripts %}
   <script>
     function fntLoginUser(){
       
-      var formLogin =  document.querySelector("#holitas");
+      // var formLogin =  document.querySelector("#holitas");
 
-      formLogin.onsubmit = function (e){
+      // formLogin.onsubmit = function (e){
+      let v_url = "{% url 'auth' %}"
+      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      var ajaxUrl = v_url;
+      // console.log(ajaxUrl);
 
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = "localhost:8000" + "{% url 'auth' %}";
-        console.log(ajaxUrl);
+      // var formData = new FormData(formLogin) 
 
-        var formData = new FormData(formLogin) 
+      request.open("POST", ajaxUrl, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send(ajaxUrl);
 
-        request.open("POST", ajaxUrl, true);
-        request.send(formData);
+      // console.log(formData);
 
-        console.log(formData);
+      request.onreadystatechange = function () {
+        if (request.status == 200 || request.status == 302 || request.status == 304 || request.status == 308 || request.status == 306 || request.status == 404 || request.status == 0) {
+          console.log("Holitas");
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1700,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
-        request.onreadystatechange = function () {
-          if (request.status == 302) {
-            console.log("Holitas");
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
+          Toast.fire({
+            icon: 'success',
+            title: 'Sesión iniciada exitosamente!'
+          })
+        } else {
+          console.log("Anone");
+          console.log(request.status, request.readyState)
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1700,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
 
-            Toast.fire({
-              icon: 'success',
-              title: 'Sesión iniciada exitosamente!'
-            })
-          } else if (request.status == 200){
-            console.log('kawaii');
-          }else if (request.status == 502){
-              console.log('kawaii');
-          } else {
-            console.log("Anone");
-            console.log(request.status, request.readyState)
-            const Toast = Swal.mixin({
-              toast: true,
-              position: 'top',
-              showConfirmButton: false,
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            })
-
-            Toast.fire({
-              icon: 'error',
-              title: 'Credenciales incorrectas, vuelva a intentarlo!'
-            })
-          }
+          Toast.fire({
+            icon: 'error',
+            title: 'Credenciales incorrectas, vuelva a intentarlo!'
+          })
         }
       }
     }
+    // }
 
     function fntRegisterUser(){
       const Toast = Swal.mixin({
@@ -334,7 +329,7 @@
         toast: true,
         position: 'top',
         showConfirmButton: false,
-        timer: 2000,
+        timer: 1700,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.addEventListener('mouseenter', Swal.stopTimer)

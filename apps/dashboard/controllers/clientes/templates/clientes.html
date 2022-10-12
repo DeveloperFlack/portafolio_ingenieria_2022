@@ -158,7 +158,7 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
-            $('#rutCliente').val(objData[0].rut_cliente);
+            $('#rutCliente').val(rut_cliente);
             // console.log(objData[0].rut_cliente)
             $('#txtContrasenaCliente').val(objData[0].contrasena_cliente);
             $('#txtCorreoCliente').val(objData[0].correo_cliente);

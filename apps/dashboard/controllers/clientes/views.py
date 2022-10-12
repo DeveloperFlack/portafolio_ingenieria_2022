@@ -1,4 +1,5 @@
 from genericpath import exists
+from symbol import try_stmt
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import JsonResponse
@@ -93,23 +94,34 @@ def dashboard_get_cliente(request):
 
 # UPDATE CLIENTE
 def dashboard_update_cliente(request):
-    if (request.method) == 'POST':
-        v_rut_cliente = request.POST.get("rutCliente")
-        exist = fc_get_cliente_dash(v_rut_cliente)
-        # print (exist)
-        if (exist != ()):
-            v_contrasena_cliente = request.POST.get("txtContrasenaCliente")
-            v_correo_cliente = request.POST.get("txtCorreoCliente")
-            v_telefono_cliente = request.POST.get("txtTelefonoCliente")
-            v_nombre_empresa = request.POST.get("txtNombreEmpresaCliente")
+    if (request.method == 'POST'):
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                v_rut_cliente = request.POST.get("rutCliente")
+                v_contrasena_cliente = request.POST.get("txtContrasenaCliente")
+                v_correo_cliente = request.POST.get("txtCorreoCliente")
+                v_telefono_cliente = request.POST.get("txtTelefonoCliente")
+                v_nombre_empresa = request.POST.get("txtNombreEmpresaCliente")
 
-            fc_update_cliente(v_rut_cliente, v_contrasena_cliente, v_correo_cliente, v_telefono_cliente, v_nombre_empresa)
-            messages.add_message(request, messages.SUCCESS, 'Datos del Cliente actualizados!')
+                cursor.execute("SELECT * FROM nma_cliente WHERE rut_cliente = '%s'" % (v_rut_cliente))
+                exist = cursor.fetchall()
 
-            return redirect("getClientesPage")
-        else:
+                if (exist != ()):
+                    cursor.execute("""UPDATE nma_cliente SET contrasena_cliente = '%s', 
+                    correo_cliente = '%s', telefono_cliente = %s, nombre_empresa = '%s' WHERE rut_cliente = '%s' """ % 
+                    (v_contrasena_cliente, v_correo_cliente, v_telefono_cliente, v_nombre_empresa, v_rut_cliente))
+
+                    cx.commit()
+                    return redirect("getClientesPage")
+
+                else:
+                    messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
+                    return redirect("getClientesPage")
+
+        except Exception as ex:
+            # print(ex)
             messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
             return redirect("getClientesPage")
     else:
-        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
         return redirect("getClientesPage")

@@ -41,7 +41,7 @@ def fc_update_cliente(rut_cliente, contrasena_cliente, correo_cliente, telefono_
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("CALL usp_clientes_update('%s', '%s', '%s', '%s', '%s')" % (rut_cliente, contrasena_cliente, correo_cliente, telefono_cliente, nombre_empresa))
+            cursor.execute("CALL usp_clientes_update('%s', '%s', '%s', %s, '%s')" % (rut_cliente, contrasena_cliente, correo_cliente, telefono_cliente, nombre_empresa))
             result = cursor.fetchall()
         cx.close()
         return result
