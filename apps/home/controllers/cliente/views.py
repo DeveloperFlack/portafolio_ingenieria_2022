@@ -96,7 +96,6 @@ def solicitudInsert(request):
 
         fc_solicitud_insert(v_rut_cliente, v_id_capacitacion, v_nombre_solicitud, v_descripcion_solicitud, v_tipo_solicitud, v_estado_solicitud, v_status_solicitud)
 
-        messages.add_message(request, messages.SUCCESS, 'Solicitud enviada con éxito')
         # print (urls.urlpatterns[0])
         return redirect("profileCliente")
     else:

@@ -56,7 +56,7 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="{% url "logout" %}">Cerrar Sesión</a></li>
+              <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
               
             {% elif session_status.cliente == True %}
 
@@ -64,7 +64,7 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="{% url "logout" %}">Cerrar Sesión</a></li>
+              <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
             {% else %}
               <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
               <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
@@ -74,30 +74,6 @@
       </div>
     </div>
   </header>
-
-   <div class="messagges" style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); z-index: 10000 !important;">
-    {% if messages %}
-      {% for message in messages %}
-        {% if message.tags == "success" %}
-            <div class="alert alert-success" role="alert" >
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(8, 181, 14);transform: ;msFilter:;">
-                  <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.999 14.413-3.713-3.705L7.7 11.292l2.299 2.295 5.294-5.294 1.414 1.414-6.706 6.706z"></path>
-                </svg>
-                {{ message }}
-                <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% elif message.tags == "error" %}
-            <div class="alert alert-danger" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="fill: rgb(216, 0, 0);transform: ;msFilter:;">
-                  <path d="M11.953 2C6.465 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.493 2 11.953 2zM13 17h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
-                </svg>
-                {{ message }}
-                <button type="button" class="btn-sm btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {%  endif %}
-    {% endfor %}
-  {% endif %}
-  </div>
 
   <!-- Login Home Page Cliente/Professional -->
   <div class="modal fade" tabindex="-1" id="loginModal">
@@ -111,7 +87,7 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form method="POST" action="{% url "auth" %}" class="needs-validation" enctype="application/x-www-form-urlencoded">
+              <form method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="holitas">
                 {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
@@ -124,7 +100,7 @@
                   <input type="password" class="form-control" placeholder="Password" name="txtPassword" id="txtPassword" required>
                   <label for="floatingPassword">Contraseña</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Acceder</button>
+                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" onclick="fntLoginUser()">Acceder</button>
                 <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#registerModal">Crear Cuenta</button>
               </form>
             </div>
@@ -208,7 +184,7 @@
                   <label for="floatingPassword">Contraseña</label>
                 </div>
 
-                <button type="submit" class="w-100 btn btn-lg btn-primary mt-4">Registrarse</button>
+                <button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="fntRegisterUser()">Registrarse</button>
                 <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal" >Iniciar Sesión</button>
                 
               </form>
@@ -263,8 +239,115 @@
     AOS.init();
   </script>
   <script src="{% static 'usr/vendor/boxicons/js/boxicons.js' %}"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{% static 'usr/js/loginUser.js' %}"></script>
+  <script src="{% static 'usr/js/loginUserError.js' %}"></script>
+
 
   {% block scripts %}
+  <script>
+    function fntLoginUser(){
+      
+      var formLogin =  document.querySelector("#holitas");
+
+      formLogin.onsubmit = function (e){
+
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = "localhost:8000" + "{% url 'auth' %}";
+        console.log(ajaxUrl);
+
+        var formData = new FormData(formLogin) 
+
+        request.open("POST", ajaxUrl, true);
+        request.send(formData);
+
+        console.log(formData);
+
+        request.onreadystatechange = function () {
+          if (request.status == 302) {
+            console.log("Holitas");
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Sesión iniciada exitosamente!'
+            })
+          } else if (request.status == 200){
+            console.log('kawaii');
+          }else if (request.status == 502){
+              console.log('kawaii');
+          } else {
+            console.log("Anone");
+            console.log(request.status, request.readyState)
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'error',
+              title: 'Credenciales incorrectas, vuelva a intentarlo!'
+            })
+          }
+        }
+      }
+    }
+
+    function fntRegisterUser(){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Cuenta creada exitosamente!'
+      })
+    }
+
+    function fntLogoutUser(){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Sesión cerrada exitosamente!'
+      })
+    }
+  </script>
   {% endblock %}
 
 </body>

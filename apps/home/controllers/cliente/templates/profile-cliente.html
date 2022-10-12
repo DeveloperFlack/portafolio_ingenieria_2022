@@ -132,7 +132,7 @@
                   <textarea class="form-control" aria-label="With textarea" style="height: 60px;" id="txtDescripcionSolicitud" name="txtDescripcionSolicitud"></textarea>
                 </div>
               </div>
-              <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Enviar solicitud</button>
+              <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" onclick="fntConfirmEditInsert()">Enviar solicitud</button>
             </form>
           </div>
         </div>
@@ -179,22 +179,23 @@
     });
   });
 
-  function fntEditSolicitud (idSolicitud){
-    var id_solicitud = id_solicitud;
-    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    var ajaxUrl = v_url_solicitud + "?idSolicitud=" + id_solicitud;
-    request.open("GET", ajaxUrl, true);
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(ajaxUrl);
-    request.onreadystatechange = function () {
-        let objData = JSON.parse(request.responseText);
-        $('#idSolicitud').val(objData[0].id_solicitud);
-        $('#txtFecha').val(objData[0].fecha);
-        $('#txtTimeStart').val(objData[0].time_start);
-        $('#txtTimeEnd').val(objData[0].time_end);
-        $('#solicitudesModal').show();
-    }
+  function fntConfirmEditInsert(){
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Solicitud enviada exitosamente!'
+    })
   }
- 
 </script>
 {% endblock %}

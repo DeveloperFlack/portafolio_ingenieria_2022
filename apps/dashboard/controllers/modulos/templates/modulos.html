@@ -30,7 +30,7 @@
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100" onclick='fntConfirmEdit()'>Enviar</button>
                             </div>
                             <div class="my-2"></div>
                             <div>
@@ -164,6 +164,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Modulo Activado!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -176,6 +183,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Modulo Desactivado!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -205,13 +219,24 @@
             if (result.isConfirmed) {
                 fntDeleteModule(id_modulo);
                 Swal.fire(
-                'Eliminado!',
-                'Tu elemento ha sido eliminado exitosamente',
-                'success'
+                    'Eliminado!',
+                    'Tu elemento ha sido eliminado exitosamente',
+                    'success'
                 )
             }
         })
     }
+
+    function fntConfirmEdit(){
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Proceso realizado exitosamente!',
+            showConfirmButton: false,
+            timer: 1700
+        })
+    }
+
 </script>
 
 {% endblock %}

@@ -12,3 +12,4 @@ tzdata==2022.1
 cryptography==37.0.4
 ptvsd==4.3.2
 pytest-django==4.5.2
+Js2Py==0.71

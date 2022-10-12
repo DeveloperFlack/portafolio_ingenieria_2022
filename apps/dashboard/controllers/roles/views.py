@@ -79,7 +79,7 @@ def getAllRoles(request):
         if (i['status_rol'] == 1):
             i['status_rol'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
-            i['status_rol'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
+            i['status_rol'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
 
         i['options'] = """
             <div class='text-center'>

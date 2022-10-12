@@ -65,7 +65,7 @@
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
                             </div>
                             <div class="my-2"></div>
                             <div>
@@ -98,7 +98,8 @@
                 </ul>
                 <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                    </button>
                 </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
@@ -116,18 +117,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                            {% for i in usuarios %}
-                            <tr>
-                                <td>{{ i.rut_usuario }}</td>
-                                <td>{{ i.primer_nombre }}</td>
-                                <td>{{ i.apellido_paterno }}</td>
-                                <td>{{ i.direccion }}</td>
-                                <td>{{ i.nombre_rol }}</td>
-                                <td>{{ i.status_usuario | safe}}</td>
-                                <td>{{ i.options | safe }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
+                        {% for i in usuarios %}
+                        <tr>
+                            <td>{{ i.rut_usuario }}</td>
+                            <td>{{ i.primer_nombre }}</td>
+                            <td>{{ i.apellido_paterno }}</td>
+                            <td>{{ i.direccion }}</td>
+                            <td>{{ i.nombre_rol }}</td>
+                            <td>{{ i.status_usuario | safe}}</td>
+                            <td>{{ i.options | safe }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                     <tfoot class="table-dark">
                         <tr>
                             <th>Rut</th>
@@ -218,6 +219,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Usuario Activado!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -230,6 +238,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Usuario Desactivado!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -264,6 +279,16 @@
                 'success'
                 )
             }
+        })
+    }
+
+    function fntConfirmEditInsert(){
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Proceso realizado exitosamente!',
+            showConfirmButton: false,
+            timer: 1700
         })
     }
 </script>

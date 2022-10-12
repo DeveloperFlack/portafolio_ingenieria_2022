@@ -31,7 +31,6 @@ def insertCapacitacion(request):
             v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
 
-            messages.add_message(request, messages.SUCCESS, 'Capacitación creada exitosamente!')
             fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
             return redirect("getCapacitacionesPage")
@@ -47,7 +46,6 @@ def insertCapacitacion(request):
                 v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
 
                 fc_update_capacitacion(v_idCapacitacion, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
-                messages.add_message(request, messages.SUCCESS, 'Capacitación actualizada!')
 
                 return redirect("getCapacitacionesPage")
             else:
@@ -76,7 +74,7 @@ def getAllCapacitaciones(request):
         if (i['status_capacitaciones'] == 1):
             i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
-            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
+            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
 
     # Añadir HTML
     for i in data_to_array:
@@ -126,7 +124,6 @@ def dashboard_delete_capacitacion(request):
         exist = fc_get_capacitacion(v_id_capacitacion)
         if (exist != ()):
             fc_delete_capacitacion(v_id_capacitacion)
-            messages.add_message(request, messages.SUCCESS, 'Capacitación Eliminada exitosamente!')
             return redirect("getCapacitacionesPage")
         else:
             messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
@@ -147,7 +144,6 @@ def dashoard_disable_capacitacion(request):
                 if (exist != ()):
                     cursor.execute("UPDATE nma_capacitacion SET status_capacitaciones = 0 WHERE id_capacitacion = %s" % (v_id_capacitacion))
                     cx.commit()
-                    messages.add_message(request, messages.SUCCESS, 'Asesoria Desactivada exitosamente!')
                     return redirect("getAsesoriasPage")
                 else:
                     messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
@@ -170,7 +166,6 @@ def dashoard_enable_capacitacion(request):
                 if (exist != ()):
                     cursor.execute("UPDATE nma_capacitacion SET status_capacitaciones = 1 WHERE id_capacitacion = %s" % (v_id_capacitacion))
                     cx.commit()
-                    messages.add_message(request, messages.SUCCESS, 'Asesoria Desactivada exitosamente!')
                     return redirect("getAsesoriasPage")
                 else:
                     messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')

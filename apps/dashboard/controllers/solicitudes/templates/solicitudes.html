@@ -28,7 +28,7 @@
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
                             </div>
                             <div class="my-2"></div>
                             <div>
@@ -197,6 +197,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Solicitud Activada!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -209,6 +216,13 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Solicitud Desactivada!',
+                showConfirmButton: false,
+                timer: 1700
+            })
         }
     }
 
@@ -242,6 +256,16 @@
                 'success'
                 )
             }
+        })
+    }
+
+    function fntConfirmEditInsert(){
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Proceso realizado exitosamente!',
+            showConfirmButton: false,
+            timer: 1700
         })
     }
 </script>

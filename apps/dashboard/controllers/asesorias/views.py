@@ -34,7 +34,7 @@ def insertAsesoria(request):
             v_rut_user_session = request.session['usuario']['RUT']
 
             fc_insert_asesorias(v_rut_user_session, v_nombre_asesoria, v_descripcion_asesoria, v_total_asesoria)
-            messages.add_message(request, messages.SUCCESS, 'Asesoría creada exitosamente!')
+            # messages.add_message(request, messages.SUCCESS, 'Asesoría creada exitosamente!')
 
             return redirect("getAsesoriasPage")
         
@@ -50,7 +50,6 @@ def insertAsesoria(request):
                 v_rut_usuario_session = request.session['usuario']['RUT']
 
                 fc_update_asesoria(v_idAsesoria, v_rut_usuario_session, v_nombre_asesoria, v_descripcion_asesoria, v_total_asesoria)
-                messages.add_message(request, messages.SUCCESS, 'Asesoría actualizada!')
 
                 return redirect("getAsesoriasPage")
             else:
@@ -79,7 +78,7 @@ def getALLAsesorias(request):
         if (i['status_asesoria'] == 1):
             i['status_asesoria'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
         else:
-            i['status_asesoria'] = "<div class='text-center'><button class='btn btn-warning'>Desactivado</button></div>"
+            i['status_asesoria'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
 
     # Añadir HTML
     for i in data_to_array:

@@ -5,6 +5,7 @@ import apps.core
 import hashlib
 from django.contrib import messages
 from apps.helpers import *
+import js2py
 
 def multiform(form):
     data = {}
@@ -82,7 +83,9 @@ def auth (request):
                     "nombre_empresa": data_to_array[0]["nombre_empresa"],
                 }
                 
-                messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["cliente"]["n1_cliente"] + ' ' + request.session["cliente"]["ap_cliente"] + ' de ' + request.session["cliente"]["nombre_empresa"] + ' !')
+                # messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["cliente"]["n1_cliente"] + ' ' + request.session["cliente"]["ap_cliente"] + ' de ' + request.session["cliente"]["nombre_empresa"] + ' !')
+                # js2py.run_file("loginUser.js")
+
                 return redirect ('index')
             elif (profesional != ()):
 
@@ -101,10 +104,12 @@ def auth (request):
                     "password_usuario": data_to_array[0]["password_usuario"],
                 }
                 
-                messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["profesional"]["primer_nombre"] + ' ' + request.session["profesional"]["apellido_paterno"] + ' !')
+                # messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["profesional"]["primer_nombre"] + ' ' + request.session["profesional"]["apellido_paterno"] + ' !')
+                # js2py.run_file("loginUserError.js")
+
                 return redirect ('index')
             else:
-                messages.add_message(request, messages.ERROR, 'Usuario no Existente.')
+                # messages.add_message(request, messages.ERROR, 'Usuario no Existente.')
                 return redirect ('index')
 
     except Exception as ex:
