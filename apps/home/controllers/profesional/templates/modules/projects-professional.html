@@ -6,7 +6,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius: 13px; padding: 15px;">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Editar Proyecto</h5>
+        <h5 class="modal-title" id="projectLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -72,128 +72,114 @@
     </div>
   </div>
 </div>
+<div style="width: 100%; padding: 18px 10px 6px 10px; background: linear-gradient(to right, black, blueviolet, dodgerblue); color: white; margin-top: 80px;">
+  <div class="container text-center">
+    <h6 class="info_profile"><i class='bx bxs-error'></i> Todos los cambios realizados en el portal de profesional serán registrador en el portal de administración</h6>
+  </div>
+</div>
+<div class="content__profile" style="overflow-x: hidden; background-color:  #dee5ec;">
+  <div class="content" style="background-color: white;">
+    <div class="container-fluid">
+      <div class="row">
 
-<br>
-<div class="content__profile mt-5" style="overflow-x: hidden; background-color:  #dee5ec;">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-2 col-12" style="margin: 0; padding: 0;">
-        <div class="contaiinert">
-          <div class="d-flex flex-column flex-shrink-0 bg-white flex__contaiinert" style="width: 99%; height: 100vh;
-            padding: 15px 5px; font-size: 16px; color: gray; border-radius: 0px;">
-            <ul class="nav nav-pills flex-column mb-auto">
-              <li>
-                <a href="{% url 'profileProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Todos los Tickets" style="margin: 0px 0 -10px 0;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
-                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
-                    <path d="M5 22h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2h-2a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2zM5 5h2v2h10V5h2v15H5V5z"></path>
-                    <path d="m11 13.586-1.793-1.793-1.414 1.414L11 16.414l5.207-5.207-1.414-1.414z"></path>
+        <div class="col-lg-2 col-12" style="padding: 0; margin: 0;">
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" id="barra__lateral" style="padding: 0 5px; height: 100vh; 
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(30, 143, 255, 0.75)),
+          url(https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_800,h_500/https://ciudademprendedores.com/wp-content/uploads/2022/07/img_593002fad588f2231e1264d9f3489b2b-800x500.jpg);
+          background-size: ; background-repeat: no-repeat; background-position: left center; background-attachment: fixed;">
+            <div class="position-sticky barra__lateral_mobile" style="padding-right: 0px;">
+              <div class="form-floating">
+                <input type="text" class="form-control" placeholder="12345678-9" style="border-radius: 0;">
+                <label for="floatingInput">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 22 26" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
                   </svg>
-                  Portal
-                </a>
-                <hr>
-              </li>
-              <li>
-                <a href="{% url 'ticketsProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Mis Tickets" style="margin: -10px 0 -10px 0;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
-                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
-                    <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm-7.933 13.481-3.774-3.774 1.414-1.414 2.226 2.226 4.299-5.159 1.537 1.28-5.702 6.841z"></path>
-                  </svg>    
-                  Mis Tickets              
-                </a>
-                <hr>
-              </li>
-              <li>
-                <a href="{% url 'projectsProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Mis Proyectos" style="margin: -10px 0 -10px 0; 
-                  background: linear-gradient(to right, deepskyblue, blueviolet); color: white;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
-                    style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
-                    <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"></path>
-                  </svg>
+                  Buscar Proyecto
+                </label>
+              </div>
+              <div class="list-group mt-2">
+                <a href="{% url 'projectsProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
                   Mis Proyectos
                 </a>
-                <hr>
-              </li>
-              <li>
-                <a href="#" class="nav-link link-dark hint--right w-100" aria-label="Mis Reportes" style="margin: -10px 0 -10px 0;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
-                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
-                    <path d="m20 8-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM9 19H7v-9h2v9zm4 0h-2v-6h2v6zm4 0h-2v-3h2v3zM14 9h-1V4l5 5h-4z"></path>
-                  </svg>
-                  Mis Reportes
+                <a class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
+                  Tickets
                 </a>
-                <hr>
-              </li>
-            </ul>
+                <a class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
+                  Asesorías
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-lg-10 col-12" style="margin: 0; padding: 0;">
-        <div class="container-fluid bg-white" style="border-radius: 0px; box-shadow: 10px 0 4px -2px #d8e1e9; padding: 20px 50px 10px 50px; margin: 0;">
-          <main>
-            <div class="row">
-              <div class="col-12">
-                <div class="row g-5">
-                  <span class="fs-3" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista completa proyectos</span>
-                  <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
-                        border: none; color: white; margin-top: -10px !important;"
-                        onclick="openModal()">Añadir nuevo proyecto
-                    </button>
-                  </div>
-                  <div class="col-md-12 col-lg-12">
-                    <div class="table-responsive">
-                      <table class="table table-borderles table-bordered table-striped table-hover align-middle">
-                        <thead class="table-light">
-                          <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Valor</th>
-                            <th>Estado</th>
-                            <th>Opciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for i in capacitaciones %}
-                          <tr>
-                            <td>{{ i.id_capacitacion }}</td>
-                            <td>{{ i.nombre_capacitacion | safe }}</td>
-                            <td>{{ i.total_capacitacion | safe }}</td>
-                            {% if i.status_capacitacion == 1 %}
-                            <td><div class='text-center'><button class='btn btn-sm btn-danger' 
-                              style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white; border-radius: 3px !important;'>Aprobada</button></div>
-                            </td>
-                            {% elif i.status_capacitacion == 0 %}
-                            <td><div class='text-center'><button class='btn btn-sm btn-danger' 
-                              style='background: linear-gradient(to right, orange, deeppink); border: none; color: white; border-radius: 3px !important;'>En Revisión</button></div>
-                            </td>
-                            {% endif %}
-                            <td>{{ i.options | safe}}</td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
+        <div class="col-lg-10 col-12" style="padding: 0; margin: 0;">
+          <div class="container-fluid bg-white content_table" style="border-radius: 0px; box-shadow: 10px 0 4px -2px #d8e1e9; padding: 20px 50px 10px 50px; margin: 0;">
+            <main class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row g-5">
+                    <span class="fs-3" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista completa proyectos</span>
+                    <div class="d-flex">
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                          border: none; color: white; margin-top: -10px !important; padding: 10px 20px;"
+                          onclick="openModal()">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 28" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
+                            <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                          </svg> 
+                          Añadir nuevo proyecto
+                      </button>
+                    </div>
+                    <div class="col-md-12 col-lg-12">
+                      <div class="table-responsive">
+                        <table class="table table-borderles table-bordered table-striped table-hover align-middle">
+                          <thead class="table-light">
+                            <tr>
+                              <th>#</th>
+                              <th>Nombre</th>
+                              <th>Valor</th>
+                              <th>Estado</th>
+                              <th>Opciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in capacitaciones %}
+                            <tr>
+                              <td>{{ i.id_capacitacion }}</td>
+                              <td>{{ i.nombre_capacitacion | safe }}</td>
+                              <td>{{ i.total_capacitacion | safe }}</td>
+                              {% if i.status_capacitacion == 1 %}
+                              <td><div class='text-center'><button class='btn btn-sm btn-danger' 
+                                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white; border-radius: 3px !important;'>Aprobada</button></div>
+                              </td>
+                              {% elif i.status_capacitacion == 0 %}
+                              <td><div class='text-center'><button class='btn btn-sm btn-danger' 
+                                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white; border-radius: 3px !important;'>En Revisión</button></div>
+                              </td>
+                              {% endif %}
+                              <td>{{ i.options | safe}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-
-          </main>
-        
-          <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">© 1992-2022 RPS Companny.</p>
-            <ul class="list-inline">
-              <li class="list-inline-item"><a href="#">Privacidad</a></li>
-              <li class="list-inline-item"><a href="#">términos y Condiciones</a></li>
-              <li class="list-inline-item"><a href="#">Soporte</a></li>
-            </ul>
-          </footer>
+            </main>
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+              <p class="mb-1">© 1992-2022 RPS Company.</p>
+              <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacidad</a></li>
+                <li class="list-inline-item"><a href="#">términos y Condiciones</a></li>
+                <li class="list-inline-item"><a href="#">Soporte</a></li>
+              </ul>
+            </footer>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
+
   </div>
 </div>
 {% endblock %}

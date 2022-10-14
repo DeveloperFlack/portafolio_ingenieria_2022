@@ -9,14 +9,14 @@
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Estilos Propios -->
+  <link rel="stylesheet" href="{% static 'usr/css/estilos.css' %}">
   <!-- Plugins -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="{% static 'usr/vendor/hint/css/hint.css' %}">
   <link rel="stylesheet" href="{% static 'usr/vendor/datatable/css/datatable.css' %}">
-  <!-- Estilos Propios -->
-  <link rel="stylesheet" href="{% static 'usr/css/estilos.css' %}">
-  <title>RSP Companny - Asesores Profesionales</title>
+  <title>RSP Company - Asesores Profesionales</title>
 
   <link rel="icon" href="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" type="image/x-icon">
   <!-- JQuery -->
@@ -25,50 +25,122 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+  @media screen and (max-width: 500px){
+    #total_capacitacion{font-size: 40px !important;}
+    .descripcion_capacitacion{font-size: 15px !important;}
+    .subtitle_servicios{font-size: 16px !important;}
+    .info_gestion{font-size: 15px !important;}
+    .info_banner{font-size: 16px !important;}
+    .card{height: auto !important;}
+    .banner_cliente{height: auto !important; padding-bottom: 20px !important;}
+    .banner_cliente .info_banner_cliente{font-size: 17px !important;}
+    .content_table{padding: 5px 0 !important;}
+    .info_profile{font-size: 13px !important;}
+    .account{justify-content: center !important; text-align: center !important;}
+    .menu{padding-top: 15px !important;}
+    .barra__lateral_mobile{height: auto !important; padding-right: 3px !important;}
+    #barra__lateral{height: auto !important; padding-bottom: 15px !important;}
+    .content_table_cliente{padding: 5px !important;}
+  }
 </style>
 
-<body style="font-family: 'Poppins', sans-serif">
+<body style="font-family: 'Poppins', sans-serif;">
   <header class="p-3 mb-3 border-bottom bg-white fixed-top">
     <nav class="container navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a href="/" class="me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <a href="{% url 'getHome' %}" class="me-2 mb-md-0 text-muted text-decoration-none lh-1">
           <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
             width="45" height="40">
-            RSP Commpany
+            RSP Company
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" 
           style="border-radius: 4px !important; color: white !important; background-color: dodgerblue; font-size: 25px;">
           <i class='bx bx-menu'></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse menu" id="navbarNavDropdown">
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-dark">Inicio</a></li>
-            <li><a href="#" class="nav-link px-2 link-secondary">Servicios</a></li>
-            <li><a href="#" class="nav-link px-2 link-secondary">Control</a></li>
+            {% if session_status.profesional == True %}
+            <li><a href="#" class="nav-link px-2 link">Portal</a></li>
+            <li><a href="{% url 'projectsProfesional' %}" class="nav-link px-2">Proyectos</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Cuenta
+                Tickets
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                {% if session_status.profesional == True %}
-                <li><a class="dropdown-item" href="{% url "profileProfesional" %}">Mi Perfil Profesional</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
-                {% elif session_status.cliente == True %}
-                <li><a class="dropdown-item" href="{% url "profileCliente" %}">Mi perfil Usuario</a></li>
-                <li> 
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
-                {% else %}
-                <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
-                <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
-                {% endif %}
+                <li><a class="dropdown-item" href="/">Todos los tickets</a></li>
+                <li><a class="dropdown-item" href="/">Mis tickets</a></li>
               </ul>
             </li>
+            {% else %}
+            <li><a href="{% url 'getHome' %}" class="nav-link px-2 link">Inicio</a></li>
+            <li><a href="#" class="nav-link px-2 link">Servicios</a></li>
+            <li><a href="#" class="nav-link px-2 link">Gestión</a></li>
+            {% endif %}
           </ul>
+          <li class="nav-item dropdown account" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cuenta
+            </a>
+            
+            <div class="dropdown-menu dropdown-menu-white border-0 pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 300px;">
+              <ul class="list-unstyled mb-0">
+                {% if session_status.profesional == True %}
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url "profileProfesional" %}">
+                    <span class="d-inline-block bg-primary rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Mi Perfil
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url "logout" %}" onclick="fntLogoutUser()">
+                    <span class="d-inline-block bg-danger rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Cerrar Sesión
+                  </a>
+                </li>
+                {% elif session_status.cliente == True %}
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2"  href="{% url "profileCliente" %}">
+                    <span class="d-inline-block bg-primary rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Mi Perfil
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url "logout" %}" onclick="fntLogoutUser()">
+                    <span class="d-inline-block bg-danger rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Cerrar Sesión
+                  </a>
+                </li>
+                {% else %}
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <span class="d-inline-block bg-success rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Iniciar Sesión
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    <span class="d-inline-block bg-primary rounded-circle" style="width: .5em; height: .5em;"></span>
+                    Crear Cuenta
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown account" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class='bx bx-search'></i>
+            </a>
+            
+            <div class="dropdown-menu dropdown-menu-white border-0 pt-0 mx-0 rounded-3 shadow overflow-hidden" style="width: 300px;">
+              <form class="p-2 mb-2 bg-white border-bottom border-white">
+                <input type="search" class="form-control form-control-white" autocomplete="false" placeholder="Escribe para buscar...">
+              </form>
+            </div>
+          </li>
+
         </div>
       </div>
     </nav>

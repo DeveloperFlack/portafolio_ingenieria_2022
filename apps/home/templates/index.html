@@ -1,6 +1,6 @@
 {% extends 'base-home.html'%}
 {% block content %}
-  <div class="banner" style="box-shadow: 0 3px 3px -2px rgb(225, 225, 225); padding: 60px 0px; background-color: rgb(19, 134, 250); color: white;">
+  <div class="banner" style="box-shadow: 0 3px 3px -2px rgb(225, 225, 225); padding: 70px 0px; background: linear-gradient(to right, blueviolet, dodgerblue); color: white;">
     <div class="container col-xxl-8 px-4 py-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
         <div class="col-10 col-sm-8 col-lg-6">
@@ -8,7 +8,7 @@
         </div>
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold lh-1 mb-3">Asesoramos tu negocio para que tus trabajadores estén seguros</h1>
-          <p class="lead">Consulta la variedad de servicios que RPS tiene para ofrecer. Contamos con un grupo multidisiplinario de profesionales capaces de llevar a cabo tareas a un alto nivel, para asegurar el bien estar de tus trabajadores y negocio.</p>
+          <p class="lead info_banner">Consulta la variedad de servicios que RPS tiene para ofrecer. Contamos con un grupo multidisiplinario de profesionales capaces de llevar a cabo tareas a un alto nivel, para asegurar el bien estar de tus trabajadores y negocio.</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
             {% if session_status.session == False %}
               <button type="button" class="btn btn-dark btn-md px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
@@ -24,7 +24,7 @@
     <div class="row">
       <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Nuestros Servicios</h1>
-        <p class="fs-5 text-muted">
+        <p class="fs-5 text-muted subtitle_servicios">
           Lista de servicios disponibles, elige la manera de pago y servicio que necesites.
         </p>
       </div>
@@ -44,13 +44,13 @@
                 {% endif %}
               </div>
               <div class="card-body">
-                <h2 class="card-title pricing-card-title">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light">/mes</small></h2>
+                <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light" style="font-style: italic;">/mes</small></h2>
                 {% if x.descripcion_capacitacion|length > 100 %}
-                <p>
+                <p class="descripcion_capacitacion">
                   {{ x.descripcion_capacitacion|slice:":80" }} ...
                 </p>
                 {% else %}
-                <p>
+                <p class="descripcion_capacitacion">
                   {{ x.descripcion_capacitacion|safe }}
                 </p>
                 {% endif %}
@@ -79,13 +79,13 @@
                 {% endif %}
               </div>
               <div class="card-body">
-                <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light">/mes</small></h2>
+                <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light" style="font-style: italic;">/mes</small></h2>
                 {% if x.descripcion_capacitacion|length > 100 %}
-                <p>
+                <p class="descripcion_capacitacion">
                   {{ x.descripcion_capacitacion|slice:":90" }} ...
                 </p>
                 {% else %}
-                <p>
+                <p class="descripcion_capacitacion">
                   {{ x.descripcion_capacitacion|safe }}
                 </p>
                 {% endif %}
@@ -187,12 +187,12 @@
     </div>
   </div>
   <br><br><br>
-  <section class="bg-light p-5">
+  <section class="bg-light p-3 pt-5 pb-5">
     <div class="container">
       <div class="text-center">
         <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="100" height="90" style="border-radius: 50%; text-align: center;">
-        <h2 class="display-6 fw-normal">Gestiona tu información de forma rápida y segura</h2>
-        <p class="col-md-10 col-lg-8 mx-auto lead">
+        <h2 class="display-6 fw-normal mb-3">Gestiona tu información de forma rápida y segura</h2>
+        <p class="col-md-10 col-lg-8 mx-auto lead info_gestion">
           Need something more than these examples? Take Bootstrap to the next level with premium themes from the <a href="https://themes.getbootstrap.com/">official Bootstrap Themes marketplace</a>. They’re built as their own extended frameworks, rich with new components and plugins, documentation, and powerful build tools.
         </p>
         <a href="https://themes.getbootstrap.com/" class="btn btn-lg btn-outline-primary mb-3" style="border-radius: 50px; cursor: default; pointer-events: none;">Gestiona ahora tu negocio</a>
@@ -243,34 +243,6 @@
           </div>
           <div>
             <h4 class="fw-bold mb-0">Análisis por parte de expertos</h4>
-            <p>Paragraph of text beneath the heading to explain the heading.</p>
-          </div>
-        </div>
-        <div class="col d-flex align-items-start">
-          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#speedometer2"></use></svg>
-          <div>
-            <h4 class="fw-bold mb-0">Featured title</h4>
-            <p>Paragraph of text beneath the heading to explain the heading.</p>
-          </div>
-        </div>
-        <div class="col d-flex align-items-start">
-          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#toggles2"></use></svg>
-          <div>
-            <h4 class="fw-bold mb-0">Featured title</h4>
-            <p>Paragraph of text beneath the heading to explain the heading.</p>
-          </div>
-        </div>
-        <div class="col d-flex align-items-start">
-          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"></use></svg>
-          <div>
-            <h4 class="fw-bold mb-0">Featured title</h4>
-            <p>Paragraph of text beneath the heading to explain the heading.</p>
-          </div>
-        </div>
-        <div class="col d-flex align-items-start">
-          <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#tools"></use></svg>
-          <div>
-            <h4 class="fw-bold mb-0">Featured title</h4>
             <p>Paragraph of text beneath the heading to explain the heading.</p>
           </div>
         </div>

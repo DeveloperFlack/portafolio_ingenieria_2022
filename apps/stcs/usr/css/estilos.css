@@ -1,15 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
 button{border-radius: 50px !important;}
-#barra__lateral{
-    width: 380px; 
-    overflow-y: auto; 
-    height: 100vh;
-    transition: .6s ease-in-out; 
-    overflow-x: hidden;
-}
-
-@media (max-width: 500px){
-    #total_capacitacion{font-size: 55px !important;}
-    #barra__lateral{width: 100% !important;}
+.contaiinert{
+    width: 75%; height: 100vh;
+    padding: 15px 5px; font-size: 16px; color: black; border-radius: 0px;
+    background-color: white;
 }
