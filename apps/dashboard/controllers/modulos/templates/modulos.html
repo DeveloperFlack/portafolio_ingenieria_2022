@@ -4,9 +4,9 @@
 <div class="modal fade" id="modalModulos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalModulosLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px; padding: 25px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalModulosLabel">Modal title</h5>
+                <h4 class="modal-title" id="modalModulosLabel">Actualizar Módulo</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -15,27 +15,32 @@
                     <input type="hidden" name="idModulo" id="idModulo">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="nombreModulo" class="form-label">Nombre Módulo</label>
-                            <input class="form-control" type="text" name="txtNombreModulo" id="txtNombreModulo"
-                                required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreModulo" name="txtNombreModulo" placeholder="name@example.com" required>
+                                <label for="floatingInput">Nombre Modulo</label>
+                            </div>
                             <div class="invalid-feedback">
                                 Nombre Módulo Requerido
                             </div>
                         </div>
                         <div class="col-12">
-                            <label for="descripcionModulo" class="form-label">Descripción Módulo</label>
-                            <textarea class="form-control" name="txtDescripcionModulo" id="txtDescripcionModulo"
-                                cols="30" rows="10"></textarea>
+                            <div class="form-floating mt-2">
+                                <textarea type="text" class="form-control" id="txtDescripcionModulo" name="txtDescripcionModulo" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <label for="floatingInput">Descripción Modulo</label>
+                            </div>
                         </div>
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100" onclick='fntConfirmEdit()'>Enviar</button>
+                                <button type="submit" class="btn w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick='fntConfirmEdit()'>Actualizar
+                                </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;"
+                                    data-bs-dismiss="modal">Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -59,19 +64,20 @@
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
                 </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
-                <table class="table table-bordered table-striped v_table_modules my-3" style="width: 100%;" id="v_table_modules">
-                    <thead class="table-dark">
+                <table class="table table-bordered table-hover table-striped v_table_modules my-3" style="width: 100%;" id="v_table_modules">
+                    <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
                             <th>Descripción</th>
@@ -79,14 +85,6 @@
                             <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot class="table-dark">
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Estado</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -107,6 +105,9 @@
     let tableModulos;
     $(document).ready(function () {
         tableModulos = $('#v_table_modules').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
             pagingType: "full_numbers",
             "ajax": {
                 "url": v_url,
@@ -164,12 +165,21 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
-            Swal.fire({
+            const Toast = Swal.mixin({
+                toast: true,
                 position: 'center',
-                icon: 'success',
-                title: 'Modulo Activado!',
                 showConfirmButton: false,
-                timer: 1700
+                timer: 1900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Modulo Activado!'
             })
         }
     }
@@ -183,12 +193,21 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
-            Swal.fire({
+            const Toast = Swal.mixin({
+                toast: true,
                 position: 'center',
-                icon: 'success',
-                title: 'Modulo Desactivado!',
                 showConfirmButton: false,
-                timer: 1700
+                timer: 1900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Modulo Desactivado!'
             })
         }
     }
@@ -228,12 +247,21 @@
     }
 
     function fntConfirmEdit(){
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Proceso realizado exitosamente!',
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
             showConfirmButton: false,
-            timer: 1700
+            timer: 1900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Proceso finalizado exitosamente!'
         })
     }
 

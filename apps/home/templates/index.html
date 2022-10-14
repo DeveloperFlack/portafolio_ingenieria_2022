@@ -1,6 +1,6 @@
 {% extends 'base-home.html'%}
 {% block content %}
-  <div class="banner bg-light" style="box-shadow: 0 3px 3px -2px rgb(225, 225, 225); padding: 60px 0px;">
+  <div class="banner" style="box-shadow: 0 3px 3px -2px rgb(225, 225, 225); padding: 60px 0px; background-color: rgb(19, 134, 250); color: white;">
     <div class="container col-xxl-8 px-4 py-5">
       <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
         <div class="col-10 col-sm-8 col-lg-6">
@@ -11,8 +11,8 @@
           <p class="lead">Consulta la variedad de servicios que RPS tiene para ofrecer. Contamos con un grupo multidisiplinario de profesionales capaces de llevar a cabo tareas a un alto nivel, para asegurar el bien estar de tus trabajadores y negocio.</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
             {% if session_status.session == False %}
-              <button type="button" class="btn btn-primary btn-md px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-              <button type="button" class="btn btn-outline-secondary btn-md px-4" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+              <button type="button" class="btn btn-dark btn-md px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
+              <button type="button" class="btn btn-outline-light btn-md px-4" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
             {% endif %}
           </div>
         </div>
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="container pb-0" style="padding-top: 100px;">
+  <div class="container pb-0" style="padding-top: 70px;">
     <div class="row">
       <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
         <h1 class="display-4 fw-normal">Nuestros Servicios</h1>
@@ -30,119 +30,83 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-8">
+      <div class="col-lg-8 col-12 ">
         <div class="row text-center">
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Visita de control</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">$39.990<small class="text-muted fw-light">/vist.</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>Ver animes en emisión</li>
-                  <li>2 GB of storage</li>
-                  <li>Email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg btn-outline-secondary">Contratar</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Capacitaciones</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">$69.990<small class="text-muted fw-light">/cap.</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>20 users included</li>
-                  <li>10 GB of storage</li>
-                  <li>Priority email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg btn-outline-secondary">Contratar</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Asesoría Estándard</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">$59.990<small class="text-muted fw-light">/mes</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>20 users included</li>
-                  <li>10 GB of storage</li>
-                  <li>Priority email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg btn-outline-secondary">Contratar</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm border-primary">
+          {% for x in capacitaciones_index %}
+          {% if x.total_capacitacion <= 70000 %}
+          <div class="col-lg-4 col-12">
+            <div class="card mb-4 rounded-3 shadow-sm border-primary" style="height: 340px;">
               <div class="card-header py-3 text-white bg-primary border-primary">
-                <h4 class="my-0 fw-normal">Asesoría Especial</h4>
+                {% if x.nombre_capacitacion|length >= 25 %}
+                <h6 class="my-0 fw-normal">{{ x.nombre_capacitacion|slice:":20" }}...</h6>
+                {% else %}
+                <h6 class="my-0 fw-normal">{{ x.nombre_capacitacion|safe}}</h6>
+                {% endif %}
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">$99.990<small class="text-muted fw-light">/mes</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>Descargas sin anuncios</li>
-                  <li>Descargas de anime completo</li>
-                  <li>Crear mi lista de animes</li>
-                  <li>Personalización completa de perfil</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg btn-primary">Contratar</button>
+                <h2 class="card-title pricing-card-title">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light">/mes</small></h2>
+                {% if x.descripcion_capacitacion|length > 100 %}
+                <p>
+                  {{ x.descripcion_capacitacion|slice:":80" }} ...
+                </p>
+                {% else %}
+                <p>
+                  {{ x.descripcion_capacitacion|safe }}
+                </p>
+                {% endif %}
+              </div>
+              <div class="card-footer">
+                {% if session_status.cliente == True %}
+                <a href="{% url "profileCliente" %}" type="button" class="btn w-100 btn btn-lg btn-primary" style="border-radius: 50px; font-size: 15px !important; text-transform: uppercase;">Contratar</a>
+                {% else %}
+                <a href="/" type="button" class="btn w-100 btn btn-lg btn-primary disabled" style="border-radius: 50px; font-size: 15px !important; text-transform: uppercase;">Debes iniciar sesión</a>
+                {% endif %}
               </div>
             </div>
           </div>
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm" style="border-color: blueviolet;">
+          {% endif %}
+          {% endfor %}
+
+          {% for x in capacitaciones_index %}
+          {% if x.total_capacitacion < 70000 %}
+          <div class="col-lg-4 col-12 ">
+            <div class="card mb-4 rounded-3 shadow-sm" style="height: 320px; border-color: blueviolet;">
               <div class="card-header py-3 text-white" style="border-color: blueviolet; background-color: blueviolet;">
-                <h4 class="my-0 fw-normal">Servicio Trimestral</h4>
+                {% if x.nombre_capacitacion|length >= 25 %}
+                <h6 class="my-0 fw-normal">{{ x.nombre_capacitacion|slice:":20" }}...</h6>
+                {% else %}
+                <h6 class="my-0 fw-normal">{{ x.nombre_capacitacion|safe}}</h6>
+                {% endif %}
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">$259.990<small class="text-muted fw-light">/tri</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>Descargas sin anuncios</li>
-                  <li>Descargas de anime completo</li>
-                  <li>Crear mi lista de animes</li>
-                  <li>Personalización completa de perfil</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg" style="background-color: blueviolet; color: white;">Contratar</button>
+                <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light">/mes</small></h2>
+                {% if x.descripcion_capacitacion|length > 100 %}
+                <p>
+                  {{ x.descripcion_capacitacion|slice:":90" }} ...
+                </p>
+                {% else %}
+                <p>
+                  {{ x.descripcion_capacitacion|safe }}
+                </p>
+                {% endif %}
+              </div>
+              <div class="card-footer">
+                {% if session_status.cliente == True %}
+                <a href="{% url "profileCliente" %}" type="button" class="btn w-100 btn btn-lg" style="background-color: blueviolet; color: white; border-radius: 50px; font-size: 15px !important; text-transform: uppercase;">Contratar</a>
+                {% else %}
+                <a href="/" type="button" class="btn w-100 btn btn-lg disabled" style="background-color: blueviolet; color: white; border-radius: 50px; font-size: 15px !important; text-transform: uppercase;">Debes iniciar sesión</a>
+                {% endif %}
               </div>
             </div>
           </div>
-          <div class="col-4">
-            <div class="card mb-4 rounded-3 shadow-sm" style="border-color: blueviolet;">
-              <div class="card-header py-3 text-white" style="border-color: blueviolet; background-color: blueviolet;">
-                <h4 class="my-0 fw-normal">Servicio Completo</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">$899.990<small class="text-muted fw-light">/año</small></h1>
-                <p class="text-decoration-line-through" style="margin-top: -10px;">$949.990</p>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>Descargas sin anuncios</li>
-                  <li>Descargas de anime completo</li>
-                  <li>Crear mi lista de animes</li>
-                  <li>Control 24/7</li>
-                </ul>
-                <button type="button" class="w-100 btn btn-lg" style="background-color: blueviolet; color: white;">Contratar</button>
-              </div>
-            </div>
-          </div>
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
       
       
-      <div class="col-4">
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" id="barra__lateral" style="width: 380px; overflow-y: auto; height: 100vh;
-            transition: .6s ease-in-out; overflow-x: hidden;">
-
+      <div class="col-lg-4 col-12">
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" id="barra__lateral">
           <div class="position-sticky">
             <div class="list-group list-group-checkable mb-1">
               <label class="list-group-item py-3" for="listGroupCheckableRadios1" style="background-color: rgb(30, 109, 255) !important; color: white !important; font-size: 18px;">
@@ -204,25 +168,41 @@
               </a>
             </div>
           </div>
-
           
+          <form action="">
+            {% csrf_token %}
+            <div class="d-flex flex-row" style="padding: 5px;">
+              <div class="form-floating mt-2">
+                <input type="text" class="form-control mb-1" id="txtComentarioCliente" name="txtComentarioCliente" placeholder="name@example.com" required style="width: 310px;" required>
+                <label for="floatingInput">Escribe tu comentario...</label>
+              </div>
+              <button type="submit" class="btn btn-sm" style="width: fit-content; background: linear-gradient(to right, deepskyblue, blueviolet); color: white; border-radius: 3px !important;
+                height: auto !important; padding: 0px 15px !important; border: none; margin-left: 10px;"><i class='bx bxs-send'></i>
+              </button>
+            </div>
+          </form>
+
         </div>
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="text-center">
-      <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
-      <h2 class="display-6 fw-normal">Gestiona tu información de forma rápida y segura</h2>
-      <p class="col-md-10 col-lg-8 mx-auto lead">
-        Need something more than these examples? Take Bootstrap to the next level with premium themes from the <a href="https://themes.getbootstrap.com/">official Bootstrap Themes marketplace</a>. They’re built as their own extended frameworks, rich with new components and plugins, documentation, and powerful build tools.
-      </p>
-      <a href="https://themes.getbootstrap.com/" class="btn btn-lg btn-outline-primary mb-3" style="border-radius: 50px; cursor: default; pointer-events: none;">Gestiona ahora tu negocio</a>
+  <br><br><br>
+  <section class="bg-light p-5">
+    <div class="container">
+      <div class="text-center">
+        <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="100" height="90" style="border-radius: 50%; text-align: center;">
+        <h2 class="display-6 fw-normal">Gestiona tu información de forma rápida y segura</h2>
+        <p class="col-md-10 col-lg-8 mx-auto lead">
+          Need something more than these examples? Take Bootstrap to the next level with premium themes from the <a href="https://themes.getbootstrap.com/">official Bootstrap Themes marketplace</a>. They’re built as their own extended frameworks, rich with new components and plugins, documentation, and powerful build tools.
+        </p>
+        <a href="https://themes.getbootstrap.com/" class="btn btn-lg btn-outline-primary mb-3" style="border-radius: 50px; cursor: default; pointer-events: none;">Gestiona ahora tu negocio</a>
+      </div>
+      <img class="d-block img-fluid mt-3 mx-auto" srcset="https://getbootstrap.com/docs/5.1/assets/img/bootstrap-themes-collage.png 2x" 
+        src="https://getbootstrap.com/docs/5.1/assets/img/bootstrap-themes-collage.png" 
+        alt="Bootstrap Themes" loading="lazy" width="1150" height="320">
     </div>
-    <img class="d-block img-fluid mt-3 mx-auto" srcset="https://getbootstrap.com/docs/5.1/assets/img/bootstrap-themes-collage.png 2x" 
-      src="https://getbootstrap.com/docs/5.1/assets/img/bootstrap-themes-collage.png" 
-      alt="Bootstrap Themes" loading="lazy" width="1150" height="320">
-  </div>
+  </section>
+
 
     
   <div class="container">

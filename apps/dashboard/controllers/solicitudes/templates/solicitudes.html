@@ -3,9 +3,9 @@
 <div class="modal fade" id="modalEditSolicitud" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalSolicitudessLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 13px; padding: 15px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalSolicitudesLabel">Actualizar Solicitud</h5>
+                <h5 class="modal-title" id="modalSolicitudesLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -28,12 +28,16 @@
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntConfirmEditInsert()">
+                                    Guardar Cambios
+                                </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
-                                    Close
+                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;" 
+                                    data-bs-dismiss="modal">
+                                    Cancelar
                                 </button>
                             </div>
                         </div>
@@ -58,17 +62,17 @@
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
                 <table class="table table-bordered table-striped v_table_solicitudes my-3" style="width: 100%;" id="v_table_solicitudes">
-                    <thead class="table-dark">
+                    <thead class="table-light">
                         <tr>
-                            <th style="width: 40px;">Id</th>
-                            <th>Rut Cliente</th>
+                            <th style="width: 40px;">#</th>
+                            <th>Cliente</th>
                             <th style="width: 200px;">Nombre Solicitud</th>
                             <th style="width: 380px;">Descripción</th>
                             <th>Fecha</th>
@@ -76,23 +80,9 @@
                             <th>Término</th>
                             <th>Tipo</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot class="table-dark">
-                        <tr>
-                            <th style="width: 40px;">Id</th>
-                            <th>Rut Cliente</th>
-                            <th style="width: 200px;">Nombre Solicitud</th>
-                            <th style="width: 380px;">Descripción</th>
-                            <th>Fecha</th>
-                            <th>Inicio</th>
-                            <th>Término</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -113,29 +103,8 @@
     $(document).ready(function () {
         tableSolicitudes = $('#v_table_solicitudes').DataTable({
             "language": {
-            "sProcessing":    "Procesando...",
-            "sLengthMenu":    "Mostrar _MENU_ registros",
-            "sZeroRecords":   "No se encontraron resultados",
-            "sEmptyTable":    "Ningún dato disponible en esta tabla",
-            "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":   "",
-            "sSearch":        "Buscar:",
-            "sUrl":           "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":    "Último",
-                "sNext":    "Siguiente",
-                "sPrevious": "Anterior"
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-        },
             pagingType: "full_numbers",
             "ajax": {
                 "url": v_url,
@@ -179,6 +148,7 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
+            document.getElementById('modalSolicitudesLabel').innerHTML = '<h5>Actualizar Solicitud: #'+ objData[0].id_solicitud +'</h5>';
             $('#idSolicitud').val(objData[0].id_solicitud);
             // console.log(objData[0].id_solicitud)
             $('#txtFecha').val(objData[0].fecha);

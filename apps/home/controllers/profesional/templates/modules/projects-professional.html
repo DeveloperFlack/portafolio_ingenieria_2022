@@ -1,0 +1,293 @@
+{% extends 'base-home.html'%}
+{% block content %}
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 13px; padding: 15px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Editar Proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+            <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
+            <div class="col-12 form-group">
+              <div class="form-floating mt-2">
+                <input type="text" class="form-control" id="txtEditNombreCapacitacionProfesional" name="txtEditNombreCapacitacionProfesional" placeholder="name@example.com" required>
+                <label for="floatingInput">Nombre Proyecto</label>
+              </div>
+            </div>
+            <div class="col-12 form-group">
+              <div class="form-floating mt-2">
+                <textarea type="text" class="form-control" id="txtEditDescripcionCapacitacionProfessional" name="txtEditDescripcionCapacitacionProfessional" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                <label for="floatingInput">Descripción</label>
+              </div>
+            </div>
+            <div class="col-6 form-group">
+              <div class="form-floating mt-2">
+                <input type="number" class="form-control" id="intEditTotalCapacitacion" name="intEditTotalCapacitacion" placeholder="name@example.com" min="1" required>
+                <label for="floatingInput">Total</label>
+              </div>
+            </div>
+            <div class="col-6 form-group">
+              <div class="form-floating mt-2">
+                <select class="form-select" name="listEditStatusCapacitacion" id="listEditStatusCapacitacion" required>
+                  <option value="0">Desactivada</option>
+                  <option value="1">Activada</option>
+                </select>
+                <label class="form-label" for="nombreCapacitacion">Estado</label>
+              </div>
+            </div>
+            <br>
+            <div class="col-12">
+              <p class="text-muted" style="text-align: center">
+                <span class="text-danger">*</span> 
+                  Ten en cuenta enviar <span class="fw-bold">"DESACTIVADO"</span> el proyecto antes de <span class="fw-bold">"GUARDAR CAMBIOS"</span>, o este aparecerá en el portal para su monetización.
+                <span class="text-danger">*</span> 
+                </p>
+            </div>
+            <br>
+            <div class="col-12">
+              <div class="">
+                  <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEdit()" 
+                      style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                      border: none; color: white; border-radius: 50px; padding: 20px 10px;">
+                      Guardar Cambios
+                  </button>
+              </div>
+              <div class="my-2"></div>
+              <div>
+                  <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;"
+                      data-bs-dismiss="modal">
+                      Cancelar
+                  </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="content__profile mt-5" style="overflow-x: hidden; background-color:  #dee5ec;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 col-12" style="margin: 0; padding: 0;">
+        <div class="contaiinert">
+          <div class="d-flex flex-column flex-shrink-0 bg-white flex__contaiinert" style="width: 99%; height: 100vh;
+            padding: 15px 5px; font-size: 16px; color: gray; border-radius: 0px;">
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li>
+                <a href="{% url 'profileProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Todos los Tickets" style="margin: 0px 0 -10px 0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
+                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
+                    <path d="M5 22h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2h-2a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2zM5 5h2v2h10V5h2v15H5V5z"></path>
+                    <path d="m11 13.586-1.793-1.793-1.414 1.414L11 16.414l5.207-5.207-1.414-1.414z"></path>
+                  </svg>
+                  Portal
+                </a>
+                <hr>
+              </li>
+              <li>
+                <a href="{% url 'ticketsProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Mis Tickets" style="margin: -10px 0 -10px 0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
+                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
+                    <path d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm-7.933 13.481-3.774-3.774 1.414-1.414 2.226 2.226 4.299-5.159 1.537 1.28-5.702 6.841z"></path>
+                  </svg>    
+                  Mis Tickets              
+                </a>
+                <hr>
+              </li>
+              <li>
+                <a href="{% url 'projectsProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Mis Proyectos" style="margin: -10px 0 -10px 0; 
+                  background: linear-gradient(to right, deepskyblue, blueviolet); color: white;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
+                    style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
+                    <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"></path>
+                  </svg>
+                  Mis Proyectos
+                </a>
+                <hr>
+              </li>
+              <li>
+                <a href="#" class="nav-link link-dark hint--right w-100" aria-label="Mis Reportes" style="margin: -10px 0 -10px 0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
+                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
+                    <path d="m20 8-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM9 19H7v-9h2v9zm4 0h-2v-6h2v6zm4 0h-2v-3h2v3zM14 9h-1V4l5 5h-4z"></path>
+                  </svg>
+                  Mis Reportes
+                </a>
+                <hr>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-10 col-12" style="margin: 0; padding: 0;">
+        <div class="container-fluid bg-white" style="border-radius: 0px; box-shadow: 10px 0 4px -2px #d8e1e9; padding: 20px 50px 10px 50px; margin: 0;">
+          <main>
+            <div class="row">
+              <div class="col-5">
+                <div class="py-5 text-center">
+                  <img class="d-block mx-auto mb-4" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="72" height="57">
+                  <h2>Mis Proyectos</h2>
+                  <p class="lead">Lista de Capacitaciones o Asesorías</p>
+                  {% comment %} <p class="lead" style="margin-top: -15px; font-size: 17px;"><span style="color: red;">*</span> Es obligatorio completar todos los campos <span style="color: red;">*</span></p> {% endcomment %}
+                </div>
+                <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data" style="padding: 5px 25px;">
+                  {% csrf_token %}
+                  <div class="row g-3">
+                    <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
+                    <div class="col-12 form-group">
+                      <div class="form-floating mt-2">
+                        <input type="text" class="form-control" id="txtNombreCapacitacionProfesional" name="txtNombreCapacitacionProfesional" placeholder="name@example.com" required>
+                        <label for="floatingInput">Nombre Proyecto</label>
+                      </div>
+                    </div>
+                    <div class="col-12 form-group">
+                      <div class="form-floating mt-2">
+                        <textarea type="text" class="form-control" id="txtDescripcionCapacitacionProfessional" name="txtDescripcionCapacitacionProfessional" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                        <label for="floatingInput">Descripción</label>
+                      </div>
+                    </div>
+                    <div class="col-6 form-group">
+                      <div class="form-floating mt-2">
+                        <input type="number" class="form-control" id="intTotalCapacitacion" name="intTotalCapacitacion" placeholder="name@example.com" min="1" required>
+                        <label for="floatingInput">Total</label>
+                      </div>
+                    </div>
+                    <div class="col-6 form-group">
+                      <div class="form-floating mt-2">
+                        <select class="form-select" name="listStatusCapacitacion" id="listStatusCapacitacion" required>
+                          <option value="0">Desactivada</option>
+                          <option value="1">Activada</option>
+                        </select>
+                        <label class="form-label" for="nombreCapacitacion">Estado</label>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="col-12">
+                      <p class="text-muted" style="text-align: center">
+                        <span class="text-danger">*</span> 
+                          Ten en cuenta enviar <span class="fw-bold">"DESACTIVADO"</span> el proyecto antes de <span class="fw-bold">"GUARDAR CAMBIOS"</span>, o este aparecerá en el portal para su monetización.
+                        <span class="text-danger">*</span> 
+                        </p>
+                    </div>
+                    <br>
+                    <div class="col-12">
+                      <div class="">
+                        <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmInsert()" 
+                          style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                          border: none; color: white; border-radius: 50px; padding: 20px 10px;">
+                          Guardar Cambios
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-7">
+                <div class="row g-5">
+                  <span class="fs-3" style="color: gray;">Lista completa proyectos</span>
+                  <div class="col-md-12 col-lg-12">
+                    <div class="table-responsive">
+                      <table class="table table-borderles table-bordered table-striped table-hover align-middle">
+                        <thead class="table-light">
+                          <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Valor</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for i in capacitaciones %}
+                          <tr>
+                            <td>{{ i.id_capacitacion}}</td>
+                            <td>{{ i.nombre_capacitacion | safe}}</td>
+                            <td>{{ i.total_capacitacion | safe}}</td>
+                            {% if i.status_capacitacion == 1%}
+                            <td><div class='text-center'><button class='btn btn-sm btn-danger' 
+                              style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white; border-radius: 3px !important;'>Aprobada</button></div>
+                            </td>
+                            {% elif i.status_capacitacion == 0 %}
+                            <td><div class='text-center'><button class='btn btn-sm btn-danger' 
+                              style='background: linear-gradient(to right, orange, deeppink); border: none; color: white; border-radius: 3px !important;'>En Revisión</button></div>
+                            </td>
+                            {% endif %}
+                            <td>{{ i.options | safe}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </main>
+        
+          <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">© 1992-2022 RPS Companny.</p>
+            <ul class="list-inline">
+              <li class="list-inline-item"><a href="#">Privacidad</a></li>
+              <li class="list-inline-item"><a href="#">términos y Condiciones</a></li>
+              <li class="list-inline-item"><a href="#">Soporte</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+     function fntConfirmInsert(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Proyecto ingresado exitosamente!'
+        })
+    }
+
+   function fntConfirmEdit(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Proyecto actualizado exitosamente!'
+        })
+    }
+</script>
+{% endblock %}

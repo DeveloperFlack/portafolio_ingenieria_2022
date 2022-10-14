@@ -4,94 +4,84 @@
 <div class="content__profile mt-5 bg-light" style="overflow-x: hidden;">
   <div class="container">
       <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
-          <div class="col-lg-8 p-3 p-lg-5 pt-lg-3">
-            <h1 class="display-4 fw-bold lh-1">Tu perfil personal y 100% personalizado</h1>
-            <p class="lead">Consulta los avances y estados de tus solicitudes. Coordina y contacta a los profesionales de nuestra aseguradora en todo momento y lugar.</p>
-          </div>
-          <div class="col-lg-3 offset-lg-1 p-0 overflow-hidden shadow-lg">
-              <img class="rounded-lg-4" src="https://img.freepik.com/vector-premium/personaje-dibujos-animados-grafico-vector-ilustracion-consulta-financiera_516790-1116.jpg" alt="" width="330">
-          </div>
+        <div class="col-lg-8 p-3 p-lg-5 pt-lg-3">
+          <h1 class="display-4 fw-bold lh-1">Tu perfil personal y 100% personalizado</h1>
+          <p class="lead">Consulta los avances y estados de tus solicitudes. Coordina y contacta a los profesionales de nuestra aseguradora en todo momento y lugar.</p>
         </div>
-        <br>
-        <div class="content bg-light shadow-lg">
-          <main class="c">
-            <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
-              <button class="btn btn-primary hint--left hint--info" aria-label="Enviar una Solicitud" data-bs-toggle="modal" data-bs-target="#solicitudesModal" 
+        <div class="col-lg-3 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-4" src="https://img.freepik.com/vector-premium/personaje-dibujos-animados-grafico-vector-ilustracion-consulta-financiera_516790-1116.jpg" alt="" width="330">
+        </div>
+      </div>
+      <br>
+      <div class="content bg-light shadow-lg">
+        <main class="c">
+          <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
+            <button class="btn btn-primary hint--left hint--info" aria-label="Enviar una Solicitud" data-bs-toggle="modal" data-bs-target="#solicitudesModal" 
                 style="float: right !important; border-radius: 3px !important; color: white; margin-right: 10px;">
-                <i class='bx bx-plus' ></i>
-              </button>
-              <img class="me-2" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="48" height="38">
-              <div class="lh-1">
-                <h1 class="h5 mb-0 text-white lh-1">RSP Companny</h1>
-                <small>Listado y Estado de solicitudes</small>
+              <i class='bx bx-plus' ></i>
+            </button>
+            <img class="me-2" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="48" height="38">
+            <div class="lh-1">
+              <h1 class="h5 mb-0 text-white lh-1">RSP Companny</h1>
+              <small>Listado y Estado de solicitudes</small>
+            </div>
+          </div>
+          
+          <div class="px-2">
+            <table class="table table-responsive table-bordered v_tabla_solicitudes my-3" style="width: 100%;" id="v_tabla_solicitudes">
+              <thead class="table-dark">
+                <tr>
+                  <th style="width: 200px">Asunto</th>
+                  <th style="width: 450px;">Descripción</th>
+                  <th>Fecha</th>
+                  <th>Hora Inicio</th>
+                  <th>Hora Término</th>
+                </tr>
+              </thead>
+              <tbody style="background-color: white;">
+                {{ table | safe }}
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h6 class="border-bottom pb-2 mb-0">Estado de Solicitudes</h6>
+            <div class="d-flex text-muted pt-3">
+              <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
+        
+              <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                  <strong class="text-gray-dark">Visita terreno accidente laboral</strong>
+                  <a href="" class="hint--right hint--error" aria-label="Haga click para regularizar pago" style="text-decoration: none; color: gray;">
+                    En espera de pago 
+                    <i class='bx bxs-x-circle' style="font-size: 20px; color: red; "></i>
+                  </a>
+                </div>
+                <span class="d-block">username</span>
               </div>
             </div>
-            
-            <div class="px-2">
-              <table class="table table-bordered v_tabla_solicitudes my-3" style="width: 100%;" id="v_tabla_solicitudes">
-                  <thead class="table-dark">
-                      <tr>
-                          <th style="width: 200px">Asunto</th>
-                          <th style="width: 450px;">Descripción</th>
-                          <th>Fecha</th>
-                          <th>Hora Inicio</th>
-                          <th>Hora Término</th>
-                      </tr>
-                  </thead>
-                  <tbody style="background-color: white;">
-                    {{ table | safe }}
-                  </tbody>
-                  <tfoot class="table-dark">
-                      <tr>
-                          <th style="width: 200px">Asunto</th>
-                          <th style="width: 450px;">Descripción</th>
-                          <th>Fecha</th>
-                          <th>Hora Inicio</th>
-                          <th>Hora Término</th>
-                      </tr>
-                  </tfoot>
-              </table>
-            </div>
-            
-              <div class="my-3 p-3 bg-body rounded shadow-sm">
-                <h6 class="border-bottom pb-2 mb-0">Estado de Solicitudes</h6>
-                <div class="d-flex text-muted pt-3">
-                  <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
-            
-                  <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-gray-dark">Visita terreno accidente laboral</strong>
-                      <a href="" class="hint--right hint--error" aria-label="Haga click para regularizar pago" style="text-decoration: none; color: gray;">
-                          En espera de pago 
-                          <i class='bx bxs-x-circle' style="font-size: 20px; color: red; "></i>
-                      </a>
-                    </div>
-                    <span class="d-block">username</span>
-                  </div>
+            <div class="d-flex text-muted pt-3">
+              <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
+              <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                  <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
+                  <a class="hint--right hint--success" aria-label="Solicitud aprobada" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
+                    Solicitud aprobada
+                    <i class='bx bxs-check-circle' style="font-size: 20px; color: rgb(1, 150, 1); "></i>
+                  </a>
                 </div>
-                <div class="d-flex text-muted pt-3">
-                  <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
-            
-                  <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                    <div class="d-flex justify-content-between">
-                      <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
-                      <a class="hint--right hint--success" aria-label="Solicitud aprobada" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
-                          Solicitud aprobada
-                          <i class='bx bxs-check-circle' style="font-size: 20px; color: rgb(1, 150, 1); "></i>
-                      </a>
-                    </div>
-                    <span class="d-block">username</span>
-                  </div>
-                </div>
+                <span class="d-block">username</span>
               </div>
-            </main>
-        </div>
+            </div>
+          </div>
+        </main>
+      </div>
   </div>
 </div>
 
 <div class="modal fade" tabindex="-1" id="solicitudesModal">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-5 shadow" style="border-radius: 10px;">
+    <div class="modal-content rounded-5 shadow" style="border-radius: 15px; padding-bottom: 25px;">
       <div class="modal-header p-5 pb-2 border-bottom-0">
         <!-- <h5 class="modal-title">Modal title</h5> -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -102,7 +92,6 @@
           <div class="container text-center">
             <form method="POST" action="{% url "solicitudInsert" %}" id="formSolicitudes">
               {% csrf_token %}
-
               <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
               <h1 class="h3 mb-3 fw-normal">Enviar una solicitud</h1>
           
@@ -114,11 +103,10 @@
               </select>
 
               <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectNombreSolicitud" name="selectNombreSolicitud" required>
-                <option selected>Seleccione tipo de solicitud</option>
-                <option value="1">Curso de Seguridad</option>
-                <option value="2">Capacitación</option>
-                <option value="3">Asesoría Especial</option>
-                <option value="4">Asesoría Estándard</option>
+                <option selected>Seleccione Capacitación</option>
+                {% for x in capacitaciones %}
+                <option value="{{ x.id_capacitacion | safe }}">{{ x.nombre_capacitacion }}</option>
+                {% endfor %}
               </select>
 
               <div class="form-floating mt-2">
@@ -127,12 +115,12 @@
               </div>
 
               <div class="mt-2">
-                <div class="input-group">
-                  <span class="input-group-text" style="font-size: 16px;">Descripción</span>
-                  <textarea class="form-control" aria-label="With textarea" style="height: 60px;" id="txtDescripcionSolicitud" name="txtDescripcionSolicitud"></textarea>
+                <div class="form-floating mt-2">
+                    <textarea type="text" class="form-control" id="txtDescripcionSolicitud" name="txtDescripcionSolicitud" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                    <label for="floatingInput">Descripción</label>
                 </div>
               </div>
-              <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" onclick="fntConfirmEditInsert()">Enviar solicitud</button>
+              <button class="w-100 btn btn-lg btn-primary mt-4" style="background: linear-gradient(to right, deepskyblue, blueviolet); border: none;" type="submit" onclick="fntConfirmEditInsert()">Enviar solicitud</button>
             </form>
           </div>
         </div>
@@ -179,23 +167,49 @@
     });
   });
 
-  function fntConfirmEditInsert(){
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top',
-      showConfirmButton: false,
-      timer: 2500,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
+  function fntConfirmEditInsert() {
+    var form = document.getElementById('formSolicitudes');
+    var inputs = form.getElementsByTagName('input');
+    for (var i = 0; i < inputs.length; i++) {
+        if(inputs[i].hasAttribute("required")){
+            if(inputs[i].value == ""){
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
 
-    Toast.fire({
-      icon: 'success',
-      title: 'Solicitud enviada exitosamente!'
-    })
+              Toast.fire({
+                icon: 'error',
+                title: 'Todos los campos son obligatorios!'
+              })
+            } else {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+
+              Toast.fire({
+                icon: 'success',
+                title: 'Solicitud enviada exitosamente!'
+              })
+            }
+        }
+    }
+    return true;
   }
 </script>
 {% endblock %}

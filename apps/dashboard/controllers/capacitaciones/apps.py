@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class CapacitacionesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'capacitaciones'
+    name = 'apps.dashboard.controllers.capacitaciones'

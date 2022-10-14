@@ -23,56 +23,55 @@
   <script src="{% static 'usr/vendor/jquery/js/jquery.js' %}"></script>
 </head>
 
-<body>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+</style>
+
+<body style="font-family: 'Poppins', sans-serif">
   <header class="p-3 mb-3 border-bottom bg-white fixed-top">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="{% url 'index' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+    <nav class="container navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a href="/" class="me-2 mb-md-0 text-muted text-decoration-none lh-1">
           <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
             width="45" height="40">
+            RSP Commpany
         </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 link-dark">Inicio</a></li>
-          <li><a href="#" class="nav-link px-2 link-secondary">Servicios</a></li>
-          <li><a href="#" class="nav-link px-2 link-secondary">Customers</a></li>
-          <li><a href="#" class="nav-link px-2 link-secondary">Products</a></li>
-        </ul>
-        <div class="dropdown text-end">
-          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle hint--left"
-            aria-label="{% if session_cliente == True %} {{request.session.cliente.n1_cliente}} {{request.session.cliente.ap_cliente}} ({{request.session.cliente.nombre_empresa}}) 
-              {%else%} Menú de usuario {% endif %}" 
-              id="dropdownUser1" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" class="rounded-circle" width="32" height="32">
-          </a>
-          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1"
-            style="font-size: 13px; width: fit-content !important;">
-            <!-- {} -->
-            
-            {% if session_status.profesional == True %}
-            
-              <li><a class="dropdown-item" href="{% url "profileProfesional" %}">Mi Perfil Profesional</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
-              
-            {% elif session_status.cliente == True %}
-
-              <li><a class="dropdown-item" href="{% url "profileCliente" %}">Mi perfil Usuario</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
-            {% else %}
-              <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
-              <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
-            {% endif %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" 
+          style="border-radius: 4px !important; color: white !important; background-color: dodgerblue; font-size: 25px;">
+          <i class='bx bx-menu'></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-dark">Inicio</a></li>
+            <li><a href="#" class="nav-link px-2 link-secondary">Servicios</a></li>
+            <li><a href="#" class="nav-link px-2 link-secondary">Control</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cuenta
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {% if session_status.profesional == True %}
+                <li><a class="dropdown-item" href="{% url "profileProfesional" %}">Mi Perfil Profesional</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
+                {% elif session_status.cliente == True %}
+                <li><a class="dropdown-item" href="{% url "profileCliente" %}">Mi perfil Usuario</a></li>
+                <li> 
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url "logout" %}" onclick="fntLogoutUser()">Cerrar Sesión</a></li>
+                {% else %}
+                <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a></li>
+                <li><a class="dropdown-item" href="/" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a></li>
+                {% endif %}
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- Login Home Page Cliente/Professional -->
@@ -87,7 +86,7 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form method="POST" action="{% url 'auth' %}" class="needs-validation" enctype="application/x-www-form-urlencoded" id="holitas">
+              <form method="POST" action="{% url 'auth' %}" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formLoginHome">
                 {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Iniciar Sesión</h1>
@@ -100,8 +99,8 @@
                   <input type="password" class="form-control" placeholder="Password" name="txtPassword" id="txtPassword" required>
                   <label for="floatingPassword">Contraseña</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" onclick="fntLoginUser()">Acceder</button>
-                <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#registerModal">Crear Cuenta</button>
+                <button class="w-100 btn btn-lg btn-primary mt-4" type="submit" onclick="fntConfirmLogin()">Acceder</button>
+                <button class="w-100 btn btn-lg btn-outline-secondary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#registerModal">Crear Cuenta</button>
               </form>
             </div>
           </div>
@@ -122,7 +121,7 @@
         <div class="modal-body p-5 pt-0">
           <div class="form__login">
             <div class="container text-center">
-              <form method="POST" action="{% url "registerCliente" %}" class="needs-validation" enctype="application/x-www-form-urlencoded">
+              <form method="POST" action="{% url "registerCliente" %}" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formRegisterHome">
                 {% csrf_token %}
                 <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
                 <h1 class="h3 mb-3 fw-normal">Crear Cuenta</h1>
@@ -169,23 +168,23 @@
                
                 <div class="form-floating mt-2">
                   <input type="text" class="form-control" id="txtRutCliente" name="txtRutCliente" placeholder="name@example.com" required>
-                  <label for="floatingInput">RUT Cliente (12345678-9)</label>
+                  <label for="floatingInput">RUT Cliente</label>
                 </div>
                 <div class="form-floating mt-2">
                   <input type="text" class="form-control" id="txtContactoCliente" name="txtContactoCliente" placeholder="name@example.com" required>
-                  <label for="floatingInput">Número Contacto (+56912345678)</label>
+                  <label for="floatingInput">Número Contacto (912345678)</label>
                 </div>
                 <div class="form-floating mt-2">
                   <input type="email" class="form-control" id="txtCorreoCliente" name="txtCorreoCliente" placeholder="name@example.com" required>
-                  <label for="floatingInput">Correo Electrónico (example@correo.com)</label>
+                  <label for="floatingInput">Correo Electrónico</label>
                 </div>
                 <div class="form-floating mt-2">
                   <input type="password" class="form-control" id="txtPasswordCliente" name="txtPasswordCliente" placeholder="Password" required>
                   <label for="floatingPassword">Contraseña</label>
                 </div>
 
-                <button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="fntRegisterUser()">Registrarse</button>
-                <button class="w-100 btn btn-lg btn-outline-primary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal" >Iniciar Sesión</button>
+                <button type="submit" class="w-100 btn btn-lg btn-primary mt-4" onclick="fntRegisterUser(), fntConfirmRegister()">Registrarse</button>
+                <button class="w-100 btn btn-lg btn-outline-secondary mt-1" type="button" data-bs-toggle="modal" data-bs-target="#loginModal" >Iniciar Sesión</button>
                 
               </form>
             </div>
@@ -244,32 +243,87 @@
 
   {% block scripts %}
   <script>
-    function fntLoginUser(){
-      
-      // var formLogin =  document.querySelector("#holitas");
 
-      // formLogin.onsubmit = function (e){
-      let v_url = "{% url 'auth' %}"
-      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-      var ajaxUrl = v_url;
-      // console.log(ajaxUrl);
+    function fntConfirmRegister() {
 
-      // var formData = new FormData(formLogin) 
-
-      request.open("POST", ajaxUrl, true);
-      request.setRequestHeader("Content-Type", "application/json");
-      request.send(ajaxUrl);
-
-      // console.log(formData);
-
-      request.onreadystatechange = function () {
-        if (request.status == 200 || request.status == 302 || request.status == 304 || request.status == 308 || request.status == 306 || request.status == 404 || request.status == 0) {
-          console.log("Holitas");
+    var form = document.getElementById('formRegisterHome');
+    var inputs = form.getElementsByTagName('input');
+    
+    for (var i = 0; i < inputs.length; i++) {
+      if(inputs[i].hasAttribute("required")){
+        if(inputs[i].value == ""){
           const Toast = Swal.mixin({
             toast: true,
             position: 'top',
             showConfirmButton: false,
-            timer: 1700,
+            timer: 2500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: 'Todos los campos son obligatorios!'
+          })
+        } 
+        else 
+        {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Registrado exitosamente!'
+          })
+        }
+      }
+    }
+    return true;
+    }
+
+    function fntConfirmLogin() {
+
+    var form = document.getElementById('formLoginHome');
+    var inputs = form.getElementsByTagName('input');
+    var rut_cliente = document.getElementById('txtRut');
+
+    for (var i = 0; i < inputs.length; i++) {
+      if(inputs[i].hasAttribute("required")){
+        if(inputs[i].value == "" || rut_cliente.value == ""){
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'error',
+            title: 'Todos los campos son obligatorios!'
+          })
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 2500,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -281,29 +335,11 @@
             icon: 'success',
             title: 'Sesión iniciada exitosamente!'
           })
-        } else {
-          console.log("Anone");
-          console.log(request.status, request.readyState)
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 1700,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-          })
-
-          Toast.fire({
-            icon: 'error',
-            title: 'Credenciales incorrectas, vuelva a intentarlo!'
-          })
         }
       }
     }
-    // }
+    return true;
+    }
 
     function fntRegisterUser(){
       const Toast = Swal.mixin({

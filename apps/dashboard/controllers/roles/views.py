@@ -11,7 +11,7 @@ def getRolesPage(request):
         'breadcrumb': "Roles",
         'title': 'Lista de Roles',
         'subtitle': 'Lista completa de roles de Usuario o Profesional',
-        'button_add': 'Añadir Rol',
+        'button_add': 'Añadir nuevo rol',
     }
     a = helpers.session_user_exist(request)
     if (a == False):
@@ -77,14 +77,20 @@ def getAllRoles(request):
     # Añadir HTML
     for i in data_to_array:
         if (i['status_rol'] == 1):
-            i['status_rol'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
+            i['status_rol'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none;'>Activado</button></div>"""
         else:
-            i['status_rol'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
+            i['status_rol'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
         i['options'] = """
             <div class='text-center'>
                 <button type='button' onclick='fntRolesPermisos(%s)' class='btn btn-sm btn-warning'><i class='bx bxs-key'></i></button>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditRol("%s")' data-bs-toggle='modal' data-bs-target='#modalRoles'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditRol(%s)' 
+                    data-bs-toggle='modal' data-bs-target='#modalRoles' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                    border: none;'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
                 <a onclick='enableRol(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableRol("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>

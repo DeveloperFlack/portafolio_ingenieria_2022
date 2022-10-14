@@ -26,7 +26,7 @@ def dashboard_get_usuarios_page(request):
         'breadcrumb': "Usuarios",
         'title': 'Lista de Usuarios',
         'subtitle': 'Lista completa de usuarios',
-        'button_add': 'Añadir Usuario',
+        'button_add': 'Añadir nuevo usuario',
     }
     a = helpers.session_user_exist(request)
     if (a == False):
@@ -134,13 +134,19 @@ def dashboard_get_usuarios_all(request):
                 )
             for i in range (len(data_to_array)):
                 if (data_to_array[i]['status_usuario'] == 1):
-                    data_to_array[i]['status_usuario']  = "<div class='text-center'><button class='btn btn-sm btn-success'>Activado</button></div>"
+                    data_to_array[i]['status_usuario']  = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                        style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none;'>Activado</button></div>"""
                 else:
-                    data_to_array[i]['status_usuario']  = "<div class='text-center'><button class='btn btn-sm btn-danger'>Desactivado</button></div>"
+                    data_to_array[i]['status_usuario']  = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                        style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
                     
                 data_to_array[i]['options'] = """
                     <div class='text-center'>
-                        <button type='button' class='btn btn-sm btn-primary' onclick='fntEditUsuario("%s")' data-bs-toggle='modal' data-bs-target='#modalUsuario'><i class='bx bxs-edit' ></i></button>
+                        <button type='button' class='btn btn-sm btn-primary' onclick='fntEditUsuario("%s")' 
+                            data-bs-toggle='modal' data-bs-target='#modalUsuario' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                            border: none;'>
+                            <i class='bx bxs-edit' ></i>
+                        </button>
                         <a onclick='enableUsuario("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                         <a onclick='disableUsuario("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                         <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>

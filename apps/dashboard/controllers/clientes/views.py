@@ -60,7 +60,11 @@ def getAllClientes(request):
     for i in data_to_array:
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCliente("%s")' data-bs-toggle='modal' data-bs-target='#modalEditClientes'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCliente("%s")' 
+                    data-bs-toggle='modal' data-bs-target='#modalEditClientes' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                    border: none;'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
             </div>
         """ % (i['rut_cliente'])
 

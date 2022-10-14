@@ -9,75 +9,19 @@ from apps.dashboard.controllers.roles.usp import fc_get_permisos
 from django.contrib import messages
 from apps.helpers import request_session
 
-
 def profileCliente(request):
     sessionStatus = request_session(request)
-    if (sessionStatus['cliente'] == False ):
+    if (sessionStatus['cliente'] != True ):
         return redirect('index')
+        
     
     data = {
+        'session_status' : request_session(request),
+        'capacitaciones' :  get_capacitaciones(request),
         'table' : getSolicitud(request)
     }
     
     return render(request, 'profile-cliente.html', data)
-
-def registerCliente(request):
-    if request.method == "POST":
-        v_rut_cliente = request.POST.get("txtRutCliente")
-        exist = fc_get_cliente(v_rut_cliente)
-        if (exist == ()):
-            # INSERTAR CLIENTE
-            v_rut_empresa = request.POST.get("txtRutEmpresa")
-            v_n1_cliente = request.POST.get("txtN1Cliente")
-            v_n2_cliente = request.POST.get("txtN2Cliente")
-            v_ap_cliente = request.POST.get("txtApellidoPaternoCliente")
-            v_am_cliente = request.POST.get("txtApellidoMaternoCliente")
-            v_correo_cliente = request.POST.get("txtCorreoCliente")
-            v_contacto_cliente = request.POST.get("txtContactoCliente")
-            v_nombre_empresa = request.POST.get("txtNombreEmpresa")
-            vaa = request.POST.get("txtPasswordCliente")
-
-            v_password_cliente = hashlib.sha256(vaa.encode('utf-8')).hexdigest()
-            
-            v_id_rol = 2
-            v_status_cliente = 1
-
-            fc_home_register(
-                v_rut_cliente, v_password_cliente, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, 
-                v_correo_cliente, v_contacto_cliente, v_rut_empresa, v_nombre_empresa, v_id_rol, v_status_cliente
-            )
-            messages.add_message(request, messages.SUCCESS, 'Cuenta creada exitosamente!')
-            # print (urls.urlpatterns[0])
-            return redirect("getHome")
-
-        else:
-            # ACTUALIZAR CLIENTE
-            exist = fc_get_cliente(v_rut_cliente)
-            if (exist != ()):
-                v_rut_empresa = request.POST.get("txtRutEmpresa")
-                v_n1_cliente = request.POST.get("txtN1Cliente")
-                v_n2_cliente = request.POST.get("txtN2Cliente")
-                v_ap_cliente = request.POST.get("txtApellidoPaternoCliente")
-                v_am_cliente = request.POST.get("txtApellidoMaternoCliente")
-                v_correo_cliente = request.POST.get("txtCorreoCliente")
-                v_contacto_cliente = request.POST.get("txtContactoCliente")
-                v_rut_empresa = request.POST.get("txtRutEmpresa")
-                v_nombre_empresa = request.POST.get("txtNombreEmpresa")
-                vaa = request.POST.get("txtPasswordCliente")
-                
-                v_password_cliente = hashlib.sha256(vaa.encode('utf-8')).hexdigest()
-
-                v_id_rol = 2
-                v_status_cliente = 1
-
-                fc_update_cliente(v_rut_empresa, v_nombre_empresa, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, v_rut_cliente, v_contacto_cliente, v_correo_cliente, v_password_cliente, v_id_rol, v_status_cliente)
-                return redirect("getHome")
-            else:
-                messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
-                return redirect("getHome")
-    else:
-        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
-        return redirect("getHome")
 
 def solicitudInsert(request):
     status = request_session(request)
@@ -139,4 +83,23 @@ def getSolicitud(request):
             return redirect("profileCliente")
     else:
         return redirect("profileCliente")
+
+def get_capacitaciones(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute('SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
+            capacitacion = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(capacitacion)):
+                data_to_array.append({
+                    "id_capacitacion" : capacitacion[i][0],
+                    "nombre_capacitacion" : capacitacion[i][2],
+                })
+            
+            return data_to_array
+    except Exception as ex:
+        print (ex)
+
 

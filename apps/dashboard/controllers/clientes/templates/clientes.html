@@ -3,9 +3,9 @@
 <div class="modal fade" id="modalEditClientes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalClientesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalClientesLabel">Actualizar datos Cliente</h5>
+        <div class="modal-content" style="border-radius: 20px; padding: 25px;">
+            <div class="modal-header" style="margin-top: -15px;">
+                <h5 class="modal-title" id="modalClientesLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -14,30 +14,41 @@
                     <input type="hidden" name="rutCliente" id="rutCliente">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="contrasenaCliente" class="form-label">Contraseña</label>
-                            <input class="form-control" type="text" name="txtContrasenaCliente" id="txtContrasenaCliente">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtContrasenaCliente" name="txtContrasenaCliente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Contraseña</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="correoCliente" class="form-label">Correo Electrónico</label>
-                            <input class="form-control" type="email" name="txtCorreoCliente" id="txtCorreoCliente">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtCorreoCliente" name="txtCorreoCliente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Correo Electrónico</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="telefonoCliente" class="form-label">Teléfono</label>
-                            <input class="form-control" type="number" name="txtTelefonoCliente" id="txtTelefonoCliente">
+                            <div class="form-floating mt-2">
+                                <input type="number" class="form-control" id="txtTelefonoCliente" name="txtTelefonoCliente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Correo Electrónico</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="nombreEmpresaCliente" class="form-label">Nombre Empresa</label>
-                            <input class="form-control" type="text" name="txtNombreEmpresaCliente" id="txtNombreEmpresaCliente">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreEmpresaCliente" name="txtNombreEmpresaCliente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Nombre Empresa</label>
+                            </div>
                         </div>
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
+                                <button type="submit" class="btn w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick='fntConfirmEditInsert()'>Actualizar
+                                </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
-                                    Close
+                                <button type="button" class="btn btn-outline-secondary w-100"
+                                    style="border-radius: 50px; padding: 10px;" data-bs-dismiss="modal">
+                                    Cancelar
                                 </button>
                             </div>
                         </div>
@@ -62,7 +73,7 @@
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
                 <!-- <div class="d-flex">
@@ -72,35 +83,21 @@
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
-                <table class="table table-bordered table-striped v_table_clientes my-3" style="width: 100%;" id="v_table_clientes">
-                    <thead class="table-dark">
+                <table class="table table-bordered table-striped table-hover v_table_clientes my-3" style="width: 100%;" id="v_table_clientes">
+                    <thead class="table-light">
                         <tr>
-                            <th>Rut Cliente</th>
+                            <th>Cliente</th>
                             <th>Primer Nombre</th>
                             <th>Segundo Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
-                            <th>Correo</th>
-                            <th>Teléfono Cliente</th>
-                            <th>Rut Empresa</th>
+                            <th>Correo Electrónico</th>
+                            <th>Teléfono</th>
+                            <th>Empresa</th>
                             <th>Nombre Empresa</th>
-                            <th>Acciones</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Rut Cliente</th>
-                            <th>Primer Nombre</th>
-                            <th>Segundo Nombre</th>
-                            <th>Apellido Paterno</th>
-                            <th>Apellido Materno</th>
-                            <th>Correo</th>
-                            <th>Teléfono Cliente</th>
-                            <th>Rut Empresa</th>
-                            <th>Nombre Empresa</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -116,6 +113,9 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
     $(document).ready(function () {
         tableClientes = $('#v_table_clientes').DataTable({
             pagingType: "full_numbers",
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
             "ajax": {
                 "url": v_url,
                 "dataSrc": ""
@@ -158,6 +158,8 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
+            // $('#formEditClientes').trigger("reset");
+            document.getElementById('modalClientesLabel').innerHTML = '<h5>'+ objData[0].nombre_empresa +'</h5>';
             $('#rutCliente').val(rut_cliente);
             // console.log(objData[0].rut_cliente)
             $('#txtContrasenaCliente').val(objData[0].contrasena_cliente);
@@ -169,12 +171,21 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
     }
 
     function fntConfirmEditInsert(){
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Proceso realizado exitosamente!',
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
             showConfirmButton: false,
-            timer: 1700
+            timer: 1900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Proceso finalizado exitosamente!'
         })
     }
 </script>

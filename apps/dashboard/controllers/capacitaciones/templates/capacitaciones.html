@@ -3,9 +3,9 @@
 <div class="modal fade" id="modalCapacitaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalCapacitacionesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px; padding: 25px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCapacitacionesLabel">Modal title</h5>
+                <h5 class="modal-title" id="modalCapacitacionesLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -14,23 +14,28 @@
                     <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="nombreCapacitacion" class="form-label">Nombre Capacitación</label>
-                            <input class="form-control" type="text" name="txtNombreCapacitacion" id="txtNombreCapacitacion"
-                                required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreCapacitacion" name="txtNombreCapacitacion" placeholder="name@example.com" required>
+                                <label for="floatingInput">Nombre Capacitación</label>
+                            </div>
                             <div class="invalid-feedback">
                                 Nombre Capacitación Requerido
                             </div>
                         </div>
                         <div class="col-12">
-                            <label for="descripcionCaapcitacion" class="form-label">Descripción Capacitación</label>
-                            <textarea class="form-control" name="txtDescripcionCapacitacion" id="txtDescripcionCapacitacion"
-                                cols="30" rows="10">
-                            </textarea>
+                            <div class="form-floating mt-2">
+                                <textarea type="text" class="form-control" id="txtDescripcionCapacitacion" name="txtDescripcionCapacitacion" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <label for="floatingInput">Descripción Capacitación</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Descripción Capacitación Requerido
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="totalCapacitacion" class="form-label">Total Capacitación</label>
-                            <input class="form-control" type="number" name="txtTotalCapacitacion" id="txtTotalCapacitacion"
-                                required>
+                            <div class="form-floating mt-2">
+                                <input type="number" class="form-control" id="txtTotalCapacitacion" name="txtTotalCapacitacion" placeholder="name@example.com" required>
+                                <label for="floatingInput">Total Capacitación</label>
+                            </div>
                             <div class="invalid-feedback">
                                 Total Capacitación Requerido
                             </div>
@@ -38,12 +43,16 @@
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
+                                <button type="submit" class="btn w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick='fntConfirmEditInsert()'>Guardar
+                                </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary w-100" style="background: transparent;
+                                    border: 1px solid rgb(60, 60, 60); color: black; border-radius: 50px; padding: 10px;"
+                                    data-bs-dismiss="modal">Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -67,11 +76,12 @@
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
                 </div>
@@ -79,26 +89,16 @@
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
                 <table class="table table-bordered table-striped v_table_capacitaciones my-3" style="width: 100%;" id="v_table_capacitaciones">
-                    <thead class="table-dark">
+                    <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
                             <th style="width: 60px !important;">Profesional</th>
-                            <th>Descripción</th>
+                            <th style="width: 40% !important;">Descripción</th>
                             <th>Total</th>
                             <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
-                    <tfoot class="table-dark">
-                        <tr>
-                            <th>Nombre</th>
-                            <th style="width: 60px !important;">Profesional</th>
-                            <th>Descripción</th>
-                            <th>Total</th>
-                            <th>Estado</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -120,6 +120,9 @@
     $(document).ready(function () {
         tableCapacitaciones = $('#v_table_capacitaciones').DataTable({
             pagingType: "full_numbers",
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
             "ajax": {
                 "url": v_url,
                 "dataSrc": ""
@@ -152,6 +155,7 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
+            document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_capacitacion +'</h5>';
             $('#idCapacitacion').val(objData[0].id_capacitacion);
             $('#txtNombreCapacitacion').val(objData[0].nombre_capacitacion);
             $('#txtDescripcionCapacitacion').val(objData[0].descripcion_capacitacion);
@@ -205,6 +209,7 @@
         var a = document.querySelector('.needs-validation').reset();
         var modalToggle = document.getElementById('formCapacitacion');
         myModal.show(modalToggle);
+        document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Añadir nueva capacitación</h5>';
         $('#idCapacitacion').val('');
         $('#txtNombreCapacitacion').val('');
         $('#txtDescripcionCapacitacion').val('');
@@ -246,13 +251,22 @@
     }
 
     function fntConfirmEditInsert(){
-        Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Proceso realizado exitosamente!',
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
             showConfirmButton: false,
-            timer: 1700
-        })
+            timer: 1700,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Proceso finalizado exitosamente!'
+          })
     }
 </script>
 {% endblock %}

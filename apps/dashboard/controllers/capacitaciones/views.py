@@ -11,7 +11,7 @@ def getCapacitacionesPage(request):
         'breadcrumb': "Capacitaciones",
         'title': 'Lista de Capacitaciones',
         'subtitle': 'Lista completa de capacitaciones',
-        'button_add': 'Añadir Capacitación',
+        'button_add': 'Añadir nueva capacitación',
     }
     return render(request, "capacitaciones.html", data)
 
@@ -72,22 +72,29 @@ def getAllCapacitaciones(request):
     # Añadir HTML}
     for i in data_to_array:
         if (i['status_capacitaciones'] == 1):
-            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
+            i['status_capacitaciones'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none;'>Activado</button></div>"""
         else:
-            i['status_capacitaciones'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
+            i['status_capacitaciones'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
     # Añadir HTML
     for i in data_to_array:
         i['usuarios'] = """
             <div class='text-center'>
-                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;"><i class='bx bxs-edit' ></i></button>
+                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;
+                    background: linear-gradient(to right, deepskyblue, blueviolet); border: none;"><i class='bx bxs-edit' ></i></button>
             </div>
         """
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCapacitacion(%s)' data-bs-toggle='modal' data-bs-target='#modalCapacitaciones'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditCapacitacion(%s)' 
+                    data-bs-toggle='modal' data-bs-target='#modalCapacitaciones' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                    border: none;'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
                 <a onclick='fntEnableCapacitacion(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntDisableCapacitacion(%s)' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntConfirmDelete(%s)' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>

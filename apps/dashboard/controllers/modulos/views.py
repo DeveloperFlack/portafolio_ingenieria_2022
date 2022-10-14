@@ -92,13 +92,16 @@ def getAllModulos(request):
     # Añadir HTML
     for i in data_to_array:
         if (i['status_modulo'] == 1):
-            i['status_modulo'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
+            i['status_modulo'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white;'>Activado</button></div>"""
         else:
-            i['status_modulo'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
+            i['status_modulo'] = """<div class='text-center'><button class='btn btn-sm btn-danger'
+                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditModule("%s")' data-bs-toggle='modal' data-bs-target='#modalModulos'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm' onclick='fntEditModule("%s")' data-bs-toggle='modal' data-bs-target='#modalModulos' 
+                    style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white;'><i class='bx bxs-edit' ></i></button>
                 <a onclick='enableModule("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='disableModule("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>

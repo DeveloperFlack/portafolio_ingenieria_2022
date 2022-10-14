@@ -5,9 +5,9 @@
 <div class="modal fade" id="modalUsuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalUsuariosLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 20px; padding: 25px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalUsuariosLabel">Modal title</h5>
+                <h5 class="modal-title" id="modalUsuariosLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -16,61 +16,78 @@
                     <!-- <input type="hidden" name="idModulo" id="idModulo"> -->
                     <div class="row g-3">
                         <div class="col-12">
-                            <label for="rutUsuario" class="form-label">RUT</label>
-                            <input class="form-control" type="text" name="txtRut" id="txtRut" required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtRut" name="txtRut" placeholder="name@example.com" required>
+                                <label for="floatingInput">RUT</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtPrimerNombre" name="txtPrimerNombre" placeholder="name@example.com" required>
+                                <label for="floatingInput">Primer Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtSegundoNombre" name="txtSegundoNombre" placeholder="name@example.com" required>
+                                <label for="floatingInput">Segundo Nombre</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtApellidoPaterno" name="txtApellidoPaterno" placeholder="name@example.com" required>
+                                <label for="floatingInput">Apellido Paterno</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtApellidoMaterno" name="txtApellidoMaterno" placeholder="name@example.com" required>
+                                <label for="floatingInput">Apellido Materno</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="primerNombreUsuario" class="form-label">Primer Nombre</label>
-                            <input class="form-control" type="text" name="txtPrimerNombre" id="txtPrimerNombre"required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtCorreoElectronico" name="txtCorreoElectronico" placeholder="name@example.com" required>
+                                <label for="floatingInput">Correo Electrónico</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="segundoNombreUsuario" class="form-label">Segundo Nombre</label>
-                            <input class="form-control" type="text" name="txtSegundoNombre" id="txtSegundoNombre"
-                                required>
+                            <div class="form-floating mt-2">
+                                <input type="number" class="form-control" id="txtTelefono" name="txtTelefono" placeholder="name@example.com" required>
+                                <label for="floatingInput">Teléfono Contacto</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="apellidoPaternoUsuario" class="form-label">Apellido Paterno</label>
-                            <input class="form-control" type="text" name="txtApellidoPaterno" id="txtApellidoPaterno"
-                                required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtDireccion" name="txtDireccion" placeholder="name@example.com" required>
+                                <label for="floatingInput">Dirección Domicilio</label>
+                            </div>
                         </div>
                         <div class="col-12">
-                            <label for="apellidoMaternoUsuario" class="form-label">Apellido Materno</label>
-                            <input class="form-control" type="text" name="txtApellidoMaterno" id="txtApellidoMaterno"
-                                required>
-                        </div>
-                        <div class="col-12">
-                            <label for="correoElectronicoUsuario" class="form-label">Correo Electrónico</label>
-                            <input class="form-control" type="email" name="txtCorreoElectronico" id="txtCorreoElectronico"
-                                required>
-                        </div>
-                        <div class="col-12">
-                            <label for="telefonoUsuario" class="form-label">Teléfono Contacto</label>
-                            <input class="form-control" type="number" name="txtTelefono" id="txtTelefono"
-                                required>
-                        </div>
-                        <div class="col-12">
-                            <label for="direccionUsuario" class="form-label">Dirección Domicilio</label>
-                            <input class="form-control" type="text" name="txtDireccion" id="txtDireccion"
-                                required>
-                        </div>
-                        <div class="col-12">
-                            <select class="form-select" name="selectRol" id="selectRol">
-                                <option value="0" selected>Selecciona Rol</option>
-                                {% for x in roles %}
-                                <option value="{{ x.id_rol | safe }}">{{ x.nombre_rol }}</option>
-                                {% endfor %}
-                            </select>
+                            <div class="form-floating mt-2">
+                                <select class="form-select" name="selectRol" id="selectRol">
+                                    <option value="0" selected>Selecciona Rol</option>
+                                    {% for x in roles %}
+                                    <option value="{{ x.id_rol | safe }}">{{ x.nombre_rol }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="floatingInput">Tipo de Rol</label>
+                            </div>
                         </div>
                         <div class="invalid-feedback">Rut del Usuario Requerido</div>
                         <hr>
                         <div class="col-12">
                             <div class="">
-                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()">Enviar</button>
+                                <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntConfirmEditInsert()">Guardar Cambios</button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100"
-                                    data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-secondary w-100"
+                                style="border-radius: 50px; padding: 10px;"
+                                    data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -93,19 +110,20 @@
             <nav class="navbar navbar-expand">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <span class="fs-5 fst-italic fw-bolder">{% if title %}{{ title }}{% endif %}</span>
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
                 </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
-                <table class="table table-bordered table-striped v_table_usuarios my-3" style="width: 100%;" id="v_table_usuarios">
-                    <thead class="table-dark">
+                <table class="table table-bordered table-striped table-hover v_table_usuarios my-3" style="width: 100%;" id="v_table_usuarios">
+                    <thead class="table-light">
                         <tr>
                             <th>Rut</th>
                             <th>Primer Nombre</th>
@@ -129,17 +147,6 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                    <tfoot class="table-dark">
-                        <tr>
-                            <th>Rut</th>
-                            <th>Primer Nombre</th>
-                            <th>Apellido Paterno</th>
-                            <th>Direccion</th>
-                            <th>Status</th>
-                            <th>Rol</th>
-                            <th>Opciones</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -160,6 +167,9 @@
     let tableUsuarios;
     $(document).ready(function () {
         tableUsuarios = $('#v_table_usuarios').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
             pagingType: "full_numbers",
             "order": [
                 [0, "desc"]
@@ -174,6 +184,7 @@
         var a = document.querySelector('.needs-validation').reset();
         var modalToggle = document.getElementById('formUsuario');
         myModal.show(modalToggle);
+        document.getElementById('modalUsuariosLabel').innerHTML = '<h5>Añadir nuevo usuario</h5>';
         $('#txtRut').val('');
         $('#txtPrimerNombre').val('');
         $('#txtSegundoNombre').val('');
@@ -196,7 +207,7 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
-
+            document.getElementById('modalUsuariosLabel').innerHTML = '<h5>Actualizar: '+ objData.primer_nombre +'</h5>';
             $('#txtRut').val(objData.rut_usuario);
             $('#txtPrimerNombre').val(objData.primer_nombre);
             $('#txtSegundoNombre').val(objData.segundo_nombre);

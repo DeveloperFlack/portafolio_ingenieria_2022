@@ -12,7 +12,7 @@ def getAsesoriasPage(request):
         'breadcrumb': "Asesorías",
         'title': 'Lista de Asesorías',
         'subtitle': 'Lista completa de Asesorías',
-        'button_add': 'Añadir Asesorías',
+        'button_add': 'Añadir nueva asesoría',
     }
     return render(request, "asesorias.html", data)
 
@@ -76,22 +76,29 @@ def getALLAsesorias(request):
     # Añadir HTML}
     for i in data_to_array:
         if (i['status_asesoria'] == 1):
-            i['status_asesoria'] = "<div class='text-center'><button class='btn btn-success'>Activado</button></div>"
+            i['status_asesoria'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none;'>Activado</button></div>"""
         else:
-            i['status_asesoria'] = "<div class='text-center'><button class='btn btn-danger'>Desactivado</button></div>"
+            i['status_asesoria'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
     # Añadir HTML
     for i in data_to_array:
         i['usuarios'] = """
             <div class='text-center'>
-                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;"><i class='bx bxs-edit' ></i></button>
+                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;
+                    background: linear-gradient(to right, deepskyblue, blueviolet); border: none;"><i class='bx bxs-edit' ></i></button>
             </div>
         """
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditAsesoria(%s)' data-bs-toggle='modal' data-bs-target='#modalAsesoria'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditAsesoria(%s)' 
+                    data-bs-toggle='modal' data-bs-target='#modalAsesoria' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                    border: none;'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
                 <a onclick='fntEnableAsesoria(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntDisableAsesoria(%s)' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntConfirmDelete(%s)' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>

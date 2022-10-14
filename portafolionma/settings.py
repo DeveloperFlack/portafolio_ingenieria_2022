@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     "apps.dashboard.controllers.modulos",
     "apps.dashboard.controllers.roles",
     "apps.dashboard.controllers.usuarios",
+    "apps.dashboard.controllers.accidentes",
+    "apps.dashboard.controllers.capacitaciones",
+    "apps.dashboard.controllers.clientes",
     "apps.home",
+    "apps.home.controllers.cliente",
+    "apps.home.controllers.profesional",
+    
 ]
 
 MIDDLEWARE = [
@@ -55,16 +61,18 @@ ROOT_URLCONF = "portafolionma.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["apps/dashboard/templates", "apps/home/templates",
-                 "apps/dashboard/controllers/modulos/templates",
-                 "apps/dashboard/controllers/usuarios/templates",
-                 "apps/dashboard/controllers/roles/templates",
-                 "apps/dashboard/controllers/clientes/templates",
-                 "apps/dashboard/controllers/solicitudes/templates",
-                 "apps/dashboard/controllers/capacitaciones/templates",
-                  "apps/dashboard/controllers/asesorias/templates",
-                 "apps/home/controllers/profesional/templates",
-                 "apps/home/controllers/cliente/templates",
+        "DIRS": [
+                    "apps/dashboard/templates", "apps/home/templates",
+                    "apps/dashboard/controllers/modulos/templates",
+                    "apps/dashboard/controllers/usuarios/templates",
+                    "apps/dashboard/controllers/roles/templates",
+                    "apps/dashboard/controllers/clientes/templates",
+                    "apps/dashboard/controllers/solicitudes/templates",
+                    "apps/dashboard/controllers/capacitaciones/templates",
+                    "apps/dashboard/controllers/asesorias/templates",
+                    "apps/dashboard/controllers/accidentes/templates",
+                    "apps/home/controllers/profesional/templates",
+                    "apps/home/controllers/cliente/templates",
                  ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -111,7 +119,7 @@ else:
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
-            'HOST': '3.80.157.237',   # Or an IP Address that your DB is hosted on
+            'HOST': '52.23.241.111',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
@@ -145,7 +153,7 @@ if (DEBUG == True):
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
-        DB_HOST = '3.80.157.237'
+        DB_HOST = '52.23.241.111'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
@@ -164,7 +172,7 @@ else:
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
-        DB_HOST = '3.80.157.237'
+        DB_HOST = '52.23.241.111'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'

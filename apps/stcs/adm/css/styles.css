@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+body{font-family: 'Poppins', sans-serif !important;}
 .toggle.lg input[type="checkbox"] + .button-indecator:before {font-size: 30px;}     
 .toggle input[type="checkbox"] {display: none;}
 .toggle input[type="checkbox"] + .button-indecator {cursor: pointer;display: block;-webkit-user-select: none; -moz-user-select: none;-ms-user-select: none; user-select: none;}

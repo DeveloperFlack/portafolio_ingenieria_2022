@@ -6,6 +6,7 @@ import hashlib
 from django.contrib import messages
 from apps.helpers import *
 import js2py
+from django.http import HttpResponse
 
 def multiform(form):
     data = {}
@@ -46,6 +47,7 @@ def getHome(request):
     
     sessionStatus = request_session(request)
     data = {
+        'capacitaciones_index' : get_capacitaciones_index(request),
         'session_status' : sessionStatus
     }
     return render(request, "index.html", data)
@@ -63,6 +65,7 @@ def auth (request):
             
             cursor.execute("select * from nma_usuario where rut_usuario = '%s' and password_usuario = '%s'" % (v_rut_usuario, v_password_usuario))
             profesional = cursor.fetchall()
+            
             if (cliente != ()):
                 data_to_array = []
                 for x in cliente:
@@ -83,10 +86,10 @@ def auth (request):
                     "nombre_empresa": data_to_array[0]["nombre_empresa"],
                 }
                 
-                # messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["cliente"]["n1_cliente"] + ' ' + request.session["cliente"]["ap_cliente"] + ' de ' + request.session["cliente"]["nombre_empresa"] + ' !')
-                # js2py.run_file("loginUser.js")
-
+                # messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["cliente"]["n1_cliente"] + ' ' + request.session["cliente"]["ap_cliente"] + ' de ' + request.session["cliente"]["nombre_empresa"] + ' !'
+                
                 return redirect ('index')
+
             elif (profesional != ()):
 
                 data_to_array = []
@@ -105,11 +108,11 @@ def auth (request):
                 }
                 
                 # messages.add_message(request, messages.SUCCESS, '¡Bienvenido(a) ' + request.session["profesional"]["primer_nombre"] + ' ' + request.session["profesional"]["apellido_paterno"] + ' !')
-                # js2py.run_file("loginUserError.js")
-
                 return redirect ('index')
+            
             else:
                 # messages.add_message(request, messages.ERROR, 'Usuario no Existente.')
+
                 return redirect ('index')
 
     except Exception as ex:
@@ -130,3 +133,57 @@ def logout(request):
             return redirect('getHome')
     except KeyError:
         return redirect('index')
+
+def register_cliente(request):
+    if request.method == "POST":
+        v_rut_cliente = request.POST.get("txtRutCliente")
+        exist = fc_get_cliente(v_rut_cliente)
+        if (exist == ()):
+            # INSERTAR CLIENTE
+            v_rut_empresa = request.POST.get("txtRutEmpresa")
+            v_n1_cliente = request.POST.get("txtN1Cliente")
+            v_n2_cliente = request.POST.get("txtN2Cliente")
+            v_ap_cliente = request.POST.get("txtApellidoPaternoCliente")
+            v_am_cliente = request.POST.get("txtApellidoMaternoCliente")
+            v_correo_cliente = request.POST.get("txtCorreoCliente")
+            v_contacto_cliente = request.POST.get("txtContactoCliente")
+            v_nombre_empresa = request.POST.get("txtNombreEmpresa")
+            vaa = request.POST.get("txtPasswordCliente")
+
+            v_password_cliente = hashlib.sha256(vaa.encode('utf-8')).hexdigest()
+            
+            v_id_rol = 2
+            v_status_cliente = 1
+
+            fc_home_register(
+                v_rut_cliente, v_password_cliente, v_n1_cliente, v_n2_cliente, v_ap_cliente, v_am_cliente, 
+                v_correo_cliente, v_contacto_cliente, v_rut_empresa, v_nombre_empresa, v_id_rol, v_status_cliente
+            )
+            # print (urls.urlpatterns[0])
+            return redirect("getHome")
+
+        else:
+            messages.add_message(request, messages.ERROR, "Usuario ya existente")
+            return redirect("getHome")
+    else:
+        return redirect("getHome")
+
+def get_capacitaciones_index(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute('SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
+            capacitacion = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(capacitacion)):
+                data_to_array.append({
+                    "id_capacitacion" : capacitacion[i][0],
+                    "nombre_capacitacion" : capacitacion[i][2],
+                    "descripcion_capacitacion" : capacitacion[i][3],
+                    "total_capacitacion" : capacitacion[i][4],
+                })
+            
+            return data_to_array
+    except Exception as ex:
+        print (ex)

@@ -54,13 +54,19 @@ def dashboard_get_all_solicitudes(request):
     # Añadir HTML
     for i in data_to_array:
         if (i['status_solicitud'] == 1):
-            i['status_solicitud'] = "<div class='text-center'><button class='btn btn-sm btn-success'>Activado</button></div>"
+            i['status_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none;'>Activado</button></div>"""
         else:
-            i['status_solicitud'] = "<div class='text-center'><button class='btn btn-sm btn-danger'>Desactivado</button></div>"
+            i['status_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
         i['options'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditSolicitud("%s")' data-bs-toggle='modal' data-bs-target='#modalEditSolicitud'><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-primary' onclick='fntEditSolicitud(%s)' 
+                    data-bs-toggle='modal' data-bs-target='#modalEditSolicitud' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                    border: none;'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
                 <a onclick='fntEnableSolicitud("%s")' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntDisableSolicitud("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='fntConfirmDelete("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
@@ -69,11 +75,14 @@ def dashboard_get_all_solicitudes(request):
 
     for i in data_to_array:
         if (i['tipo_solicitud'] == 1):
-            i['tipo_solicitud'] = "<div class='text-center'><button class='btn btn-sm btn-success'>Asesoría Especial</button></div>"
+            i['tipo_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, white, deeppink); border: none;'>Asesoría</button></div>"""
         elif (i['tipo_solicitud'] == 2):
-            i['tipo_solicitud'] = "<div class='text-center'><button class='btn btn-sm btn-warning'>Capacitación</button></div>"
+            i['tipo_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, greenyellow, green); border: none;'>Accidente</button></div>"""
         elif (i['tipo_solicitud'] == 3):
-            i['tipo_solicitud'] = "<div class='text-center'><button class='btn btn-sm btn-danger'>Accidente</button></div>"
+            i['tipo_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='background: linear-gradient(to right, gold, red); border: none;'>Accidente</button></div>"""
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
 

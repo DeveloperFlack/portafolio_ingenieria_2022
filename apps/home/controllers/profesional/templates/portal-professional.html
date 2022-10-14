@@ -2,21 +2,22 @@
 {% block content %}
 <br>
 <div class="content__profile mt-5" style="overflow-x: hidden; background-color:  #dee5ec;">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-2 col-12">
+      <div class="col-lg-2 col-12" style="margin: 0; padding: 0;">
         <div class="contaiinert">
-          <div class="d-flex flex-column flex-shrink-0 bg-white flex__contaiinert" style="width: fit-content; margin: 10px 0; height: 90vh; position: fixed;
-            padding: 15px 5px; box-shadow: 10px 0 4px -2px #d8e1e9; font-size: 16px; color: gray; border-radius: 20px;">
+          <div class="d-flex flex-column flex-shrink-0 bg-white flex__contaiinert" style="width: 75%; height: 100vh;
+            padding: 15px 5px; font-size: 16px; color: gray; border-radius: 0px;">
             <ul class="nav nav-pills flex-column mb-auto">
               <li>
-                <a href="#" class="nav-link link-dark hint--right w-100" aria-label="Todos los Tickets" style="margin: 0px 0 -10px 0;">
+                <a href="{% url 'profileProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Todos los Tickets" style="margin: 0px 0 -10px 0; 
+                  background: linear-gradient(to right, deepskyblue, blueviolet); color: white;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
-                    style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
+                    style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
                     <path d="M5 22h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2h-2a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1H5c-1.103 0-2 .897-2 2v15c0 1.103.897 2 2 2zM5 5h2v2h10V5h2v15H5V5z"></path>
                     <path d="m11 13.586-1.793-1.793-1.414 1.414L11 16.414l5.207-5.207-1.414-1.414z"></path>
                   </svg>
-                  Todos los Tickets
+                  Portal
                 </a>
                 <hr>
               </li>
@@ -31,7 +32,7 @@
                 <hr>
               </li>
               <li>
-                <a href="#" class="nav-link link-dark hint--right w-100" aria-label="Mis Proyectos" style="margin: -10px 0 -10px 0;">
+                <a href="{% url 'projectsProfesional' %}" class="nav-link link-dark hint--right w-100" aria-label="Mis Proyectos" style="margin: -10px 0 -10px 0;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="29" 
                     style="fill: rgb(163, 163, 163);transform: ;msFilter:;">
                     <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"></path>
@@ -54,8 +55,8 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-10 col-12">
-        <div class="container bg-white" style="border-radius: 20px; margin: 10px 0; box-shadow: 10px 0 4px -2px #d8e1e9; padding-bottom: 10px;">
+      <div class="col-lg-10 col-12" style="margin: 0; padding: 0;">
+        <div class="container bg-white" style="border-radius: 5px; margin: 10px 0; box-shadow: 10px 0 4px -2px #d8e1e9; padding-bottom: 10px;">
           <main>
             <div class="py-5 text-center">
               <img class="d-block mx-auto mb-4" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="72" height="57">
