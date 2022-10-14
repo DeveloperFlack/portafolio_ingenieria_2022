@@ -2,7 +2,7 @@
 {% block content %}
 
 <!-- Modal -->
-<div class="modal fade" id="modalEditProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modalProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius: 13px; padding: 15px;">
       <div class="modal-header">
@@ -16,25 +16,25 @@
             <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
             <div class="col-12 form-group">
               <div class="form-floating mt-2">
-                <input type="text" class="form-control" id="txtEditNombreCapacitacionProfesional" name="txtEditNombreCapacitacionProfesional" placeholder="name@example.com" required>
+                <input type="text" class="form-control" id="txtNombreCapacitacionProfesional" name="txtNombreCapacitacionProfesional" placeholder="name@example.com" required>
                 <label for="floatingInput">Nombre Proyecto</label>
               </div>
             </div>
             <div class="col-12 form-group">
               <div class="form-floating mt-2">
-                <textarea type="text" class="form-control" id="txtEditDescripcionCapacitacionProfessional" name="txtEditDescripcionCapacitacionProfessional" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                <textarea type="text" class="form-control" id="txtDescripcionCapacitacionProfessional" name="txtDescripcionCapacitacionProfessional" style="height: 150px;" placeholder="name@example.com" required></textarea>
                 <label for="floatingInput">Descripción</label>
               </div>
             </div>
             <div class="col-6 form-group">
               <div class="form-floating mt-2">
-                <input type="number" class="form-control" id="intEditTotalCapacitacion" name="intEditTotalCapacitacion" placeholder="name@example.com" min="1" required>
+                <input type="number" class="form-control" id="intTotalCapacitacion" name="intTotalCapacitacion" placeholder="name@example.com" min="1" required>
                 <label for="floatingInput">Total</label>
               </div>
             </div>
             <div class="col-6 form-group">
               <div class="form-floating mt-2">
-                <select class="form-select" name="listEditStatusCapacitacion" id="listEditStatusCapacitacion" required>
+                <select class="form-select" name="listStatusCapacitacion" id="listStatusCapacitacion" required>
                   <option value="0">Desactivada</option>
                   <option value="1">Activada</option>
                 </select>
@@ -133,68 +133,15 @@
         <div class="container-fluid bg-white" style="border-radius: 0px; box-shadow: 10px 0 4px -2px #d8e1e9; padding: 20px 50px 10px 50px; margin: 0;">
           <main>
             <div class="row">
-              <div class="col-5">
-                <div class="py-5 text-center">
-                  <img class="d-block mx-auto mb-4" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="72" height="57">
-                  <h2>Mis Proyectos</h2>
-                  <p class="lead">Lista de Capacitaciones o Asesorías</p>
-                  {% comment %} <p class="lead" style="margin-top: -15px; font-size: 17px;"><span style="color: red;">*</span> Es obligatorio completar todos los campos <span style="color: red;">*</span></p> {% endcomment %}
-                </div>
-                <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data" style="padding: 5px 25px;">
-                  {% csrf_token %}
-                  <div class="row g-3">
-                    <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
-                    <div class="col-12 form-group">
-                      <div class="form-floating mt-2">
-                        <input type="text" class="form-control" id="txtNombreCapacitacionProfesional" name="txtNombreCapacitacionProfesional" placeholder="name@example.com" required>
-                        <label for="floatingInput">Nombre Proyecto</label>
-                      </div>
-                    </div>
-                    <div class="col-12 form-group">
-                      <div class="form-floating mt-2">
-                        <textarea type="text" class="form-control" id="txtDescripcionCapacitacionProfessional" name="txtDescripcionCapacitacionProfessional" style="height: 150px;" placeholder="name@example.com" required></textarea>
-                        <label for="floatingInput">Descripción</label>
-                      </div>
-                    </div>
-                    <div class="col-6 form-group">
-                      <div class="form-floating mt-2">
-                        <input type="number" class="form-control" id="intTotalCapacitacion" name="intTotalCapacitacion" placeholder="name@example.com" min="1" required>
-                        <label for="floatingInput">Total</label>
-                      </div>
-                    </div>
-                    <div class="col-6 form-group">
-                      <div class="form-floating mt-2">
-                        <select class="form-select" name="listStatusCapacitacion" id="listStatusCapacitacion" required>
-                          <option value="0">Desactivada</option>
-                          <option value="1">Activada</option>
-                        </select>
-                        <label class="form-label" for="nombreCapacitacion">Estado</label>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <p class="text-muted" style="text-align: center">
-                        <span class="text-danger">*</span> 
-                          Ten en cuenta enviar <span class="fw-bold">"DESACTIVADO"</span> el proyecto antes de <span class="fw-bold">"GUARDAR CAMBIOS"</span>, o este aparecerá en el portal para su monetización.
-                        <span class="text-danger">*</span> 
-                        </p>
-                    </div>
-                    <br>
-                    <div class="col-12">
-                      <div class="">
-                        <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmInsert()" 
-                          style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                          border: none; color: white; border-radius: 50px; padding: 20px 10px;">
-                          Guardar Cambios
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="col-7">
+              <div class="col-12">
                 <div class="row g-5">
-                  <span class="fs-3" style="color: gray;">Lista completa proyectos</span>
+                  <span class="fs-3" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista completa proyectos</span>
+                  <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white; margin-top: -10px !important;"
+                        onclick="openModal()">Añadir nuevo proyecto
+                    </button>
+                  </div>
                   <div class="col-md-12 col-lg-12">
                     <div class="table-responsive">
                       <table class="table table-borderles table-bordered table-striped table-hover align-middle">
@@ -210,10 +157,10 @@
                         <tbody>
                           {% for i in capacitaciones %}
                           <tr>
-                            <td>{{ i.id_capacitacion}}</td>
-                            <td>{{ i.nombre_capacitacion | safe}}</td>
-                            <td>{{ i.total_capacitacion | safe}}</td>
-                            {% if i.status_capacitacion == 1%}
+                            <td>{{ i.id_capacitacion }}</td>
+                            <td>{{ i.nombre_capacitacion | safe }}</td>
+                            <td>{{ i.total_capacitacion | safe }}</td>
+                            {% if i.status_capacitacion == 1 %}
                             <td><div class='text-center'><button class='btn btn-sm btn-danger' 
                               style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white; border-radius: 3px !important;'>Aprobada</button></div>
                             </td>
@@ -289,5 +236,20 @@
             title: 'Proyecto actualizado exitosamente!'
         })
     }
+
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalProject'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formUsuario');
+        myModal.show(modalToggle);
+        document.getElementById('modalUsuariosLabel').innerHTML = '<h5>Añadir nuevo usuario</h5>';
+        $('#txtNombreCapacitacionProfesional').val('');
+        $('#txtDescripcionCapacitacionProfessional').val('');
+        $('#intTotalCapacitacion').val('');
+        $('#listStatusCapacitacion').val('');
+        $('#modalProject').show();
+    } 
 </script>
 {% endblock %}

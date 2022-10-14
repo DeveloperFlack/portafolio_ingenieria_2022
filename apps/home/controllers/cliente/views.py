@@ -18,7 +18,9 @@ def profileCliente(request):
     data = {
         'session_status' : request_session(request),
         'capacitaciones' :  get_capacitaciones(request),
-        'table' : getSolicitud(request)
+        'table' : getSolicitud(request),
+        'asesorias' : get_asesorias(request),
+        'accidente' : get_reportarAccidente(request)
     }
     
     return render(request, 'profile-cliente.html', data)
@@ -102,4 +104,38 @@ def get_capacitaciones(request):
     except Exception as ex:
         print (ex)
 
+def get_asesorias(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute('SELECT * FROM nma_asesoria WHERE status_asesoria != 0')
+            asesoria = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(asesoria)):
+                data_to_array.append({
+                    "id_asesoria" : asesoria[i][0],
+                    "nombre_asesoria" : asesoria[i][2],
+                })
+            
+            return data_to_array
+    except Exception as ex:
+        print (ex)
 
+def get_reportarAccidente(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute('SELECT * FROM nma_accidentes WHERE status_accidente != 0')
+            accidente = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(accidente)):
+                data_to_array.append({
+                    "id_accidente" : accidente[i][0],
+                    "nombre_accidente" : accidente[i][2],
+                })
+            
+            return data_to_array
+    except Exception as ex:
+        print (ex)

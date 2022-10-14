@@ -100,15 +100,22 @@
                   <option value="1">Reportar Accidente</option>
                   <option value="2">Capacitación</option>
                   <option value="3">Asesoría Especial</option>
-              </select>
+              </select>              
 
               <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectNombreSolicitud" name="selectNombreSolicitud" required>
                 <option selected>Seleccione Capacitación</option>
-                {% for x in capacitaciones %}
-                <option value="{{ x.id_capacitacion | safe }}">{{ x.nombre_capacitacion }}</option>
+                {% for x in accidente %}
+                <option value="{{ x.id_accidente | safe }}" data-chained="1">{{ x.nombre_accidente }}</option>
                 {% endfor %}
+                {% for x in capacitaciones %}
+                <option value="{{ x.id_capacitacion | safe }}" data-chained="2">{{ x.nombre_capacitacion }}</option>
+                {% endfor %}                
+                {% for x in asesorias %}
+                <option value="{{ x.id_asesoria | safe }}" data-chained="3">{{ x.nombre_asesoria }}</option>
+                {% endfor %}
+                
               </select>
-
+              
               <div class="form-floating mt-2">
                 <input type="text" class="form-control" id="floatingInput" name="txtNombreSolicitud" placeholder="name@example.com" required>
                 <label for="floatingInput">Asunto Solicitud</label>
@@ -134,6 +141,11 @@
 <script>
   // let v_url_register = "{% url 'registerCliente' %}";
   let v_url_solicitud = "{% url 'getSolicitud' %}";
+</script>
+<script>
+  $(function() {
+    $("#selectNombreSolicitud").chained("#selectTipoSolicitud");
+  });
 </script>
 
 <script>

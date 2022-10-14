@@ -108,16 +108,17 @@ def get_all_project_professional (request):
             for x in range(len(data_to_array)):
                 data_to_array[x]['options'] = """
                     <div class="text-center">
-                        <button type='button' class='btn btn-sm btn-primary' 
-                            data-bs-toggle='modal' data-bs-target='#modalEditProject' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                        <button type='button' class='btn btn-sm btn-primary' onclick='fntEditProject(%s)'
+                            data-bs-toggle='modal' data-bs-target='#modalProject' style='background: linear-gradient(to right, deepskyblue, blueviolet);
                             border: none; border-radius: 3px !important;'>
                             <i class='bx bxs-edit' ></i>
                         </button>
                         <button class="btn btn-sm btn-danger" style='border-radius: 3px !important;'><i class='bx bx-trash'></i></button>
                     </div>
-                """
+                """ % (data_to_array[x]['id_capacitacion'])
             # print (data_to_array)
             return (data_to_array)
     except Exception as ex:
         print (ex)
         return redirect ('projectsProfesional')
+
