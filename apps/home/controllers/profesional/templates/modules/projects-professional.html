@@ -82,11 +82,9 @@
     <div class="container-fluid">
       <div class="row">
 
-        <div class="col-lg-2 col-12" style="padding: 0; margin: 0;">
+        <div class="col-lg-2 col-12" style="padding: 10px 0 0 0; margin: 0;">
           <div class="d-flex flex-column align-items-stretch flex-shrink-0" id="barra__lateral" style="padding: 0 5px; height: 100vh; 
-          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(30, 143, 255, 0.75)),
-          url(https://sp-ao.shortpixel.ai/client/to_auto,q_glossy,ret_img,w_800,h_500/https://ciudademprendedores.com/wp-content/uploads/2022/07/img_593002fad588f2231e1264d9f3489b2b-800x500.jpg);
-          background-size: ; background-repeat: no-repeat; background-position: left center; background-attachment: fixed;">
+          background-color: rgb(249, 249, 249);">
             <div class="position-sticky barra__lateral_mobile" style="padding-right: 0px;">
               <div class="form-floating">
                 <input type="text" class="form-control" placeholder="12345678-9" style="border-radius: 0;">
@@ -98,6 +96,9 @@
                 </label>
               </div>
               <div class="list-group mt-2">
+                <a href="{% url "profileProfesional" %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
+                  Portal
+                </a>
                 <a href="{% url 'projectsProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
                   Mis Proyectos
                 </a>
@@ -178,7 +179,7 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
 
   </div>
 </div>

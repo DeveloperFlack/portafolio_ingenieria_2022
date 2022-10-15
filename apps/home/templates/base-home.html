@@ -45,7 +45,7 @@
   }
 </style>
 
-<body style="font-family: 'Poppins', sans-serif;">
+<body style="font-family: 'Poppins', sans-serif; scroll-behavior: smooth;">
   <header class="p-3 mb-3 border-bottom bg-white fixed-top">
     <nav class="container navbar navbar-expand-lg">
       <div class="container-fluid">
@@ -74,12 +74,13 @@
             </li>
             {% else %}
             <li><a href="{% url 'getHome' %}" class="nav-link px-2 link">Inicio</a></li>
-            <li><a href="#" class="nav-link px-2 link">Servicios</a></li>
+            <li><a href="#servicios" class="nav-link px-2 link">Servicios</a></li>
             <li><a href="#" class="nav-link px-2 link">Gestión</a></li>
             {% endif %}
           </ul>
           <li class="nav-item dropdown account" style="list-style: none;">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+              style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 50px; margin-right: 5px;">
               Cuenta
             </a>
             
@@ -130,7 +131,8 @@
           </li>
 
           <li class="nav-item dropdown account" style="list-style: none;">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" 
+              style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 50px;">
               <i class='bx bx-search'></i>
             </a>
             

@@ -1,0 +1,330 @@
+{% extends 'base-dashboard.html' %}
+{% block content %}
+<div class="modal fade" id="modalAccidente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalAccidenteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 13px; padding: 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAccidenteLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'insertAccidentes' %}" id="formAccidente" class="needs-validation" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="idAccidente" id="idAccidente">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreAccidente" name="txtNombreAccidente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Nombre Accidente</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Accidente Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <textarea type="text" class="form-control" id="txtDescripcionAccidente" name="txtDescripcionAccidente" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <label for="floatingInput">Descripción Accidente</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Fecha Accidente</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Fecha Accidente Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Hora Accidente</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Hora Accidente 
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Tipo Accidente</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Tipo Accidente Ocurrido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <label for="floatingInput">Status Accidente</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Status Accidente Ocurrido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="number" class="form-control" id="txtTotalAsesoria" name="txtTotalAsesoria" placeholder="name@example.com" required>
+                                <label for="floatingInput"></label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEditInsert()" 
+                                    style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;">
+                                    Guardar Cambios
+                                </button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="my-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item active" aria-current="page">{% if title %}{{ breadcrumb }}{% endif %}</li>
+            </ol>
+        </nav>
+        
+        <hr>
+        <div class="">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white;"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                    </button>
+                </div>
+            </nav>
+            <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
+            <div class="">
+                <table class="table table-bordered table-striped table-hover v_table_Asesorias my-3" style="width: 100%;" id="v_table_Asesorias">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    //let v_url = "{% url 'getAllAccidentes' %}";
+    let v_url_accidente = "{% url 'getAccidente' %}";
+    let v_url_enable_accidente = "{% url 'enableAccidente' %}";
+    let v_url_disable_accidente = "{% url 'disableAccidente' %}";
+    let v_url_delete_accidente = "{% url 'deleteAccidente' %}";
+</script>
+<script>
+    let tableAaccidente;
+    $(document).ready(function () {
+        tableAsesoria = $('#v_table_Aaccidentes').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "nombre_accidente"
+            }, {
+                "data": "usuarios"
+            }, {
+                "data": "descripcion_accidente"
+            }, {
+                "data": "fecha_accidente"
+            }, {
+                "data": "hora_accidente"
+            },{
+                "data": "tipo_accidente"
+            },{
+                "data": "status_accidente"
+            },{ 
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+
+    function fntEditAaccidente (id_accidente){
+        var id_asesoria = id_asesoria;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_asesoria + "?idAccidente=" + id_accidente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
+            $('#idAccidente').val(objData[0].id_accidente);
+            $('#txtNombreAccidente').val(objData[0].nombre_accidente);
+            $('#txtDescripcionSccidente').val(objData[0].descripcion_accidente);
+            $('#txtFechaAccidente').val(objData[0].fecha_asesoria);
+            $('#txtHoraAccidente').val(objData[0].hora_accidente);
+            $('#modalAccidente').show();
+        }
+    }
+
+    function fntEnableAccidente(id_accidente){
+        var id_accidente = id_accidente;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_enable_asesoria + "?idAsesoria=" + id_accidente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Accidente Activado!'
+            })
+        }
+    }
+
+    function fntDisableAccidente(id_aaccidente){
+        var id_accidente = id_accidente;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_disable_asesoria + "?idAccidente=" + id_accidente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1900,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: 'Accidente Desactivado!'
+            })
+        }
+    }
+
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalAccidente'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formAccidente');
+        myModal.show(modalToggle);
+        document.getElementById('modalAsesoriaLabel').innerHTML = '<h5>Añadir nuevo accidente</h5>';
+        $('#idAccidente').val('');
+        $('#txtNombreAccidente').val('');
+        $('#txtDescripcionAccidente').val('');
+        $('#txtFechaAccidente').val('');
+        $('#txtHoraAccidente').val('');
+
+        $('#modalAccidente').show();
+    }
+
+    function fntDeleteAsesoria(id_accidente) {
+        var id_accidente = id_accidente;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_Accidente + "?idAccidente=" + id_accidente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntConfirmDelete(id_accidente){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteAccidente(id_accidente);
+                Swal.fire(
+                'Eliminado!',
+                'Tu elemento ha sido eliminado exitosamente',
+                'success'
+                )
+            }
+        })
+    }
+
+    function fntConfirmEditInsert(){
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            timer: 1900,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Proceso finalizado exitosamente!'
+        })
+    }
+</script>
+{% endblock %}
