@@ -1,5 +1,67 @@
 {% extends 'base-dashboard.html'%}
 {% block content %}
+<div class="modal fade" id="modalCliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalCLientesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalClientesLabel">Agregar un nuevo Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "insertCliente" %}" id="formCliente" class="needs-validation" method="POST">
+                    {% csrf_token %}
+                    <!-- <input type="hidden" name="idModulo" id="idModulo"> -->
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="rutCliente" class="form-label">RUT</label>
+                            <input class="form-control" type="text" name="txtRut" id="txtRut"
+                                required>
+                            <label for="primerNombreCliente" class="form-label">Primer Nombre</label>
+                            <input class="form-control" type="text" name="txtPrimerNombre" id="txtPrimerNombre"
+                                required>
+                            <label for="segundoNombreCliente" class="form-label">Segundo Nombre</label>
+                            <input class="form-control" type="text" name="txtSegundoNombre" id="txtSegundoNombre"
+                                required>
+                            <label for="apellidoPaternoCliente" class="form-label">Apellido Paterno</label>
+                            <input class="form-control" type="text" name="txtApellidoPaterno" id="txtApellidoPaterno"
+                                required>
+                            <label for="apellidoMaternoCliente" class="form-label">Apellido Materno</label>
+                            <input class="form-control" type="text" name="txtApellidoMaterno" id="txtApellidoMaterno"
+                                required>
+                            <label for="correoElectronicoCliente" class="form-label">Correo Electrónico</label>
+                            <input class="form-control" type="email" name="txtCorreoElectronico" id="txtCorreoElectronico"
+                                required>
+                            <label for="telefonoCliente" class="form-label">Teléfono Contacto</label>
+                            <input class="form-control" type="number" name="txtTelefono" id="txtTelefono"
+                                required>
+                            <label for="RutEmpresaCliente" class="form-label">Rut Empresa</label>
+                            <input class="form-control" type="text" name="txtRutEmpresa" id="txtRutEmpresa"
+                                required>
+                            <label for="NombreEmpresaCliente" class="form-label">Nombre Empresa</label>
+                            <input class="form-control" type="text" name="txtNombreEmpresa" id="txtNombreEmpresa"
+                                required>                            
+                            <div class="invalid-feedback">Rut del Cliente Requerido</div>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-secondary w-100"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalEditClientes" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalClientesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -76,10 +138,10 @@
                         <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
-                <!-- <div class="d-flex">
+                <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
-                </div> -->
+                </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="">
@@ -108,6 +170,7 @@
 <script>
 let v_url = "{% url 'getAllClientes' %}";
 let v_url_get_cliente = "{% url 'getCliente' %}"
+let v_url_delete_cliente = "{% url 'deleteCliente' %}";
 
     let tableClientes;
     $(document).ready(function () {
@@ -146,8 +209,6 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
             ]
         });
     });
-</script>
-<script>
     // EDIT CLIENTE
     function fntEditCliente (rut_cliente){
         var rut_cliente = rut_cliente;
@@ -188,5 +249,37 @@ let v_url_get_cliente = "{% url 'getCliente' %}"
             title: 'Proceso finalizado exitosamente!'
         })
     }
+    //Limpiar campos
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalCliente'), {
+            keyboard: false
+        })
+        var a = document.querySelector('.needs-validation').reset();
+        var modalToggle = document.getElementById('formCliente');
+        myModal.show(modalToggle);
+        $('#txtRut').val('');
+        $('#txtPrimerNombre').val('');
+        $('#txtSegundoNombre').val('');
+        $('#txtApellidoPaterno').val('');
+        $('#txtApellidoMaterno').val('');
+        $('#txtCorreoElectronico').val('');
+        $('#txtContraseña').val('');        
+        $('#txtTelefono').val('');
+        $('#txtRutEmpresa').val('');
+        $('#txtNombreEmpresa').val('');
+        $('#selectRol').val('');
+    }
+    // Eliminar Cliente
+    function deleteCliente(rut_cliente) {
+            var rut_cliente = rut_cliente;
+            var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = v_url_delete_cliente + "?txtRut=" + rut_cliente;
+            request.open("GET", ajaxUrl, true);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send(ajaxUrl);
+            request.onreadystatechange = function () {
+                window.location.reload()
+            }
+        }
 </script>
 {% endblock %}
