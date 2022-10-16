@@ -49,6 +49,7 @@
 </style>
 
 <body style="font-family: 'Poppins', sans-serif; scroll-behavior: smooth;">
+  <div id="index"></div>
   <header class="p-3 mb-3 border-bottom bg-white fixed-top">
     <nav class="container navbar navbar-expand-lg">
       <div class="container-fluid">
@@ -76,7 +77,7 @@
               </ul>
             </li>
             {% else %}
-            <li><a href="{% url 'getHome' %}" class="nav-link px-2 link">Inicio</a></li>
+            <li><a href="#index" class="nav-link px-2 link">Inicio</a></li>
             <li><a href="#servicios" class="nav-link px-2 link">Servicios</a></li>
             <li><a href="#gestion" class="nav-link px-2 link">Gestión</a></li>
             {% endif %}

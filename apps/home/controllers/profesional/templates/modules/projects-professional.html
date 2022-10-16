@@ -129,10 +129,11 @@
                           </svg> 
                           Añadir nuevo proyecto
                       </button>
+                      <!-- <button class="btn btn-danger w-100" onclick="reloadTable();">reload</button> -->
                     </div>
                     <div class="col-md-12 col-lg-12">
                       <div class="table-responsive">
-                        <table class="table table-borderles table-bordered table-striped table-hover align-middle">
+                        <table class="table table-borderles table-bordered table-striped table-hover align-middle" id="projectsTable">
                           <thead class="table-light">
                             <tr>
                               <th>#</th>
@@ -186,23 +187,29 @@
 {% endblock %}
 {% block scripts %}
 <script>
-     function fntConfirmInsert(){
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 1900,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
 
-        Toast.fire({
-            icon: 'success',
-            title: 'Proyecto ingresado exitosamente!'
-        })
+    function reloadTable() {
+      var table = document.getElementById("projectsTable");
+      table.refresh ();
+    }
+
+    function fntConfirmInsert(){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 1900,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
+      Toast.fire({
+          icon: 'success',
+          title: 'Proyecto ingresado exitosamente!'
+      })
     }
 
    function fntConfirmEdit(){
