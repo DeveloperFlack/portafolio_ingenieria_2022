@@ -25,7 +25,7 @@ def test_registro_cliente():
         fc_insert_cliente(rut_cliente, v_contrasena_cliente, v_n1_cliente, v_n2_cliente,
                 v_ap_cliente, v_am_cliente, v_correo_cliente, v_telefono_cliente, v_rut_empresa_cliente, v_nombre_empresa, v_status_cliente)
         
-        consulta= list(fc_get_cliente(rut_aleatorio))
+        consulta= list(fc_get_cliente_dash(rut_aleatorio))
         data_to_array= []
         
         for i in consulta:
@@ -34,30 +34,23 @@ def test_registro_cliente():
                 })  
         assert(data_to_array[0]['rut_cliente'] == rut_aleatorio)
 
-def test_editar_cliente():
+def test_update_cliente():
         rut_cliente = rut_aleatorio
         v_contrasena_cliente = TestEdit
-        v_n1_cliente = TestEdit
-        v_n2_cliente = TestEdit
-        v_ap_cliente = TestEdit
-        v_am_cliente = TestEdit
         v_correo_cliente = TestEdit
         v_telefono_cliente = 123456789
-        v_rut_empresa_cliente = rut_aleatorio
-        v_nombre_empresa = 1
-        v_status_cliente = 1      
+        v_nombre_empresa = 1    
 
-        fc_update_cliente(rut_cliente, v_contrasena_cliente, v_n1_cliente, v_n2_cliente,
-                v_ap_cliente, v_am_cliente, v_correo_cliente, v_telefono_cliente, v_rut_empresa_cliente, v_nombre_empresa, v_status_cliente)
+        fc_update_cliente(rut_cliente, v_contrasena_cliente, v_correo_cliente, v_telefono_cliente, v_nombre_empresa)
 
-        consulta= list(fc_get_cliente(rut_aleatorio))
+        consulta= list(fc_get_cliente_dash(rut_aleatorio))
         data_to_array= []
         
         for i in consulta:
                 data_to_array.append({
-                        'n1_cliente':i[2]
+                        'rut_cliente':i[0]
                 })  
-        assert(data_to_array[0]['n1_cliente'] == TestEdit)
+        assert(data_to_array[0]['rut_cliente'] == rut_aleatorio)
 
 def test_eliminar_cliente():
         resultado=fc_delete_cliente(rut_aleatorio)
