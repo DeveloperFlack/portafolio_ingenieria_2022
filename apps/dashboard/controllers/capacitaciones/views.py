@@ -129,6 +129,7 @@ def dashboard_delete_capacitacion(request):
     if (request.method) == 'GET':
         v_id_capacitacion = request.GET.get("idCapacitacion")
         exist = fc_get_capacitacion(v_id_capacitacion)
+        print(exist)
         if (exist != ()):
             fc_delete_capacitacion(v_id_capacitacion)
             return redirect("getCapacitacionesPage")

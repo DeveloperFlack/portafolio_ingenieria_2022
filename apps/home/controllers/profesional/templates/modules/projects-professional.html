@@ -52,7 +52,7 @@
             <br>
             <div class="col-12">
               <div class="">
-                  <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEdit()" 
+                  <button type="submit" class="btn btn-primary w-100" onclick="fntConfirmEdit(), reloadTable()" 
                       style="background: linear-gradient(to right, deepskyblue, blueviolet); 
                       border: none; color: white; border-radius: 50px; padding: 20px 10px;">
                       Guardar Cambios
@@ -121,20 +121,33 @@
                 <div class="col-12">
                   <div class="row g-5">
                     <span class="fs-3" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista completa proyectos</span>
-                    <div class="d-flex">
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
-                          border: none; color: white; margin-top: -10px !important; padding: 10px 20px;"
+                    <br>
+                    <div class="row">
+                      <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                          border: none; color: white; padding: 10px 20px;"
                           onclick="openModal()">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 28" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
                             <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                           </svg> 
                           Añadir nuevo proyecto
-                      </button>
-                      <!-- <button class="btn btn-danger w-100" onclick="reloadTable();">reload</button> -->
+                        </button>
+                      </div>
+                      <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
+                        <button type="button" class="btn btn-primary col-12" style="background: linear-gradient(to right, deeppink, red);
+                          border: none; color: white; padding: 10px 20px; margin-left: 5px;"
+                          onclick="reloadTable()" id="reload_btn">
+                          <svg id="reload_icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
+                            <path d="M2 11h5v2H2zm15 0h5v2h-5zm-6 6h2v5h-2zm0-15h2v5h-2zM4.222 5.636l1.414-1.414 3.536 3.536-1.414 1.414zm15.556 12.728-1.414 1.414-3.536-3.536 1.414-1.414zm-12.02-3.536 1.414 1.414-3.536 3.536-1.414-1.414zm7.07-7.071 3.536-3.535 1.414 1.415-3.536 3.535z"></path>
+                          </svg>
+                          Recargar tabla
+                        </button>
+                      </div>
+
                     </div>
                     <div class="col-md-12 col-lg-12">
-                      <div class="table-responsive">
-                        <table class="table table-borderles table-bordered table-striped table-hover align-middle" id="projectsTable">
+                      <div class="table-responsive"  id="projectsTable">
+                        <table class="table table-borderles table-bordered table-striped table-hover align-middle">
                           <thead class="table-light">
                             <tr>
                               <th>#</th>
@@ -191,10 +204,24 @@
 
   let v_url_update_project = "{% url 'capacitacionProfesional' %}" ;
   let v_url_delete = "{% url 'deleteCapacitacion' %}"
+
     function reloadTable() {
-      var table = document.getElementById("projectsTable");
-      table.refresh ();
+      $('#projectsTable').load(location.href + " #projectsTable");
     }
+
+    document.getElementById("reload_btn").addEventListener("focus", () => {
+      // evnet.defaultPrevented();
+      let reload_icon = document.getElementById("reload_icon");
+      reload_icon.style.transform = "rotate(450deg)";
+      reload_icon.style.transition = "2s ease-in-out";
+    })
+
+    document.getElementById("reload_btn").addEventListener("focusout", () => {
+      // evnet.defaultPrevented();
+      let reload_icon = document.getElementById("reload_icon");
+      reload_icon.style.transform = "rotate(0deg)";
+      reload_icon.style.transition = "0s ease-in-out";
+    })
 
     function fntConfirmInsert(){
       const Toast = Swal.mixin({

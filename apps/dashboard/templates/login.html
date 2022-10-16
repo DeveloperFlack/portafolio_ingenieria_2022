@@ -14,9 +14,16 @@
     <link rel="stylesheet" href="{% static 'adm/vendor/boxicons/css/boxicons.css'%}">
 </head>
 
+<style>
+    @media screen and (max-width: 570px) {
+        .content__form_login{height: auto !important; padding-right: 30px !important; padding-left: 30px !important;}
+        .card__adm_login{width: auto !important;}
+        .card__adm_login .background__adm_login{width: 100% !important; height: 260px !important; border-radius: 0 !important; background-repeat: no-repeat !important; margin-bottom: -140px !important;}
+    }
+</style>
 <body class="bkg-login" style="background: #d6dbdf;">
     <main class="container">
-        <div class="d-flex align-content-center flex-wrap justify-content-center" style="height: 100vh">
+        <div class="d-flex align-content-center flex-wrap justify-content-center wrapp" style="height: 100vh">
             <div class="row">
                 <div class="col-12 text-white">
                     {% if messages %}
@@ -32,11 +39,11 @@
                             {%  endif %}
                         {% endfor %}
                     {% endif %}
-                    <div class="card shadow-lg" style="width: 1500px; height: 750px; border-radius: 5px; background-color: #e5ecf2;">
+                    <div class="card card__adm_login shadow-lg" style="width: 1500px; height: 750px; border-radius: 5px; background-color: #e5ecf2;">
                         <div class="login__content">
                             <div class="row">
                                 <div class="col-lg-7 col-12">
-                                    <div class="shadow-sm" style="background: url(https://cdn.dribbble.com/users/1138853/screenshots/4834993/06_08_gif.gif);
+                                    <div class="shadow-sm background__adm_login" style="background: url(https://cdn.dribbble.com/users/1138853/screenshots/4834993/06_08_gif.gif);
                                         background-size: cover; width: 100%; height: 750px; border-radius: 5px 50% 50% 5px;">
                                     </div>
                                 </div>
@@ -109,7 +116,7 @@
                 })
 
                 Toast.fire({
-                    icon: 'error',
+                    icon: 'info',
                     title: 'Todos los campos son obligatorios!'
                 })
             } else {

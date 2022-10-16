@@ -40,11 +40,16 @@
     .banner_cliente .info_banner_cliente{font-size: 17px !important;}
     .content_table{padding: 5px 0 !important;}
     .info_profile{font-size: 13px !important;}
-    .account{justify-content: center !important; text-align: center !important;}
     .menu{padding-top: 15px !important;}
     .barra__lateral_mobile{height: auto !important; padding-right: 3px !important;}
     #barra__lateral{height: auto !important; padding-bottom: 15px !important;}
     .content_table_cliente{padding: 5px !important;}
+    .card__login_cliente .login__content, .card__register_cliente .register__content{margin-top: 0px !important;}
+    .card__login_cliente .background__login, .card__register_cliente .background__register{width: 100% !important; height: 230px !important; border-radius: 0 !important; background-repeat: no-repeat !important; margin-bottom: -140px !important;}
+    .card__login_cliente .content__form_login, .card__register_cliente .content__form_register{padding: 15px 20px !important; margin-top: 40px !important;}
+    .modal{margin: 0 !important; width: 100% !important;}
+    .account{margin-bottom: 10px !important; width: 100% !important;}
+    #reload_btn{margin-top: 7px !important; margin-left: 0 !important;}
   }
 </style>
 
@@ -82,7 +87,7 @@
             <li><a href="#gestion" class="nav-link px-2 link">Gestión</a></li>
             {% endif %}
           </ul>
-          <li class="nav-item dropdown account" style="list-style: none;">
+          <li class="nav-item dropdown text-center account" style="list-style: none;">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"
               style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 50px; margin-right: 5px;">
               Cuenta
@@ -134,7 +139,7 @@
             </div>
           </li>
 
-          <li class="nav-item dropdown account" style="list-style: none;">
+          <li class="nav-item dropdown text-center" style="list-style: none;">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" 
               style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 50px;">
               <i class='bx bx-search'></i>
@@ -157,17 +162,17 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
       <div class="modal-content rounded-5" style="border-radius: 10px; background: transparent !important; border: none;">
   
-        <div class="modal-body p-5 pt-0">
-          <div class="card shadow-lg" style="height: 600px; border-radius: 5px; background-color: #e5ecf2;">
+        <div class="modal-body pt-0">
+          <div class="card card__login_cliente shadow-lg" style="height: auto; border-radius: 5px; background-color: #e5ecf2;">
             <div class="login__content">
                 <div class="row">
                     <div class="col-lg-7 col-12">
-                        <div class="shadow-sm" style="background: url(https://cdn.dribbble.com/users/1912990/screenshots/6129020/cloud_computing.gif);
+                        <div class="shadow-sm background__login" style="background: url(https://cdn.dribbble.com/users/1912990/screenshots/6129020/cloud_computing.gif);
                             background-size: cover; width: 100%; height: 600px; border-radius: 5px 50% 50% 5px;">
                         </div>
                     </div>
                     <div class="col-lg-5 col-12">
-                        <div class="content__form_login" style="text-align: left; height: 600px; padding: 15px 55px 15px 35px; margin-top: 80px;">
+                        <div class="content__form_login" style="text-align: left; height: auto; padding: 15px 55px 15px 35px; margin-top: 80px;">
                             <h2 style="color: black;">Iniciar Sesión</h2> 
                             <br>
                             <form action="{% url 'auth' %}" method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formLoginHome">
@@ -219,17 +224,17 @@
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
       <div class="modal-content rounded-5" style="border-radius: 10px; border: none; background: transparent !important;">
   
-        <div class="modal-body p-5 pt-0">
-          <div class="card shadow-lg" style="height: 700px; border-radius: 5px; background-color: #e5ecf2;">
-            <div class="login__content">
+        <div class="modal-body pt-0">
+          <div class="card card__register_cliente shadow-lg" style="height: auto; border-radius: 5px; background-color: #e5ecf2;">
+            <div class="register__content">
                 <div class="row">
                     <div class="col-lg-7 col-12">
-                        <div class="shadow-sm" style="background: url(https://meridiangulf.com/images/top_banner/banner%202.gif);
+                        <div class="shadow-sm background__register" style="background: url(https://meridiangulf.com/images/top_banner/banner%202.gif);
                             background-size: cover; background-position: center center; width: 100%; height: 700px; border-radius: 5px 50% 50% 5px;">
                         </div>
                     </div>
                     <div class="col-lg-5 col-12">
-                        <div class="content__form_login" style="text-align: left; height: 700px; padding: 15px 35px 15px 15px; margin-top: 70px;">
+                        <div class="content__form_register" style="text-align: left; height: auto; padding: 15px 35px 15px 15px; margin-top: 70px;">
                             <h2 style="color: black;">Crear Cuenta</h2> 
                             <br>
                             <form action="{% url 'registerCliente' %}" method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formRegisterHome">
@@ -425,7 +430,7 @@
           })
 
           Toast.fire({
-            icon: 'error',
+            icon: 'info',
             title: 'Todos los campos son obligatorios!'
           })
         } 
@@ -475,7 +480,7 @@
           })
 
           Toast.fire({
-            icon: 'error',
+            icon: 'info',
             title: 'Todos los campos son obligatorios!'
           })
         } else {

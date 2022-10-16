@@ -17,11 +17,19 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+  @media screen and (max-width: 570px) {
+    .main__dashboard{padding: 30px 10px !important;}
+    .card__little{margin-bottom: 15px !important;}
+    body{overflow-x: hidden !important;}
+    .modal{padding: 0 !important;}
+    .card__adm_login{width: auto !important;}
+    .card__adm_login .background__adm_login{display: none !important;}
+  }
 </style>
-<body style="font-family: 'Poppins', sans-serif !important; background-color: #ebedef;">
+<body class="body__dashboard" style="font-family: 'Poppins', sans-serif !important; background-color: #ebedef; overflow-x: hidden !important;">
     <header style="background-color: white; color: black !important; border-radius: 0px; padding: 20px 10px; box-shadow: 1px 1px 7px rgb(214, 214, 214); z-index: 1000; position: relative;">
         <nav class="navbar navbar-expand-lg navbar-light mx-5">
-            <a class="navbar-brand" href="#asdasdasd">RSP Dashboard</a>
+            <a class="navbar-brand" href="{% url 'principalDashboard' %}">RSP Dashboard</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -71,10 +79,10 @@
             </div>
         </nav>
     </header>
-    <div class="row" style="justify-content: center;">
-        <div class="col-10">
-            <main class="container-fluid" style="background-color: white; padding: 30px 10px; border-radius: 15px; margin: 15px; box-shadow: 1px 1px 8px rgb(210, 210, 210);">
-                <section class="row mx-5">
+    <div class="row row__main" style="justify-content: center;">
+        <div class="col-12 col-lg-10">
+            <main class="container-fluid main__dashboard" style="background-color: white; padding: 30px 10px; margin-top: 15px; border-radius: 15px; box-shadow: 1px 1px 8px rgb(210, 210, 210);">
+                <section class="mx-2">
                     {% block content %}
                     {% endblock %}
                 </section>

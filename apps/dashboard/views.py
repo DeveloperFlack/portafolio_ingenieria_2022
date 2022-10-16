@@ -53,7 +53,12 @@ def get_connection ():
 def getDashboard (request):
     data = {
         'id' : 1,
-        'Módulo' : "Dashboard"
+        'Módulo' : "Dashboard",
+        'asesorias': get_count_asesorias(request),
+        'capacitaciones': get_count_capacitaciones(request),
+        'solicitudes': get_count_solicitudes(request),
+        'profesionales': get_count_profesionales(request),
+        'clientes': get_count_clientes(request),
     }
     
     a = helpers.session_user_exist(request)
@@ -154,3 +159,108 @@ def logoutAdm(request):
     except KeyError:
         print (request.session.items())
         return redirect('loginDashboard')
+
+def get_count_asesorias(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(id_asesoria)
+                FROM nma_asesoria 
+                WHERE status_asesoria != 0
+            """)
+            asesorias = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(asesorias)):
+                data_to_array.append({
+                    "count_id": asesorias[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+
+def get_count_capacitaciones(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(id_capacitacion)
+                FROM nma_capacitacion 
+                WHERE status_capacitaciones != 0
+            """)
+            capacitaciones = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(capacitaciones)):
+                data_to_array.append({
+                    "count_id": capacitaciones[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+
+def get_count_solicitudes(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(id_solicitud)
+                FROM nma_solicitudes 
+                WHERE status_solicitud != 0
+            """)
+            solicitudes = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(solicitudes)):
+                data_to_array.append({
+                    "count_id": solicitudes[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+
+def get_count_profesionales(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(rut_usuario)
+                FROM nma_usuario
+                WHERE status_usuario != 0
+            """)
+            profesionales = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(profesionales)):
+                data_to_array.append({
+                    "count_rut": profesionales[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+
+def get_count_clientes(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(rut_cliente)
+                FROM nma_cliente
+                WHERE status_cliente != 0
+            """)
+            clientes = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(clientes)):
+                data_to_array.append({
+                    "count_rut": clientes[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
