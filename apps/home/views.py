@@ -5,6 +5,7 @@ import apps.core
 import hashlib
 from django.contrib import messages
 from apps.helpers import *
+from apps.home.controllers.cliente.usp import *
 import js2py
 from django.http import HttpResponse
 
