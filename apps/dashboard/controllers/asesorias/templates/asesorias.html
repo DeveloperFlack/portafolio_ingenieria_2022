@@ -1,5 +1,13 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
+<style>
+    @media screen and (max-width: 570px) {
+        #addAsesoria{position: fixed !important; bottom: 0 !important; right: 0 !important; width: 100% !important;
+            border-radius: 0 !important; padding: 17px 10px !important; z-index: 100;
+            box-shadow: 0px 10px 5px rgb(200, 200, 200), 0px -3px 3px rgb(120, 120, 120);}
+        body{overflow-x: hidden !important;}
+    }
+</style>
 <div class="modal fade" id="modalAsesoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalAsesoriaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -80,7 +88,7 @@
                 <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;"
-                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                        onclick="openModal()" id="addAsesoria">{% if button_add %}{{button_add}}{% endif %}
                     </button>
                 </div>
             </nav>

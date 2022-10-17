@@ -1,5 +1,13 @@
 {% extends 'base-home.html' %}
 {% block content %}
+
+<style>
+  @media screen and (max-width: 570px) {
+    #addReporte{position: fixed !important; bottom: 0 !important; right: 0 !important; padding: 17px 10px !important; border-radius: 0 !important; width: 100% !important;
+      box-shadow: 0px 10px 5px rgb(200, 200, 200), 0px -3px 3px rgb(120, 120, 120);}
+    .titleTable{margin-bottom: -70px !important;}
+  }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="modalReporte" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -94,7 +102,7 @@
                     <a href="{% url 'projectsProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
                     Mis Proyectos
                     </a>
-                    <a href="{% url 'reportesGlobalesProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
+                    <a href="{% url 'reportesGlobalesProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0; background-color: dodgerblue; color: white;">
                     Reportes
                     </a>
                     <a class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
@@ -111,11 +119,11 @@
                 <div class="row">
                     <div class="col-12">
                     <div class="row g-5">
-                        <span class="fs-3" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista de reportes generados</span>
+                        <span class="fs-3 titleTable" style="color: gray; margin-bottom: -10px; margin-top: 100px;">Lista de reportes generados</span>
                         <div class="d-flex">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                             border: none; color: white; margin-top: -10px !important; padding: 10px 20px;"
-                            onclick="openModal()">
+                            onclick="openModal()" id="addReporte">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 28" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
                                 <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                             </svg> 

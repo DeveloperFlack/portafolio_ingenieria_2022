@@ -1,6 +1,12 @@
 {% extends 'base-home.html'%}
 {% block content %}
 
+<style>
+  @media screen and (max-width: 570px) {
+    #addProject{position: fixed !important; bottom: 0% !important; right: 0% !important; width: 100% !important; border-radius: 0 !important; padding: 17px 10px !important; 
+      box-shadow: 0px 10px 5px rgb(200, 200, 200), 0px -3px 3px rgb(120, 120, 120);}
+  }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="modalProject" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -10,7 +16,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data" id="formProject">
           {% csrf_token %}
           <div class="row g-3">
             <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
@@ -100,7 +106,7 @@
                 <a href="{% url "profileProfesional" %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
                   Portal
                 </a>
-                <a href="{% url 'projectsProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
+                <a href="{% url 'projectsProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0; background-color: dodgerblue; color: white;">
                   Mis Proyectos
                 </a>
                 <a href="{% url 'reportesGlobalesProfesional' %}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" style="border-radius: 0;">
@@ -126,7 +132,7 @@
                       <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-6 col-sm-12">
                         <button type="button" class="btn btn-primary col-12" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                           border: none; color: white; padding: 10px 20px;"
-                          onclick="openModal()">
+                          onclick="openModal()" id="addProject">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 28" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
                             <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                           </svg> 
@@ -213,7 +219,7 @@
       // evnet.defaultPrevented();
       let reload_icon = document.getElementById("reload_icon");
       reload_icon.style.transform = "rotate(450deg)";
-      reload_icon.style.transition = "2s ease-in-out";
+      reload_icon.style.transition = "1.3s ease-in-out";
     })
 
     document.getElementById("reload_btn").addEventListener("focusout", () => {
@@ -266,9 +272,10 @@
           keyboard: false
       })
       var a = document.querySelector('.needs-validation').reset();
-      var modalToggle = document.getElementById('formUsuario');
+      var modalToggle = document.getElementById('formProject');
       myModal.show(modalToggle);
-      document.getElementById('modalUsuariosLabel').innerHTML = '<h5>Añadir nuevo usuario</h5>';
+      modalToggle.reset();
+      document.getElementById('projectLabel').innerHTML = '<h5>Añadir nuevo proyecto</h5>';
       $('#txtNombreCapacitacionProfesional').val('');
       $('#txtDescripcionCapacitacionProfessional').val('');
       $('#intTotalCapacitacion').val('');
