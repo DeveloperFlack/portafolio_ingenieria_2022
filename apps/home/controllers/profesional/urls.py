@@ -9,9 +9,9 @@ urlpatterns = [
     path('portal/mis-projectos', projects_profesional, name="projectsProfesional"),
     path('portal/reportes-globales', reportes_globales_profesional, name="reportesGlobalesProfesional"),
     path('portal/mis-tickets', tickets_profesional, name="ticketsProfesional"),
-    path('api/v2/ingresar/capacitación', insert_project, name="insertCapacitacion"),
+    path('api/v2/ingresar/capacitación', insert_project, name="insertCapacitacionProfesional"),
     path('api/v2/get/capacitacion', get_capacitacion, name="capacitacionProfesional"),
-    path('api/v2/delete/capacitacion', delete_capacitacion, name="deleteCapacitacion"),
+    path('api/v2/delete/capacitacion', delete_capacitacion, name="deleteCapacitacionProfesional"),
     
 ]
 

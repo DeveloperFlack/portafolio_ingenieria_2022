@@ -41,6 +41,7 @@ def insertCapacitacion(request):
             # getCapacitacionesPage.
             exist = fc_get_capacitacion(v_idCapacitacion)
             if (exist != ()):
+            
                 v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
                 v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
                 v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
@@ -127,15 +128,21 @@ def getCapacitacion(request):
 # DELETE CAPACITACIÓN
 def dashboard_delete_capacitacion(request):
     if (request.method) == 'GET':
-        v_id_capacitacion = request.GET.get("idCapacitacion")
-        exist = fc_get_capacitacion(v_id_capacitacion)
-        print(exist)
-        if (exist != ()):
-            fc_delete_capacitacion(v_id_capacitacion)
-            return redirect("getCapacitacionesPage")
-        else:
-            messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
-            return redirect("getCapacitacionesPage")
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                v_id_capacitacion = request.GET.get("idCapacitacion")
+                cursor.execute("SELECT * FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                exist = cursor.fetchall()
+                
+                if (exist != ()):
+                    cursor.execute("DELETE FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                    cx.commit()
+            cx.close()
+            return redirect ('getCapacitacionesPage')
+        except Exception as ex:
+            print (ex)
+            return redirect ('getCapacitacionesPage')
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
         return redirect("getCapacitacionesPage")

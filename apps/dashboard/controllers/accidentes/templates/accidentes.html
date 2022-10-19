@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <input type="date" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="" required>
                                 <label for="floatingInput">Fecha Accidente</label>
                             </div>
                             <div class="invalid-feedback">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <input type="time" class="form-control" id="txtHoraAccidente" name="txtHoraAccidente" placeholder="" required>
                                 <label for="floatingInput">Hora Accidente</label>
                             </div>
                             <div class="invalid-feedback">
@@ -48,28 +48,13 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
+                                <input type="text" class="form-control" id="txtTipoAccidente" name="txtTipoAccidente" placeholder="" required>
                                 <label for="floatingInput">Tipo Accidente</label>
                             </div>
                             <div class="invalid-feedback">
                                 Tipo Accidente Ocurrido
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtFechaAccidente" name="txtFechaAccidente" placeholder="name@example.com" required>
-                                <label for="floatingInput">Status Accidente</label>
-                            </div>
-                            <div class="invalid-feedback">
-                                Status Accidente Ocurrido
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <input type="number" class="form-control" id="txtTotalAsesoria" name="txtTotalAsesoria" placeholder="name@example.com" required>
-                                <label for="floatingInput"></label>
-                            </div>
-                        </div>
+                        </div>                  
                         <hr>
                         <div class="col-12">
                             <div class="">
@@ -119,15 +104,16 @@
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover v_table_Asesorias my-3" style="width: 100%;" id="v_table_Asesorias">
+                <table class="table table-bordered table-striped table-hover v_table_Accidentes my-3" style="width: 100%;" id="v_table_Accidentes">
                     <thead class="table-light">
                         <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Tipo</th>
-                            <th>Estado</th>
+                            <th>id_accidente</th>
+                            <th>nombre_accidente</th>
+                            <th>descripcion_accidente</th>
+                            <th>fecha_accidente</th>
+                            <th>hora_accidente</th>
+                            <th>tipo_accidente</th>
+                            <th>status_accidente</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -141,16 +127,16 @@
 
 {% block scripts %}
 <script>
-    //let v_url = "{% url 'getAllAccidentes' %}";
-    let v_url_accidente = "{% url 'getAccidente' %}";
+    let v_url = "{% url 'getAllAccidentes' %}";
+    let v_url_accidente = "{% url 'getAccidentes' %}";
     let v_url_enable_accidente = "{% url 'enableAccidente' %}";
     let v_url_disable_accidente = "{% url 'disableAccidente' %}";
-    let v_url_delete_accidente = "{% url 'deleteAccidente' %}";
+    let v_url_delete_accidente = "{% url 'deleteAccidente' %}";    
 </script>
 <script>
-    let tableAaccidente;
+    let tableAccidente;
     $(document).ready(function () {
-        tableAsesoria = $('#v_table_Aaccidentes').DataTable({
+        tableAccidente = $('#v_table_Accidentes').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
@@ -160,9 +146,9 @@
                 "dataSrc": ""
             },
             "columns": [{
-                "data": "nombre_accidente"
+                "data": "id_accidente"
             }, {
-                "data": "usuarios"
+                "data": "nombre_accidente"
             }, {
                 "data": "descripcion_accidente"
             }, {
@@ -183,9 +169,9 @@
     });
 
     function fntEditAaccidente (id_accidente){
-        var id_asesoria = id_asesoria;
+        var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_asesoria + "?idAccidente=" + id_accidente;
+        var ajaxUrl = v_url_accidente + "?idAccidente=" + id_accidente;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -194,9 +180,10 @@
             document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
             $('#idAccidente').val(objData[0].id_accidente);
             $('#txtNombreAccidente').val(objData[0].nombre_accidente);
-            $('#txtDescripcionSccidente').val(objData[0].descripcion_accidente);
-            $('#txtFechaAccidente').val(objData[0].fecha_asesoria);
+            $('#txtDescripcionAccidente').val(objData[0].descripcion_accidente);
+            $('#txtFechaAccidente').val(objData[0].fecha_accidente);
             $('#txtHoraAccidente').val(objData[0].hora_accidente);
+            $('#txtTipoAccidente').val(objData[0].hora_accidente);
             $('#modalAccidente').show();
         }
     }
@@ -204,7 +191,7 @@
     function fntEnableAccidente(id_accidente){
         var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_enable_asesoria + "?idAsesoria=" + id_accidente;
+        var ajaxUrl = v_url_enable_accidente + "?idAccidente=" + id_accidente;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -232,7 +219,7 @@
     function fntDisableAccidente(id_aaccidente){
         var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_disable_asesoria + "?idAccidente=" + id_accidente;
+        var ajaxUrl = v_url_disable_accidente + "?idAccidente=" + id_accidente;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -264,17 +251,17 @@
         var a = document.querySelector('.needs-validation').reset();
         var modalToggle = document.getElementById('formAccidente');
         myModal.show(modalToggle);
-        document.getElementById('modalAsesoriaLabel').innerHTML = '<h5>Añadir nuevo accidente</h5>';
+        document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Añadir nuevo accidente</h5>';
         $('#idAccidente').val('');
         $('#txtNombreAccidente').val('');
         $('#txtDescripcionAccidente').val('');
         $('#txtFechaAccidente').val('');
         $('#txtHoraAccidente').val('');
-
+        $('#txtTipoAccidente').val('');
         $('#modalAccidente').show();
     }
 
-    function fntDeleteAsesoria(id_accidente) {
+    function fntDeleteAccidente(id_accidente) {
         var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_delete_Accidente + "?idAccidente=" + id_accidente;

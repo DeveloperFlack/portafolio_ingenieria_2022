@@ -16,7 +16,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{% url 'insertCapacitacion' %}" method="POST" enctype="multipart/form-data" id="formProject">
+        <form action="{% url 'insertCapacitacionProfesional' %}" method="POST" enctype="multipart/form-data" id="formProject">
           {% csrf_token %}
           <div class="row g-3">
             <input type="hidden"  name="numberCapacitacion" id="numberCapacitacion">
@@ -209,7 +209,7 @@
 <script>
 
   let v_url_update_project = "{% url 'capacitacionProfesional' %}" ;
-  let v_url_delete = "{% url 'deleteCapacitacion' %}"
+  let v_url_delete = "{% url 'deleteCapacitacionProfesional' %}"
 
     function reloadTable() {
       $('#projectsTable').load(location.href + " #projectsTable");
