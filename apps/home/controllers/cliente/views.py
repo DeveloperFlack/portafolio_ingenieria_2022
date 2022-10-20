@@ -19,6 +19,7 @@ def profileCliente(request):
         'session_status' : request_session(request),
         'capacitaciones' :  get_capacitaciones(request),
         'table' : getSolicitud(request),
+        'tableAcc': getAccidente(request),
         'asesorias' : get_asesorias(request),
         'accidente' : get_reportarAccidente(request)
     }
@@ -86,6 +87,45 @@ def getSolicitud(request):
     else:
         return redirect("profileCliente")
 
+## TABLA ACCIDENTES CLIENTE
+def getAccidente(request):
+    session_check = 'cliente' in request.session
+    if (session_check == True):
+        v_rut_cliente = request.session['cliente']['rut_cliente']
+        data_accidentes = fc_get_accidentes(v_rut_cliente)
+        # print (data_solicitudes)
+        data_to_array = []
+        if (data_accidentes != ()):
+            for i in data_accidentes:
+                data_to_array.append({
+                    "nombre_accidente": i[2],
+                    "descripcion_accidente" : i[3],
+                    "fecha_accidente": i[4],
+                    "hora_accidente": i[5],
+                    "tipo_accidente": i[6],
+                })
+            data_table = {'tableAcc' : ""}
+            for ax in range(len(data_to_array)):
+                v_nombre_accidente = data_to_array[ax]["nombre_accidente"]
+                v_descripcion_accidente = data_to_array[ax]['descripcion_accidente']
+                v_fecha_accidente = data_to_array[ax]['fecha_accidente']
+                v_hora_accidente = data_to_array[ax]['hora_accidente']
+                v_tipo_accidente = data_to_array[ax]['tipo_accidente']
+                data_table['tableAcc'] += """
+                    <tr>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                        <td>%s</td>
+                    </tr>
+                """ % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente)
+            return data_table['tableAcc']
+        else:
+            return redirect("profileCliente")
+    else:
+        return redirect("profileCliente")
+
 def get_capacitaciones(request):
     try:
         cx = get_connection()
@@ -132,10 +172,62 @@ def get_reportarAccidente(request):
             
             for i in range(len(accidente)):
                 data_to_array.append({
-                    "id_accidente" : accidente[i][0],
                     "nombre_accidente" : accidente[i][2],
+                    "descripcion_accidente" : accidente[i][3],
+                    "fecha_accidente" : accidente[i][4],
+                    "hora_accidente" : accidente[i][5],
+                    "tipo_accidente" : accidente[i][6]
+
                 })
             
             return data_to_array
     except Exception as ex:
         print (ex)
+
+# INSERTAR ACCIDENTES CLIENTE
+def insertAccidentesCliente(request):
+    if(request.method == 'POST'):
+        v_id_accidente = request.POST.get('idAccidenteCliente')
+        v_rut_cliente = request.session['cliente']['rut_cliente']
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+
+                cursor.execute("SELECT * FROM nma_accidentes WHERE id_accidente = '%s'" % (v_id_accidente))
+                exists = cursor.fetchall()
+
+                print(exists)
+
+                if (exists == ()):
+                    v_nombre_accidente = request.POST.get("txtNombreAccidenteCliente")
+                    v_descripcion_accidente = request.POST.get("txtDescripcionAccidenteCliente")
+                    v_fecha_accidente = request.POST.get("txtFechaAccidenteCliente")
+                    v_hora_accidente = request.POST.get("txtHoraAccidenteCliente")
+                    v_tipo_accidente = request.POST.get("txtTipoAccidenteCliente")
+                    v_status_accidente = 1
+                    cursor.execute("""INSERT INTO nma_accidentes 
+                    (rut_cliente, nombre_accidente, descripcion_accidente, fecha_accidente, hora_accidente, tipo_accidente, status_accidente)
+                    VALUES ("%s", "%s", "%s", "%s", "%s", "%s", %s)"""
+                    % (v_rut_cliente, v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente))
+                    cx.commit()
+
+                else:
+                    v_nombre_accidente = request.POST.get("txtNombreAccidenteCliente")
+                    v_descripcion_accidente = request.POST.get("txtDescripcionAccidenteCliente")
+                    v_fecha_accidente = request.POST.get("txtFechaAccidenteCliente")
+                    v_hora_accidente = request.POST.get("txtHoraAccidenteCliente")
+                    v_tipo_accidente = request.POST.get("txtTipoAccidenteCliente")
+                    v_status_accidente = 1
+                    cursor.execute("""UPDATE nma_accidentes SET nombre_accidente = "%s",
+                    descripcion_accidente = "%s", fecha_accidente = "%s", hora_accidente = "%s", 
+                    tipo_accidente = "%s", status_accidente = %s WHERE (id_accidente = %s)""" 
+                    % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente, v_id_accidente))
+                    cx.commit()
+
+            cx.close()
+            return redirect("profileCliente")
+        except Exception as ex:
+            print(ex)
+            return redirect("profileCliente")
+    else:
+        return redirect("profileCliente")

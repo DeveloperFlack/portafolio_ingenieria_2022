@@ -56,6 +56,36 @@
                 </table>
               </div>
             </div>
+
+            <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm mt-4">
+              <button class="btn btn-primary hint--right hint--info" aria-label="Enviar una Solicitud" data-bs-toggle="modal" data-bs-target="#accidentesModalCliente" 
+                  style="float: right !important; border-radius: 3px !important; color: white; margin-right: 10px;">
+                <i class='bx bx-plus' ></i>
+              </button>
+              <img class="me-2" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="48" height="38">
+              <div class="lh-1">
+                <h1 class="h5 mb-0 text-white lh-1">RSP Company</h1>
+                <small>Listado y Estado de solicitudes</small>
+              </div>
+            </div>
+            <div class="px-2">
+              <div class="table-responsive">
+                <table class="table table-bordered v_tabla_accidentes my-3" style="width: 100%;" id="v_tabla_accidentes">
+                  <thead class="table-dark">
+                    <tr>
+                      <th style="width: 200px">Nombre</th>
+                      <th style="width: 450px;">Descripción</th>
+                      <th>Fecha Ocurrencia</th>
+                      <th>Hora Ocurrencia</th>
+                      <th>Tipo</th>
+                    </tr>
+                  </thead>
+                  <tbody style="background-color: white;">
+                    {{ tableAcc | safe }}
+                  </tbody>
+                </table>
+              </div>
+            </div>
               
             <div class="my-3 p-3 bg-body rounded shadow-sm">
               <h6 class="border-bottom pb-2 mb-0">Estado de Solicitudes</h6>
@@ -170,6 +200,70 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL REPORTAR ACCIDENTE -->
+<div class="modal fade" tabindex="-1" id="accidentesModalCliente">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content rounded-5 bg-white" style="border-radius: 15px; padding-bottom: 25px;">
+      <div class="modal-header p-5 pb-2 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-3 pt-0">
+        <div class="form__login">
+          <div class="container text-center">
+            <form method="POST" action="{% url 'reportarAccidente' %}" id="formAccidentesCliente">
+              {% csrf_token %}
+              <img class="mb-3" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="70" height="70" style="border-radius: 50%; text-align: center;">
+              <h1 class="h3 mb-3 fw-normal">Reportar un accidente</h1>
+
+              <input type="hidden" id="idAccidenteCliente" name="idAccidenteCliente">
+              
+              <div class="form-floating mt-2">
+                <input type="text" class="form-control" id="txtNombreAccidenteCliente" name="txtNombreAccidenteCliente" placeholder="name@example.com" required>
+                <label for="floatingInput">Nombre Accidente</label>
+              </div>
+
+              <div class="mt-2">
+                <div class="form-floating mt-2">
+                    <textarea type="text" class="form-control" id="txtDescripcionAccidenteCliente" name="txtDescripcionAccidenteCliente" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                    <label for="floatingInput">Descripción Accidente</label>
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div class="form-floating mt-2">
+                    <input type="date" class="form-control" id="txtFechaAccidenteCliente" name="txtFechaAccidenteCliente" placeholder="name@example.com" required>
+                    <label for="floatingInput">Fecha Accidente</label>
+                </div>
+              </div>
+              
+              <div class="mt-2">
+                <div class="form-floating mt-2">
+                    <input type="time" class="form-control" id="txtHoraAccidenteCliente" name="txtHoraAccidenteCliente" placeholder="name@example.com" required>
+                    <label for="floatingInput">Hora Accidente</label>
+                </div>
+              </div>
+
+              <div class="mt-2">
+                <div class="form-floating mt-2">
+                    <input type="text" class="form-control" id="txtTipoAccidenteCliente" name="txtTipoAccidenteCliente" placeholder="name@example.com" required>
+                    <label for="floatingInput">Tipo Accidente</label>
+                </div>
+              </div>
+              
+              <button class="w-100 btn btn-lg btn-primary mt-4" style="background: linear-gradient(to right, deepskyblue, blueviolet); border: none;" type="submit" onclick="fntConfirmEditInsert()">Reportar ahora</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 {% endblock %}
 
 {% block scripts %}
@@ -188,34 +282,22 @@
   $(document).ready(function () {
     tableSolicitudes = $('#v_tabla_solicitudes').DataTable({
       "language": {
-        "sProcessing":    "Procesando...",
-        "sLengthMenu":    "Mostrar _MENU_ registros",
-        "sZeroRecords":   "No se encontraron resultados",
-        "sEmptyTable":    "Ningún dato disponible en esta tabla",
-        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix":   "",
-        "sSearch":        "Buscar:",
-        "sUrl":           "",
-        "sInfoThousands":  ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-            "sFirst":    "Primero",
-            "sLast":    "Último",
-            "sNext":    "Siguiente",
-            "sPrevious": "Anterior"
-        },
-        "oAria": {
-            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      }
+    });
+  });
+
+  let tableAccidentes;
+  $(document).ready(function () {
+    tableSolitableAccidentescitudes = $('#v_tabla_accidentes').DataTable({
+      "language": {
+        "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       }
     });
   });
 
   function fntConfirmEditInsert() {
-    var form = document.getElementById('formSolicitudes');
+    var form = document.getElementById('formAccidentesCliente');
     var inputs = form.getElementsByTagName('input');
     for (var i = 0; i < inputs.length; i++) {
         if(inputs[i].hasAttribute("required")){

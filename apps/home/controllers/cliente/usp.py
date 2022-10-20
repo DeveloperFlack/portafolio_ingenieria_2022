@@ -66,3 +66,14 @@ def fc_get_solicitudes (rut_cliente):
         return result
     except Exception as ex:
         print(ex)
+
+def fc_get_accidentes (rut_cliente):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("CALL USP_ACCIDENTES_GET('%s')" % (rut_cliente))
+            result = cursor.fetchall()
+        cx.close()
+        return result
+    except Exception as ex:
+        print(ex)

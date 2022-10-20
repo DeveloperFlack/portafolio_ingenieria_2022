@@ -1,6 +1,6 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
-<div class="modal fade" id="modalAccidente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<!-- <div class="modal fade" id="modalAccidente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalAccidenteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 13px; padding: 15px;">
@@ -9,7 +9,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url 'insertAccidentes' %}" id="formAccidente" class="needs-validation" method="POST">
+                <form action="/" id="formAccidente" class="needs-validation" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="idAccidente" id="idAccidente">
                     <div class="row g-3">
@@ -76,7 +76,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="col-12">
     <div class="my-3">
@@ -95,19 +95,20 @@
                         <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
-                <div class="d-flex">
+                <!-- <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
-                </div>
+                </div> -->
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover v_table_Accidentes my-3" style="width: 100%;" id="v_table_Accidentes">
                     <thead class="table-light">
                         <tr>
-                            <th>id_accidente</th>
+                            <th>#</th>
+                            <th>Cliente</th>
                             <th>nombre_accidente</th>
                             <th>descripcion_accidente</th>
                             <th>fecha_accidente</th>
@@ -148,6 +149,8 @@
             "columns": [{
                 "data": "id_accidente"
             }, {
+                "data": "rut_cliente"
+            }, {
                 "data": "nombre_accidente"
             }, {
                 "data": "descripcion_accidente"
@@ -167,26 +170,27 @@
             ]
         });
     });
+    
 
-    function fntEditAaccidente (id_accidente){
-        var id_accidente = id_accidente;
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_accidente + "?idAccidente=" + id_accidente;
-        request.open("GET", ajaxUrl, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(ajaxUrl);
-        request.onreadystatechange = function () {
-            let objData = JSON.parse(request.responseText);
-            document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
-            $('#idAccidente').val(objData[0].id_accidente);
-            $('#txtNombreAccidente').val(objData[0].nombre_accidente);
-            $('#txtDescripcionAccidente').val(objData[0].descripcion_accidente);
-            $('#txtFechaAccidente').val(objData[0].fecha_accidente);
-            $('#txtHoraAccidente').val(objData[0].hora_accidente);
-            $('#txtTipoAccidente').val(objData[0].hora_accidente);
-            $('#modalAccidente').show();
-        }
-    }
+    // function fntEditAccidente (id_accidente){
+    //     var id_accidente = id_accidente;
+    //     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    //     var ajaxUrl = v_url_accidente + "?idAccidente=" + id_accidente;
+    //     request.open("GET", ajaxUrl, true);
+    //     request.setRequestHeader("Content-Type", "application/json");
+    //     request.send(ajaxUrl);
+    //     request.onreadystatechange = function () {
+    //         let objData = JSON.parse(request.responseText);
+    //         document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
+    //         $('#idAccidente').val(objData[0].id_accidente);
+    //         $('#txtNombreAccidente').val(objData[0].nombre_accidente);
+    //         $('#txtDescripcionAccidente').val(objData[0].descripcion_accidente);
+    //         $('#txtFechaAccidente').val(objData[0].fecha_accidente);
+    //         $('#txtHoraAccidente').val(objData[0].hora_accidente);
+    //         $('#txtTipoAccidente').val(objData[0].tipo_accidente);
+    //         $('#modalAccidente').show();
+    //     }
+    // }
 
     function fntEnableAccidente(id_accidente){
         var id_accidente = id_accidente;
@@ -197,26 +201,17 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
-            const Toast = Swal.mixin({
-                toast: true,
+            Swal.fire({
                 position: 'center',
-                showConfirmButton: false,
-                timer: 1900,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
                 icon: 'success',
-                title: 'Accidente Activado!'
+                title: 'Accidente Desactivado!',
+                showConfirmButton: false,
+                timer: 1700
             })
         }
     }
 
-    function fntDisableAccidente(id_aaccidente){
+    function fntDisableAccidente(id_accidente){
         var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_disable_accidente + "?idAccidente=" + id_accidente;
@@ -225,21 +220,12 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             window.location.reload()
-            const Toast = Swal.mixin({
-                toast: true,
+            Swal.fire({
                 position: 'center',
-                showConfirmButton: false,
-                timer: 1900,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-
-            Toast.fire({
                 icon: 'success',
-                title: 'Accidente Desactivado!'
+                title: 'Accidente Desactivado!',
+                showConfirmButton: false,
+                timer: 1700
             })
         }
     }
@@ -264,7 +250,7 @@
     function fntDeleteAccidente(id_accidente) {
         var id_accidente = id_accidente;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_delete_Accidente + "?idAccidente=" + id_accidente;
+        var ajaxUrl = v_url_delete_accidente + "?idAccidente=" + id_accidente;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -287,9 +273,9 @@
             if (result.isConfirmed) {
                 fntDeleteAccidente(id_accidente);
                 Swal.fire(
-                'Eliminado!',
-                'Tu elemento ha sido eliminado exitosamente',
-                'success'
+                    'Eliminado!',
+                    'Tu elemento ha sido eliminado exitosamente',
+                    'success'
                 )
             }
         })

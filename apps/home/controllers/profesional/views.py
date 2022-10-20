@@ -1,4 +1,6 @@
+from datetime import datetime
 from genericpath import exists
+from zoneinfo import ZoneInfo
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import JsonResponse
@@ -181,3 +183,83 @@ def get_capacitacion(request):
             return redirect ('projectsProfesional')
     else:
         return redirect ('projectsProfesional')
+
+def insert_reporteglobal (request):
+    if (request.method == 'POST'):
+        v_id = request.POST.get('id_reporte')
+        v_rut_profesional =  request.session['profesional']['rut_usuario']
+        v_rut_cliente = request.session['cliente']['rut_cliente']
+        if (v_id == ""):
+            v_id = 0
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                cursor.execute("SELECT * FROM nma_reportes WHERE (id = %s )" % (v_id))
+                exist = cursor.fetchall()
+                
+                if (exist == ()):
+                    v_nombreReporte = request.POST.get('txtNombreReporte')
+                    v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
+                    v_fecha_utc = datetime.now()
+                    v_rut_usuario = v_rut_profesional
+                    v_rut_cliente = v_rut_cliente
+                    v_idProyecto= request.POST.get('listProjects')                    
+                    cursor.execute("""INSERT INTO nma_reportes (nombre, descripcion, create_time, rut_usuario, rut_cliente, id_proyecto ) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto))
+                    cx.commit()
+                else:
+                    v_nombreReporte = request.POST.get('txtNombreReporte')
+                    v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
+                    v_fecha_utc = datetime.now(tz = ZoneInfo('America/Santiago'))
+                    v_rut_usuario = v_rut_profesional
+                    v_rut_cliente = v_rut_cliente
+                    v_idProyecto= request.POST.get('listProjects') 
+                    cursor.execute("""UPDATE nma_reportes SET nombre = '%s',  descripcion = '%s',  create_time = '%s',  rut_usuario = '%s' , rut_cliente = '%s' , id_proyecto = %s
+                                    WHERE (id = %s AND rut_usuario = '%s') """ % 
+                                    (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario, v_rut_cliente))
+                    cx.commit()
+            cx.close()
+            return redirect ('reportesGlobalesProfesional')
+        except Exception as ex:
+            print (ex)
+            return redirect ('reportesGlobalesProfesional')
+    else:
+        return redirect ('reportesGlobalesProfesional')
+
+def get_all_reportes_globales (request):
+    v_rut = request.session['profesional']['rut_usuario']
+    try:
+        cx = get_connection()
+        
+        with cx.cursor() as cursor:
+            cursor.execute("SELECT * FROM nma_reportes WHERE rut_usuario = '%s' " % (v_rut))
+            datos = cursor.fetchall()
+            
+            data_to_array = []
+            
+            for i in datos:
+                data_to_array.append({
+                    'id' : i[0],
+                    'nombre' : i[1],
+                    'descripcion' : i[2],
+                    'create_time' : i[3],
+                    'rut_usuario' : i[4],
+                    'rut_cliente' : i[5],
+                    'id_proyecto' : i[6],
+                })
+            for x in range(len(data_to_array)):
+                data_to_array[x]['options'] = """
+                    <div class="text-center">
+                        <button type='button' class='btn btn-sm btn-primary' onclick='fntEditReporte(%s)'
+                            data-bs-toggle='modal' data-bs-target='#modalReporte' style='background: linear-gradient(to right, deepskyblue, blueviolet);
+                            border: none; border-radius: 3px !important;'>
+                            <i class='bx bxs-edit' ></i>
+                        </button>
+                        <button onclick="fntConfirmDelete(%s)" class="btn btn-sm btn-danger" style='border-radius: 3px !important;'><i class='bx bx-trash'></i></button>
+                    </div>
+                """ % (data_to_array[x]['id'], data_to_array[x]['id'])
+            # print (data_to_array)
+            return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print (ex)
+        return redirect ('reportesGlobalesProfesional')

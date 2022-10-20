@@ -8,4 +8,5 @@ urlpatterns = [
     path('/', getHome , name="getHome"),
     path('profile', profileCliente, name="profileCliente"),
     path('profile/send/solicitud', solicitudInsert, name="solicitudInsert"),
+    path('profile/send/accidente', insertAccidentesCliente, name="reportarAccidente")
 ]

@@ -74,7 +74,7 @@
   </div>
 <div style="width: 100%; padding: 18px 10px 6px 10px; background: linear-gradient(to right, black, blueviolet, dodgerblue); color: white; margin-top: 80px;">
     <div class="container text-center">
-        <h6 class="info_profile"><i class='bx bxs-error'></i> Todos los reportes enviados desde el portal de profesional serán registrador y evaluados en el portal de administración</h6>
+        <h6 class="info_profile"><i class='bx bxs-error'></i> Todos los reportes enviados desde el portal de profesional serán registrados y evaluados en el portal de administración</h6>
     </div>
 </div>
 <div class="content__profile" style="overflow-x: hidden; background-color:  #dee5ec;">
@@ -132,36 +132,22 @@
                         <!-- <button class="btn btn-danger w-100" onclick="reloadTable();">reload</button> -->
                         </div>
                         <div class="col-md-12 col-lg-12">
-                        <div class="table-responsive">
-                            <table class="table table-borderles table-bordered table-striped table-hover align-middle" id="projectsTable">
-                            <thead class="table-light">
-                                <tr>
-                                <th>#</th>
-                                <th>Nombre</th>
-                                <th>Estado</th>
-                                <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in capacitaciones %}
-                                <tr>
-                                <td>{{ i.id_capacitacion }}</td>
-                                <td>{{ i.nombre_capacitacion | safe }}</td>
-                                {% if i.status_capacitacion == 1 %}
-                                <td><div class='text-center'><button class='btn btn-sm btn-danger' 
-                                    style='background: linear-gradient(to right, deepskyblue, blueviolet); border: none; color: white; border-radius: 3px !important;'>Aprobada</button></div>
-                                </td>
-                                {% elif i.status_capacitacion == 0 %}
-                                <td><div class='text-center'><button class='btn btn-sm btn-danger' 
-                                    style='background: linear-gradient(to right, orange, deeppink); border: none; color: white; border-radius: 3px !important;'>En Revisión</button></div>
-                                </td>
-                                {% endif %}
-                                <td>{{ i.options | safe}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
+                          <div class="table-responsive">
+                            <table class="table table-borderles table-bordered v_reportesTable table-striped table-hover align-middle" id="v_reportesTable">
+                              <thead class="table-light">
+                                  <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Fecha Creación</th>
+                                    <th>Rut Usuario</th>
+                                    <th>Rut Cliente</th>                                
+                                    <th>Id Proyecto</th>
+                                    <th>Opciones</th>
+                                  </tr>
+                              </thead>                            
                             </table>
-                        </div>
+                          </div>
                         </div>
                     </div>
                     </div>
@@ -186,6 +172,45 @@
 {% endblock %}
 {% block scripts %}
 <script>
+  let v_url_insert = "{% url 'insertReporteGlobal' %}"
+  let v_url = "{% url 'getAllReportes' %}"
+</script>
+<script>
+  let tableReportes;
+    $(document).ready(function () {
+      tableReportes = $('#v_reportesTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            pagingType: "full_numbers",
+            "ajax": {
+                "url": v_url,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "id"
+            }, {
+                "data": "nombre"
+            }, {
+                "data": "descripcion"
+            }, {
+                "data": "create_time"
+            }, {
+                "data": "rut_usuario"
+            }, {
+                "data": "rut_cliente"
+            },{
+                "data": "id_proyecto"
+            },{ 
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
+
+
     function fntConfirmInsert(){
         const Toast = Swal.mixin({
             toast: true,
