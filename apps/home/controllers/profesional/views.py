@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date , datetime
 from genericpath import exists
 from zoneinfo import ZoneInfo
 from django.shortcuts import render, redirect
@@ -16,7 +16,8 @@ def portal_profesional(request):
         return redirect('getHome')
    
     data = {
-        'session_status' : request_session(request),
+        'session_status' : request_session(request)
+
     }
     return render(request, 'portal-professional.html', data)
 
@@ -47,11 +48,28 @@ def reportes_globales_profesional(request):
         return redirect('getHome')
     
     data = {
-        'session_status' : request_session(request)
+        'session_status' : request_session(request),
+        'proyectos' : get_capacitaciones(request)
     }
     return render(request, 'modules/reporte_global.html', data)
 
-
+def get_capacitaciones(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute('SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
+            capacitacion = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(capacitacion)):
+                data_to_array.append({
+                    "id_capacitacion" : capacitacion[i][0],
+                    "nombre_capacitacion" : capacitacion[i][2],
+                })
+            
+            return data_to_array
+    except Exception as ex:
+        print (ex)
 
 def insert_project (request):
     if (request.method == 'POST'):
@@ -186,23 +204,22 @@ def get_capacitacion(request):
 
 def insert_reporteglobal (request):
     if (request.method == 'POST'):
-        v_id = request.POST.get('id_reporte')
+        v_id = request.POST.get('folioReporte')
         v_rut_profesional =  request.session['profesional']['rut_usuario']
-        v_rut_cliente = request.session['cliente']['rut_cliente']
+        v_rut_cliente = 0
         if (v_id == ""):
             v_id = 0
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute("SELECT * FROM nma_reportes WHERE (id = %s )" % (v_id))
+                cursor.execute("""SELECT * FROM nma_reportes WHERE id = '%s' """ % (v_id))
                 exist = cursor.fetchall()
-                
                 if (exist == ()):
                     v_nombreReporte = request.POST.get('txtNombreReporte')
                     v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
-                    v_fecha_utc = datetime.now()
+                    v_fecha_utc = date.today()
                     v_rut_usuario = v_rut_profesional
-                    v_rut_cliente = v_rut_cliente
+                    v_rut_cliente = "12345678"
                     v_idProyecto= request.POST.get('listProjects')                    
                     cursor.execute("""INSERT INTO nma_reportes (nombre, descripcion, create_time, rut_usuario, rut_cliente, id_proyecto ) 
                                     VALUES ('%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto))
@@ -210,13 +227,15 @@ def insert_reporteglobal (request):
                 else:
                     v_nombreReporte = request.POST.get('txtNombreReporte')
                     v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
-                    v_fecha_utc = datetime.now(tz = ZoneInfo('America/Santiago'))
+                    v_fecha_utc = date.today()
                     v_rut_usuario = v_rut_profesional
-                    v_rut_cliente = v_rut_cliente
+                    v_rut_cliente = "12345678"
+                    print('try edit v_id')
+                    print(v_id)
                     v_idProyecto= request.POST.get('listProjects') 
                     cursor.execute("""UPDATE nma_reportes SET nombre = '%s',  descripcion = '%s',  create_time = '%s',  rut_usuario = '%s' , rut_cliente = '%s' , id_proyecto = %s
                                     WHERE (id = %s AND rut_usuario = '%s') """ % 
-                                    (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario, v_rut_cliente))
+                                    (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario))
                     cx.commit()
             cx.close()
             return redirect ('reportesGlobalesProfesional')
@@ -263,3 +282,52 @@ def get_all_reportes_globales (request):
     except Exception as ex:
         print (ex)
         return redirect ('reportesGlobalesProfesional')
+
+def get_reportesGlobal (request):
+    if (request.method == 'GET'):
+        v_id =  request.GET.get('idReporte')
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                cursor.execute("""SELECT * FROM nma_reportes WHERE id = '%s' """ % (v_id))
+                data_reportes = cursor.fetchall()
+                data_to_array = []
+                
+                for i in range(len(data_reportes)):
+                    data_to_array.append({
+                        "id" : data_reportes[i][0],
+                        "nombre" : data_reportes[i][1],
+                        "descripcion" : data_reportes[i][2],
+                        "create_time" : data_reportes[i][3],
+                        "rut_usuario" : data_reportes[i][4],
+                        "rut_cliente" : data_reportes[i][5],
+                        "id_proyecto" : data_reportes[i][6],
+                    })
+                
+                return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+        except Exception as ex:
+            print (ex)
+    else:
+        return redirect ('reportesGlobalesProfesional')
+
+# DELETE CAPACITACIÓN
+def delete_reporte(request):
+    if (request.method) == 'GET':
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                v_id_reporte = request.GET.get("idReporte")
+                cursor.execute("""SELECT * FROM nma_reportes WHERE id = %s""" % (v_id_reporte))
+                exist = cursor.fetchall()
+                
+                if (exist != ()):
+                    cursor.execute("""DELETE FROM nma_reportes WHERE id = %s""" % (v_id_reporte))
+                    cx.commit()
+            cx.close()
+            return redirect ('reportesGlobalesProfesional')
+        except Exception as ex:
+            print (ex)
+            return redirect ('reportesGlobalesProfesional')
+    else:
+        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
+        return redirect("reportesGlobalesProfesional")

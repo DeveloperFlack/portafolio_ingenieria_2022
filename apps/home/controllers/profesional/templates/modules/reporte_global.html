@@ -17,7 +17,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/" method="POST" enctype="multipart/form-data" id="formReporte">
+          <form action="{% url 'insertReporteGlobal' %}" method="POST" enctype="multipart/form-data" id="formReporte">
             {% csrf_token %}
             <div class="row g-3">
               <input type="hidden"  name="folioReporte" id="folioReporte">
@@ -36,8 +36,9 @@
               <div class="col-12 form-group">
                 <div class="form-floating mt-2">
                   <select class="form-select" name="listProjects" id="listProjects" required>
-                    <option value="0">Proyectos</option>
-                    <option value="1">Proyectos</option>
+                    {% for x in proyectos %}
+                    <option value="{{ x.id_proyecto | safe }}" >{{ x.nombre_capacitacion }}</option>
+                    {% endfor%}
                   </select>
                   <label class="form-label" for="nombreCapacitacion">Proyecto</label>
                 </div>
@@ -174,6 +175,8 @@
 <script>
   let v_url_insert = "{% url 'insertReporteGlobal' %}"
   let v_url = "{% url 'getAllReportes' %}"
+  let v_url_get_report = "{% url 'getReportesGlobal' %}"; 
+  let v_url_delete_reporte = "{% url 'deleteReporte' %}";
 </script>
 <script>
   let tableReportes;
@@ -226,7 +229,7 @@
 
         Toast.fire({
             icon: 'success',
-            title: 'Proyecto ingresado exitosamente!'
+            title: 'Reporte ingresado exitosamente!'
         })
     }
 
@@ -243,6 +246,60 @@
         $('#txtDescripcionReporte').val('');
         $('#listProjects').val('');
         $('#modalReporte').show();
+    }
+    // EDITAR
+    function fntEditReporte (number) {
+      var id_reporte =  number;
+      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      var ajaxUrl = v_url_get_report + "?idReporte=" + id_reporte;
+
+      request.open("GET", ajaxUrl, true);
+      request.send();
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            $('#folioReporte').val(objData[0].id);
+            $('#txtNombreReporte').val(objData[0].nombre);
+            $('#txtDescripcionReporte').html(objData[0].descripcion);
+            $('#listProjects option[value="'+objData[0].id_proyecto+'"]').prop('selected', true);
+            $('#modalReporte').show();
+        }
+      }      
+    }
+    // ELIMINAR
+    function fntDeleteReporte(idReporte) {
+        var idReporte = idReporte;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_delete_reporte + "?idReporte=" + idReporte;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            window.location.reload()
+        }
+    }
+
+    function fntConfirmDelete(idReporte){
+        Swal.fire({
+            title: 'Está seguro que desea eliminar este elemento?',
+            text: "No podrás deshacer los cambios!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo!',
+            cancelButtonText: 'Cancelar'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                fntDeleteReporte(idReporte);
+                Swal.fire(
+                    'Eliminado!',
+                    'Tu elemento ha sido eliminado exitosamente',
+                    'success'
+                )
+            }
+        })
     }
 </script>
 {% endblock %}
