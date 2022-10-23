@@ -34,7 +34,7 @@
               <img class="me-2" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="48" height="38">
               <div class="lh-1">
                 <h1 class="h5 mb-0 text-white lh-1">RSP Company</h1>
-                <small>Listado y Estado de solicitudes</small>
+                <small>Listado completo de solicitudes enviadas</small>
               </div>
             </div>
               
@@ -58,14 +58,14 @@
             </div>
 
             <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm mt-4">
-              <button class="btn btn-primary hint--right hint--info" aria-label="Enviar una Solicitud" data-bs-toggle="modal" data-bs-target="#accidentesModalCliente" 
+              <button class="btn btn-primary hint--right hint--info" aria-label="Reportar un accidente" data-bs-toggle="modal" data-bs-target="#accidentesModalCliente" 
                   style="float: right !important; border-radius: 3px !important; color: white; margin-right: 10px;">
                 <i class='bx bx-plus' ></i>
               </button>
               <img class="me-2" src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="" width="48" height="38">
-              <div class="lh-1">
+              <div class="lh-1">  
                 <h1 class="h5 mb-0 text-white lh-1">RSP Company</h1>
-                <small>Listado y Estado de solicitudes</small>
+                <small>Listado completo de accidentes reportados</small>
               </div>
             </div>
             <div class="px-2">
@@ -95,8 +95,8 @@
                 <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                   <div class="d-flex justify-content-between">
                     <strong class="text-gray-dark">Visita terreno accidente laboral</strong>
-                    <a href="" class="hint--top hint--error" aria-label="Haga click para regularizar pago" style="text-decoration: none; color: gray;">
-                      En espera de pago 
+                    <a class="hint--top hint--error" aria-label="Solicitud fuera de rango de fecha de término" style="text-decoration: none; color: gray;">
+                      Atrasada
                       <i class='bx bxs-x-circle' style="font-size: 20px; color: red; "></i>
                     </a>
                   </div>
@@ -108,9 +108,22 @@
                 <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                   <div class="d-flex justify-content-between">
                     <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
-                    <a class="hint--top hint--success" aria-label="Solicitud aprobada" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
-                      Solicitud aprobada
+                    <a class="hint--top hint--success" aria-label="Solicitud finalizada en tiempo acordado" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
+                      Finalizada exitosamente
                       <i class='bx bxs-check-circle' style="font-size: 20px; color: rgb(1, 150, 1); "></i>
+                    </a>
+                  </div>
+                  <span class="d-block">username</span>
+                </div>
+              </div>
+              <div class="d-flex text-muted pt-3">
+                <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
+                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                  <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
+                    <a class="hint--top hint--warning" aria-label="Solicitud en curso" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
+                      En Proceso
+                      <i class='bx bxs-time-five' style="font-size: 20px; color: orange;"></i>
                     </a>
                   </div>
                   <span class="d-block">username</span>
@@ -131,11 +144,13 @@
           </h5>
           <hr style="background-color: white; padding: 1px;">
           <div class="info" style="font-size: 14px; padding: 2px 6px;">
-            <p>Cliente: </p>
-            <p>Rut Cliente: </p>
-            <p>Empresa: </p>
-            <p>Rut Empresa: </p>
-            <p>Correo Electrónico: </p>
+            {% for x in cliente %}
+            <p>Cliente: {{ x.n1_cliente | safe }} {{ x.ap_cliente | safe }}</p>
+            <p>Rut Cliente: {{ x.rut_cliente | safe }}</p>
+            <p>Empresa: {{ x.nombre_empresa | safe }}</p>
+            <p>Rut Empresa: {{ x.rut_empresa_cliente | safe}}</p>
+            <p>Correo Electrónico: {{ x.correo_cliente | safe }}</p>
+            {% endfor %}
           </div>
  
         </div>
@@ -169,6 +184,7 @@
 
               <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectNombreSolicitud" name="selectNombreSolicitud" required>
                 <option selected>Seleccione Capacitación</option>
+                <option value="" data-chained="0"></option>
                 {% for x in accidente %}
                 <option value="{{ x.id_accidente | safe }}" data-chained="1">{{ x.nombre_accidente }}</option>
                 {% endfor %}

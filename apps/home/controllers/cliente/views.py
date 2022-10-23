@@ -21,7 +21,8 @@ def profileCliente(request):
         'table' : getSolicitud(request),
         'tableAcc': getAccidente(request),
         'asesorias' : get_asesorias(request),
-        'accidente' : get_reportarAccidente(request)
+        'accidente' : get_reportarAccidente(request),
+        'cliente' : getInformacion(request)
     }
     
     return render(request, 'profile-cliente.html', data)
@@ -48,6 +49,27 @@ def solicitudInsert(request):
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
         return redirect("profileCliente")
+
+def getInformacion(request):
+    v_rut_cliente = request.session['cliente']['rut_cliente']
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("SELECT * FROM nma_cliente WHERE rut_cliente = '%s'" % v_rut_cliente) 
+            datos = cursor.fetchall()
+            data_to_array = []
+            for i in range(len(datos)):
+                data_to_array.append({
+                    "rut_cliente" : datos[i][0],
+                    "n1_cliente" : datos[i][2],
+                    "ap_cliente" : datos[i][4],
+                    "nombre_empresa" : datos[i][9],
+                    "rut_empresa_cliente" : datos[i][8],
+                    "correo_cliente" : datos[i][6],
+                })           
+            return data_to_array
+    except Exception as ex:
+        print (ex)
 
 def getSolicitud(request):
     session_check = 'cliente' in request.session
@@ -172,6 +194,7 @@ def get_reportarAccidente(request):
             
             for i in range(len(accidente)):
                 data_to_array.append({
+                    "id_accidente" : accidente[i][0],
                     "nombre_accidente" : accidente[i][2],
                     "descripcion_accidente" : accidente[i][3],
                     "fecha_accidente" : accidente[i][4],

@@ -219,8 +219,10 @@ def insert_reporteglobal (request):
                     v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
                     v_fecha_utc = date.today()
                     v_rut_usuario = v_rut_profesional
-                    v_rut_cliente = "12345678"
-                    v_idProyecto= request.POST.get('listProjects')                    
+                    v_idProyecto= request.POST.get('listProjects')  
+                    cy = get_connection()
+                    cy.cursor()
+                    v_rut_cliente = "12345678"                  
                     cursor.execute("""INSERT INTO nma_reportes (nombre, descripcion, create_time, rut_usuario, rut_cliente, id_proyecto ) 
                                     VALUES ('%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto))
                     cx.commit()
