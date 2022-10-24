@@ -108,7 +108,7 @@ if (platform.system() ==  "Linux"):
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
-            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+            'HOST': '44.212.39.230',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
