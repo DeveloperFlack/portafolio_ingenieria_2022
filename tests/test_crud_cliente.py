@@ -1,7 +1,7 @@
 from random import randint
 from apps.dashboard.urls import getDashboard
 import pytest
-from apps.dashboard.controllers.clientes.usp import *
+from apps.dashboard.controllers.clientes.usp import fc_insert_cliente,fc_update_cliente,fc_delete_cliente,fc_get_cliente_dash
 
 random_int = randint(111111111111,999999999999)
 rut_aleatorio = str(random_int)
