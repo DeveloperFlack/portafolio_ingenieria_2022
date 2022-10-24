@@ -72,7 +72,7 @@
         <div class="collapse navbar-collapse menu" id="navbarNavDropdown">
           <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
             {% if session_status.profesional == True %}
-            <li><a href="#" class="nav-link px-2 link">Portal</a></li>
+            <li><a href="{% url "profileProfesional" %}" class="nav-link px-2 link">Portal</a></li>
             <li><a href="{% url 'projectsProfesional' %}" class="nav-link px-2">Proyectos</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
