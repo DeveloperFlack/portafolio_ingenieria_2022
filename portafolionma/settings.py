@@ -148,7 +148,7 @@ if (DEBUG == True):
     x = platform.system()
     print ("Sistema Operativo", x)
     if (x ==  "Linux"):
-        DB_HOST = 'localhost'
+        DB_HOST = '44.212.39.230'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
@@ -167,7 +167,7 @@ else:
     x = platform.system()
     print ("Sistema Operativo", x)
     if (x ==  "Linux"):
-        DB_HOST = 'localhost'
+        DB_HOST = '44.212.39.230'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
