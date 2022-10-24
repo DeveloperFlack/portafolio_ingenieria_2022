@@ -35,6 +35,16 @@
               </div>
               <div class="col-12 form-group">
                 <div class="form-floating mt-2">
+                  <select class="form-select" name="listrutCliente" id="listrutCliente" required>
+                    {% for x in clientes %}
+                    <option value="{{ x.rut_cliente }}" >{{ x.rut_cliente }}</option>
+                    {% endfor%}
+                  </select>
+                  <label class="form-label" for="nombreCapacitacion">Cliente</label>
+                </div>
+              </div>
+              <div class="col-12 form-group">
+                <div class="form-floating mt-2">
                   <select class="form-select" name="listProjects" id="listProjects" required>
                     {% for x in proyectos %}
                     <option value="{{ x.id_proyecto | safe }}" >{{ x.nombre_capacitacion }}</option>

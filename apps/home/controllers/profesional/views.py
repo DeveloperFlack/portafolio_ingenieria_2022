@@ -49,7 +49,8 @@ def reportes_globales_profesional(request):
     
     data = {
         'session_status' : request_session(request),
-        'proyectos' : get_capacitaciones(request)
+        'proyectos' : get_capacitaciones(request),
+        'clientes' : get_all_clientes(request)
     }
     return render(request, 'modules/reporte_global.html', data)
 
@@ -206,38 +207,38 @@ def insert_reporteglobal (request):
     if (request.method == 'POST'):
         v_id = request.POST.get('folioReporte')
         v_rut_profesional =  request.session['profesional']['rut_usuario']
-        v_rut_cliente = 0
+        # v_rut_cliente = 0
         if (v_id == ""):
             v_id = 0
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute("""SELECT * FROM nma_reportes WHERE id = '%s' """ % (v_id))
+                cursor.execute("""SELECT * FROM nma_reportes where id= '%s' """ % (v_id))
                 exist = cursor.fetchall()
                 if (exist == ()):
                     v_nombreReporte = request.POST.get('txtNombreReporte')
                     v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
                     v_fecha_utc = date.today()
                     v_rut_usuario = v_rut_profesional
-                    v_idProyecto= request.POST.get('listProjects')  
-                    cy = get_connection()
-                    cy.cursor()
-                    v_rut_cliente = "12345678"                  
+                    v_rut_cliente = request.POST.get('listrutCliente')
+                    v_idProyecto= request.POST.get('listProjects')
+                    # print(v_rut_cliente)
                     cursor.execute("""INSERT INTO nma_reportes (nombre, descripcion, create_time, rut_usuario, rut_cliente, id_proyecto ) 
                                     VALUES ('%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto))
                     cx.commit()
+
                 else:
                     v_nombreReporte = request.POST.get('txtNombreReporte')
                     v_descripcionReporte = request.POST.get('txtDescripcionReporte')                    
                     v_fecha_utc = date.today()
-                    v_rut_usuario = v_rut_profesional
-                    v_rut_cliente = "12345678"
-                    print('try edit v_id')
-                    print(v_id)
+                    v_rut_usuario = request.session['profesional']['rut_usuario']
+                    v_rut_cliente = request.POST.get('listrutCliente')
                     v_idProyecto= request.POST.get('listProjects') 
+                    # print(v_rut_cliente)
+                    print("update")
                     cursor.execute("""UPDATE nma_reportes SET nombre = '%s',  descripcion = '%s',  create_time = '%s',  rut_usuario = '%s' , rut_cliente = '%s' , id_proyecto = %s
-                                    WHERE (id = %s AND rut_usuario = '%s') """ % 
-                                    (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario))
+                                WHERE (id = %s AND rut_usuario = '%s') """ % 
+                                (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario))
                     cx.commit()
             cx.close()
             return redirect ('reportesGlobalesProfesional')
@@ -333,3 +334,23 @@ def delete_reporte(request):
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
         return redirect("reportesGlobalesProfesional")
+
+def get_all_clientes(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute("""SELECT rut_cliente,n1_cliente,ap_cliente FROM nma_cliente """)
+            data_clientes = cursor.fetchall()
+            data_to_array = []
+            
+            for i in range(len(data_clientes)):
+                data_to_array.append({
+                    "rut_cliente" : data_clientes[i][0],
+                    "n1_cliente" : data_clientes[i][1],
+                    "ap_cliente" : data_clientes[i][2],
+                })
+            # print(data_to_array)
+            return (data_to_array)
+    except Exception as ex:
+        print (ex)
+

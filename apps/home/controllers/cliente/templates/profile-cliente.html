@@ -87,7 +87,7 @@
               </div>
             </div>
               
-            <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <!-- <div class="my-3 p-3 bg-body rounded shadow-sm">
               <h6 class="border-bottom pb-2 mb-0">Estado de Solicitudes</h6>
               <div class="d-flex text-muted pt-3">
                 <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
@@ -129,27 +129,28 @@
                   <span class="d-block">username</span>
                 </div>
               </div>
-            </div>
+            </div> -->
+
           </main>
         </div>
       </div>
       <div class="col-lg-2 col-12 pt-3">
-        <div class="mi_informacion shadow-sm" style="background-color: rgb(65, 65, 65); color: white; padding: 7px; width: 100%; height: auto; border-top: 6px solid dodgerblue;">
+        <div class="mi_informacion shadow-sm" style="background-color: rgb(241, 241, 241); color: black; padding: 7px; width: 100%; height: auto; border-top: 6px solid dodgerblue;">
           <h5 class="text-center pt-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 28" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 28" style="fill: rgb(0, 0, 0);transform: ;msFilter:;">
               <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
               <path d="M11 11h2v6h-2zm0-4h2v2h-2z"></path>
             </svg>
             Mi Información
           </h5>
-          <hr style="background-color: white; padding: 1px;">
+          <hr style="background-color: rgb(116, 116, 116); padding: 1px;">
           <div class="info" style="font-size: 14px; padding: 2px 6px;">
             {% for x in cliente %}
-            <p>Cliente: {{ x.n1_cliente | safe }} {{ x.ap_cliente | safe }}</p>
-            <p>Rut Cliente: {{ x.rut_cliente | safe }}</p>
-            <p>Empresa: {{ x.nombre_empresa | safe }}</p>
-            <p>Rut Empresa: {{ x.rut_empresa_cliente | safe}}</p>
-            <p>Correo Electrónico: {{ x.correo_cliente | safe }}</p>
+              <p>Cliente: {{ x.n1_cliente | safe }} {{ x.ap_cliente | safe }}</p>
+              <p>Rut Cliente: {{ x.rut_cliente | safe }}</p>
+              <p>Empresa: {{ x.nombre_empresa | safe }}</p>
+              <p>Rut Empresa: {{ x.rut_empresa_cliente | safe}}</p>
+              <p>Correo Electrónico: {{ x.correo_cliente | safe }}</p>
             {% endfor %}
           </div>
  
