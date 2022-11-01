@@ -59,6 +59,7 @@ def getDashboard (request):
         'solicitudes': get_count_solicitudes(request),
         'profesionales': get_count_profesionales(request),
         'clientes': get_count_clientes(request),
+        'accidentes': get_count_accidentes(request),
     }
     
     a = helpers.session_user_exist(request)
@@ -259,6 +260,27 @@ def get_count_clientes(request):
             for i in range(len(clientes)):
                 data_to_array.append({
                     "count_rut": clientes[i][0]
+                })
+
+            return data_to_array
+    except Exception as ex:
+        print(ex)
+
+def get_count_accidentes(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(""" 
+                SELECT COUNT(id_accidente)
+                FROM nma_accidentes
+                WHERE status_accidente != 0
+            """)
+            accidente = cursor.fetchall()
+            data_to_array = []
+        
+            for i in range(len(accidente)):
+                data_to_array.append({
+                    "count_id": accidente[i][0]
                 })
 
             return data_to_array

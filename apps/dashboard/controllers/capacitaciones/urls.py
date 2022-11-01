@@ -9,4 +9,5 @@ urlpatterns = [
     path('api/v2/admin/capacitaciones/enable', dashoard_enable_capacitacion, name="enableCapacitacion"),
     path('api/v2/admin/capacitaciones/disable', dashoard_disable_capacitacion, name="disableCapacitacion"),
     path('api/v2/admin/capacitaciones/delete', dashboard_delete_capacitacion, name="deleteCapacitacion"),
+    path('api/v2/admin/capacitaciones/insertActividad', dashboard_insert_actividades, name="InsertActividades"),
 ]

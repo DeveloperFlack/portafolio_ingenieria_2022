@@ -108,7 +108,7 @@ if (platform.system() ==  "Linux"):
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
-            'HOST': '18.204.218.191',   # Or an IP Address that your DB is hosted on
+            'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
@@ -119,7 +119,7 @@ else:
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
-            'HOST': '18.204.218.191',   # Or an IP Address that your DB is hosted on
+            'HOST': '52.70.230.47',   # Or an IP Address that your DB is hosted on
             'PORT': '3306',
         }
     }
@@ -148,12 +148,12 @@ if (DEBUG == True):
     x = platform.system()
     print ("Sistema Operativo", x)
     if (x ==  "Linux"):
-        DB_HOST = '18.204.218.191'
+        DB_HOST = 'localhost'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
-        DB_HOST = '18.204.218.191'
+        DB_HOST = '52.70.230.47'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
@@ -167,12 +167,12 @@ else:
     x = platform.system()
     print ("Sistema Operativo", x)
     if (x ==  "Linux"):
-        DB_HOST = '18.204.218.191'
+        DB_HOST = 'localhost'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
-        DB_HOST = '18.204.218.191'
+        DB_HOST = '52.70.230.47'
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'

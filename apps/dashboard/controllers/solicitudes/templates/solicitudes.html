@@ -44,7 +44,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
@@ -99,6 +98,7 @@
     let v_disable_solicitudes = "{% url 'disableSolicitud' %}";
 </script>
 <script>
+    
     let tableSolicitudes;
     $(document).ready(function () {
         tableSolicitudes = $('#v_table_solicitudes').DataTable({
@@ -121,7 +121,7 @@
             }, {
                 "data": "fecha"
             }, {
-                "data": "time_start"
+                "data": "time_start",
             }, {
                 "data": "time_end"
             }, {
@@ -133,7 +133,7 @@
             }],
             "order": [
                 [0, "desc"]
-            ]
+            ],
         });
     });
 </script>

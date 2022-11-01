@@ -6,6 +6,7 @@ from django.contrib import messages
 import apps.helpers as helpers
 from apps.dashboard.views import get_connection
 from django.contrib import messages
+from datetime import *
 
 # Create your views here.
 
@@ -39,6 +40,7 @@ def dashboard_get_all_solicitudes(request):
     data_to_array = []
     # Convertir TUPLA a Array Modificable
     for i in data_solicitudes:
+        print (i[8])
         data_to_array.append({
             "id_solicitud": i[0],
             "rut_cliente": i[1],
@@ -48,7 +50,7 @@ def dashboard_get_all_solicitudes(request):
             "status_solicitud": i[11],
             'fecha': i[7],
             'time_start': i[8],
-            'time_end': i[9],
+            'time_end': i[9]
         })
 
     # Añadir HTML
@@ -84,7 +86,7 @@ def dashboard_get_all_solicitudes(request):
             i['tipo_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
                 style='background: linear-gradient(to right, gold, red); border: none;'>Accidente</button></div>"""
 
-    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': True})
 
 # GET UNA SOLICITUD
 def dashboard_get_solicitud(request):

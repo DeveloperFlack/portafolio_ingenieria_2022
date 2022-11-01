@@ -63,6 +63,94 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalActividades" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalActividadesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 13px; padding: 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalActividadesLabel">Actividades de la Capacitación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="idGrupoActividades" id="idGrupoActividades">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad1" name="txtNombreActividad1" placeholder="name@example.com" required>
+                                <label for="floatingInput">Nombre Actividad</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Actividad Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad2" name="txtNombreActividad2" placeholder="name@example.com">
+                                <label for="floatingInput">Nombre Actividad</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Actividad Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad3" name="txtNombreActividad3" placeholder="name@example.com">
+                                <label for="floatingInput">Nombre Actividad</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Actividad Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad4" name="txtNombreActividad4" placeholder="name@example.com">
+                                <label for="floatingInput">Nombre Actividad</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Actividad Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad5" name="txtNombreActividad5" placeholder="name@example.com">
+                                <label for="floatingInput">Nombre Actividad</label>
+                            </div>
+                            <div class="invalid-feedback">
+                                Nombre Actividad Requerido
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mt-2">
+                                <textarea type="text" class="form-control" id="txtDescripcionActividades" name="txtDescripcionActividades" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <label for="floatingInput">Descripción detallada actividades</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntConfirmEditInsert()">
+                                    Guardar Cambios
+                                </button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;" 
+                                    data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="col-12">
     <div class="my-3">
         <nav aria-label="breadcrumb">
@@ -92,7 +180,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
-                            <th style="width: 60px !important;">Profesional</th>
+                            <th style="width: 60px !important;">Actividades</th>
                             <th style="width: 40% !important;">Descripción</th>
                             <th>Total</th>
                             <th>Estado</th>
@@ -114,6 +202,7 @@
     let v_url_enable_capacitacion = "{% url 'enableCapacitacion' %}";
     let v_url_disable_capacitacion = "{% url 'disableCapacitacion' %}";
     let v_url_delete_capacitacion = "{% url 'deleteCapacitacion' %}";
+    let v_url_insert_actividad = "{% url 'InsertActividades' %}"
 </script>
 <script>
     let tableCapacitaciones;
@@ -130,7 +219,7 @@
             "columns": [{
                 "data": "nombre_capacitacion"
             }, {
-                "data": "usuarios"
+                "data": "actividades"
             }, {
                 "data": "descripcion_capacitacion"
             }, {
@@ -258,15 +347,39 @@
             timer: 1700,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.addEventListener('mouseenter', Swal.stopTimer)
-              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
-          })
+        })
 
-          Toast.fire({
+        Toast.fire({
             icon: 'success',
             title: 'Proceso finalizado exitosamente!'
-          })
+        })
     }
+
+
+    //ACTIVIDADES CAPACITACION
+    function fntEditActividadesCapacitacion (id_capacitacion){
+        var id_capacitacion = id_capacitacion;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            document.getElementById('modalActividadesLabel').innerHTML = '<h5>Actualizar Actividades</h5>';
+            $('#idGrupoActividades').val(objData[0].id_actividad);
+            $('#txtNombreActividad1').val(objData[0].nombre_actividad_1);
+            $('#txtNombreActividad2').val(objData[0].nombre_actividad_2);
+            $('#txtNombreActividad3').val(objData[0].nombre_actividad_3);
+            $('#txtNombreActividad4').val(objData[0].nombre_actividad_4);
+            $('#txtNombreActividad5').val(objData[0].nombre_actividad_5);
+            $('#txtDescripcionActividades').val(objData[0].descripcion_actividad);
+            $('#modalActividades').show();
+        }
+    }
+
 </script>
 {% endblock %}

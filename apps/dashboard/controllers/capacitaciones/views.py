@@ -81,12 +81,18 @@ def getAllCapacitaciones(request):
 
     # Añadir HTML
     for i in data_to_array:
-        i['usuarios'] = """
+        i['actividades'] = """
             <div class='text-center'>
-                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;
-                    background: linear-gradient(to right, deepskyblue, blueviolet); border: none;"><i class='bx bxs-edit' ></i></button>
+                <button type='button' class='btn btn-sm btn-success' 
+                    data-bs-toggle='modal' data-bs-target='#modalActividades'>
+                    <i class='bx bx-plus' ></i>
+                </button>
+                <button type='button' class='btn btn-sm btn-warning' 
+                    data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
+                    <i class='bx bxs-edit' ></i>
+                </button>
             </div>
-        """
+        """ % (i['id_capacitacion'])
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
@@ -190,3 +196,34 @@ def dashoard_enable_capacitacion(request):
             return redirect("getAsesoriasPage")
     else:
         return redirect("getAsesoriasPage")
+
+def dashboard_insert_actividades(request):
+    x = 'usuario' in request.session
+    
+    if (x == False):
+        return redirect ("loginDashboard")
+
+    if request.method == "POST":
+        v_idCapacitacion = request.POST.get("idCapacitacion")
+        print(v_idCapacitacion)
+        
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                if (v_idCapacitacion != ""):
+                    # Obtener los datos del formulario e insertarlos en la base de datos.
+                    v_nombre_actividad1= request.POST.get("txtNombreActividad1")
+                    v_nombre_actividad2= request.POST.get("txtNombreActividad2")
+                    v_nombre_actividad3= request.POST.get("txtNombreActividad3")
+                    v_nombre_actividad4= request.POST.get("txtNombreActividad4")
+                    v_nombre_actividad5= request.POST.get("txtNombreActividad5")
+                    v_descripcion_capacitacion = request.POST.get("txtDescripcionActividades")
+
+                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, Id_capacitacion) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s ',%s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
+                    cx.commit()                
+            cx.close()
+            return "Agregado con éxito"
+        except Exception as ex:
+            print (ex)
+            return redirect ('getCapacitacionesPage')
