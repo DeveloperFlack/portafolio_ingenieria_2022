@@ -27,11 +27,12 @@ def insertCapacitacion(request):
         if (v_idCapacitacion == ""):
             # INSERTAR CAPACITACIÓN
             # Obtener los datos del formulario e insertarlos en la base de datos.
+            v_rut =  request.session['profesional']['rut_usuario']
             v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
             v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
 
-            fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+            fc_insert_capacitacion(v_rut, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
             return redirect("getCapacitacionesPage")
 
@@ -80,19 +81,19 @@ def getAllCapacitaciones(request):
                 style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
     # Añadir HTML
-    for i in data_to_array:
-        i['actividades'] = """
+    for i in range(len(data_to_array)):
+        data_to_array[i]['actividades'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-success' 
-                    data-bs-toggle='modal' data-bs-target='#modalActividades'>
+                    data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
                     <i class='bx bx-plus' ></i>
                 </button>
                 <button type='button' class='btn btn-sm btn-warning' 
-                    data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
+                    data-bs-toggle='modal' data-bs-target='#modalActividades' >
                     <i class='bx bxs-edit' ></i>
                 </button>
             </div>
-        """ % (i['id_capacitacion'])
+        """ % (data_to_array[i]['id_capacitacion'])
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
@@ -199,11 +200,12 @@ def dashoard_enable_capacitacion(request):
 
 def dashboard_insert_actividades(request):
     x = 'usuario' in request.session
-    
+    print("entro en el def")
     if (x == False):
         return redirect ("loginDashboard")
 
-    if request.method == "POST":
+    if (request.method == "POST"):
+        print("Entro en el if")
         v_idCapacitacion = request.POST.get("idCapacitacion")
         print(v_idCapacitacion)
         
@@ -211,6 +213,7 @@ def dashboard_insert_actividades(request):
             cx = get_connection()
             with cx.cursor() as cursor:
                 if (v_idCapacitacion != ""):
+                    print("entro en el with if")
                     # Obtener los datos del formulario e insertarlos en la base de datos.
                     v_nombre_actividad1= request.POST.get("txtNombreActividad1")
                     v_nombre_actividad2= request.POST.get("txtNombreActividad2")
@@ -219,11 +222,13 @@ def dashboard_insert_actividades(request):
                     v_nombre_actividad5= request.POST.get("txtNombreActividad5")
                     v_descripcion_capacitacion = request.POST.get("txtDescripcionActividades")
 
-                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, Id_capacitacion) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s ',%s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
+                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
                     cx.commit()                
             cx.close()
             return "Agregado con éxito"
         except Exception as ex:
             print (ex)
             return redirect ('getCapacitacionesPage')
+    else:
+        return redirect ('getCapacitacionesPage')

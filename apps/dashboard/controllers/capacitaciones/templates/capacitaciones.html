@@ -74,7 +74,7 @@
             <div class="modal-body">
                 <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" name="idGrupoActividades" id="idGrupoActividades">
+                    <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-floating mt-2">
@@ -363,14 +363,14 @@
     function fntEditActividadesCapacitacion (id_capacitacion){
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        var ajaxUrl = v_url_insert_actividad + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
             document.getElementById('modalActividadesLabel').innerHTML = '<h5>Actualizar Actividades</h5>';
-            $('#idGrupoActividades').val(objData[0].id_actividad);
+            $('#idCapacitacion').val(objData[0].id_capacitacion);
             $('#txtNombreActividad1').val(objData[0].nombre_actividad_1);
             $('#txtNombreActividad2').val(objData[0].nombre_actividad_2);
             $('#txtNombreActividad3').val(objData[0].nombre_actividad_3);
@@ -383,3 +383,4 @@
 
 </script>
 {% endblock %}
+
