@@ -72,7 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
+                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
@@ -131,7 +131,7 @@
                         <div class="col-12">
                             <div class="">
                                 <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntConfirmEditInsert()">
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntEditActividadesCapacitacion()">
                                     Guardar Cambios
                                 </button>
                             </div>
@@ -202,7 +202,8 @@
     let v_url_enable_capacitacion = "{% url 'enableCapacitacion' %}";
     let v_url_disable_capacitacion = "{% url 'disableCapacitacion' %}";
     let v_url_delete_capacitacion = "{% url 'deleteCapacitacion' %}";
-    let v_url_insert_actividad = "{% url 'InsertActividades' %}"
+    let v_url_insert_actividad = "{% url 'InsertActividades' %}";
+    let v_url_actividad = "{% url 'getActividad' %}";
 </script>
 <script>
     let tableCapacitaciones;
@@ -363,7 +364,7 @@
     function fntEditActividadesCapacitacion (id_capacitacion){
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_insert_actividad + "?idCapacitacion=" + id_capacitacion;
+        var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
@@ -378,7 +379,7 @@
             $('#txtNombreActividad5').val(objData[0].nombre_actividad_5);
             $('#txtDescripcionActividades').val(objData[0].descripcion_actividad);
             $('#modalActividades').show();
-        }
+        }       
     }
 
 </script>

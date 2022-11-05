@@ -84,14 +84,10 @@ def getAllCapacitaciones(request):
     for i in range(len(data_to_array)):
         data_to_array[i]['actividades'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-success' 
-                    data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
+                <button type='button' class='btn btn-sm btn-success' onclick='fntEditActividadesCapacitacion(%s)'  
+                    data-bs-toggle='modal' data-bs-target='#modalActividades'>
                     <i class='bx bx-plus' ></i>
-                </button>
-                <button type='button' class='btn btn-sm btn-warning' 
-                    data-bs-toggle='modal' data-bs-target='#modalActividades' >
-                    <i class='bx bxs-edit' ></i>
-                </button>
+                </button>            
             </div>
         """ % (data_to_array[i]['id_capacitacion'])
     # Añadir HTML
@@ -200,19 +196,17 @@ def dashoard_enable_capacitacion(request):
 
 def dashboard_insert_actividades(request):
     x = 'usuario' in request.session
-    print("entro en el def")
     if (x == False):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        print("Entro en el if")
-        v_idCapacitacion = request.POST.get("idCapacitacion")
+        v_idCapacitacion = request.GET.get('idCapacitacion')
         print(v_idCapacitacion)
         
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                if (v_idCapacitacion != ""):
+                if (v_idCapacitacion == ""):
                     print("entro en el with if")
                     # Obtener los datos del formulario e insertarlos en la base de datos.
                     v_nombre_actividad1= request.POST.get("txtNombreActividad1")
@@ -220,15 +214,62 @@ def dashboard_insert_actividades(request):
                     v_nombre_actividad3= request.POST.get("txtNombreActividad3")
                     v_nombre_actividad4= request.POST.get("txtNombreActividad4")
                     v_nombre_actividad5= request.POST.get("txtNombreActividad5")
-                    v_descripcion_capacitacion = request.POST.get("txtDescripcionActividades")
+                    v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
 
                     cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
-                    cx.commit()                
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                    cx.commit()    
+                else:
+                    # ACTUALIZAR Actividad                   
+                    if (v_idCapacitacion != ""):                    
+                        # Obtener los datos del formulario e actualizarlos en la base de datos.
+                        v_nombre_actividad1= request.POST.get("txtNombreActividad1")
+                        v_nombre_actividad2= request.POST.get("txtNombreActividad2")
+                        v_nombre_actividad3= request.POST.get("txtNombreActividad3")
+                        v_nombre_actividad4= request.POST.get("txtNombreActividad4")
+                        v_nombre_actividad5= request.POST.get("txtNombreActividad5")
+                        v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+
+                        cursor.execute(""" update nma_actividad set nombre_actividad_1 = '%s', nombre_actividad_2 = '%s', nombre_actividad_3 = '%s', nombre_actividad_4 = '%s', nombre_actividad_5 = '%s', descripcion_actividad = '%s' where id_capacitacion = %s""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                        cx.commit()  
+
+                        return redirect("getCapacitacionesPage")
+                    else:
+                        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error, vuelva a intentarlo!')
+                        return redirect("getCapacitacionesPage")            
             cx.close()
-            return "Agregado con éxito"
+            return redirect ('getCapacitacionesPage')
         except Exception as ex:
             print (ex)
             return redirect ('getCapacitacionesPage')
     else:
         return redirect ('getCapacitacionesPage')
+
+def getActividad(request):
+    v_idCapacitacion = request.GET.get('idCapacitacion')
+    if (v_idCapacitacion != ""):
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                cursor.execute(""" SELECT * FROM nma_actividad WHERE id_capacitacion = %s """ % (v_idCapacitacion))
+                data_to_array = []
+                if (cursor != ()):
+                    for i in cursor:
+                        data_to_array.append({
+                            "id_capacitacion": i[7],
+                            "nombre_actividad_1": i[1],
+                            "nombre_actividad_2": i[2],
+                            "nombre_actividad_3": i[3],
+                            "nombre_actividad_4": i[4],
+                            "nombre_actividad_5": i[5],
+                            "descripcion_actividad": i[6],
+                        })
+                    
+                    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+                else:
+                    return redirect("getCapacitacionesPage")
+        except Exception as ex:
+            print (ex)
+            return redirect ('getCapacitacionesPage')            
+    else:
+        return redirect("getCapacitacionesPage")
