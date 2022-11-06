@@ -34,6 +34,30 @@ def insertCapacitacion(request):
 
             fc_insert_capacitacion(v_rut, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
+            try:
+                cx = get_connection()
+                with cx.cursor() as cursor:
+                    print("Entra en el select para obtener la última id agregada")
+                    cursor.execute(""" select max(id_capacitacion) from nma_capacitacion """)
+                    exist = cursor.fetchall()
+                    v_IdInsertarActividad = exist[0][0]
+                    print(v_IdInsertarActividad)
+                    cx.commit()  
+            except Exception as ex:
+                print (ex)
+                return redirect ('getCapacitacionesPage') 
+
+
+            try:
+                cx = get_connection()
+                with cx.cursor() as cursor:
+                    print("Entra en el insert actividad")
+                    cursor.execute(""" INSERT INTO nma_actividad (nombre_actividad_1,nombre_actividad_2,nombre_actividad_3,nombre_actividad_4,nombre_actividad_5,descripcion_actividad,Id_capacitacion) VALUES ('','','','','','', %s ) """ % (v_IdInsertarActividad))
+                    cx.commit()  
+            except Exception as ex:
+                print (ex)
+                return redirect ('getCapacitacionesPage')  
+
             return redirect("getCapacitacionesPage")
 
         else:
@@ -42,6 +66,7 @@ def insertCapacitacion(request):
             # getCapacitacionesPage.
             exist = fc_get_capacitacion(v_idCapacitacion)
             if (exist != ()):
+                print("Entra en el edit")
             
                 v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
                 v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
@@ -200,7 +225,8 @@ def dashboard_insert_actividades(request):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        v_idCapacitacion = request.GET.get('idCapacitacion')
+        print("Entro en el post")
+        v_idCapacitacion = request.POST.get('idCapacitacion1')
         print(v_idCapacitacion)
         
         try:
@@ -264,7 +290,6 @@ def getActividad(request):
                             "nombre_actividad_5": i[5],
                             "descripcion_actividad": i[6],
                         })
-                    
                     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
                 else:
                     return redirect("getCapacitacionesPage")
