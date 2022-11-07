@@ -79,6 +79,68 @@
   </div>
 </div>
 
+<!-- MODAL CHECKLIST ACTIVIDADES-->
+<div class="modal fade" id="modalChecklist" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 13px; padding: 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalChecklistLabel">Actividades de la Capacitación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url "editChecklist" %}" id="formActividades" class="needs-validation" method="POST">
+                    {% csrf_token %}  
+                    <input type="hidden" name="idCapacitacion1" id="idCapacitacion1">                  
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <ul class="list-group">
+                              <li class="list-group-item">  
+                                  <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct1" name="CboxAct1">
+                                  <label class="form-check-label" for="CboxAct1" id="cbox1">Actividad 1</label>                                   
+                              </li>                              
+                              <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct2" name="CboxAct2">
+                                <label class="form-check-label" for="CboxAct2" id="cbox2">Actividad 2</label>
+                              </li>
+                              <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct3" name="CboxAct3">
+                                <label class="form-check-label" for="CboxAct3" id="cbox3">Actividad 3</label>
+                              </li>
+                              <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct4" name="CboxAct4">
+                                <label class="form-check-label" for="CboxAct4" id="cbox4">Actividad 4</label>
+                              </li>
+                              <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct5" name="CboxAct5">
+                                <label class="form-check-label" for="CboxAct5" id="cbox5">Actividad 5</label>
+                              </li>
+                            </ul>
+                        <br>
+                        </div>                        
+                        <hr>
+                        <div class="col-12">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntEditChecklist()">
+                                    Guardar Cambios
+                                </button>
+                            </div>
+                            <div class="my-2"></div>
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;" 
+                                    data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div style="width: 100%; padding: 18px 10px 6px 10px; background: linear-gradient(to right, black, blueviolet, dodgerblue); color: white; margin-top: 80px;">
   <div class="container text-center">
     <h6 class="info_profile"><i class='bx bxs-error'></i> Todos los cambios realizados en el portal de profesional serán registrador en el portal de administración</h6>
@@ -209,7 +271,8 @@
 <script>
 
   let v_url_update_project = "{% url 'capacitacionProfesional' %}" ;
-  let v_url_delete = "{% url 'deleteCapacitacionProfesional' %}"
+  let v_url_delete = "{% url 'deleteCapacitacionProfesional' %}";
+  let v_url_actividad = "{% url 'getActividad' %}";
 
     function reloadTable() {
       $('#projectsTable').load(location.href + " #projectsTable");
@@ -336,6 +399,52 @@
             )
         }
     })
+    } 
+
+  function fntEditChecklist (number){
+        // JAVASCRIPT
+        var id_capacitacion = number;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+
+            document.getElementById('modalChecklistLabel').innerHTML = 'Checklist';
+            // FIN JAVASCRIPT
+
+            // $ => JQUERY
+            $('#idCapacitacion1').val(objData[0].id_capacitacion);
+            $('#cbox1').html(objData[0].nombre_actividad_1);
+            $('#cbox2').html(objData[0].nombre_actividad_2);
+            $('#cbox3').html(objData[0].nombre_actividad_3);
+            $('#cbox4').html(objData[0].nombre_actividad_4);
+            $('#cbox5').html(objData[0].nombre_actividad_5);
+            $('#modalActividades').show();
+            if(objData[0].status_actividad1 == 1){
+              document.getElementById("CboxAct1").setAttribute("value",1);
+              $("#CboxAct1").prop("checked", true);
+            }
+            if(objData[0].status_actividad2 == 1){
+              document.getElementById("CboxAct2").setAttribute("value",1);
+              $("#CboxAct2").prop("checked", true);
+            }
+            if(objData[0].status_actividad3 == 1){
+              document.getElementById("CboxAct3").setAttribute("value",1);
+              $("#CboxAct3").prop("checked", true);
+            }
+            if(objData[0].status_actividad4 == 1){
+              document.getElementById("CboxAct4").setAttribute("value",1);
+              $("#CboxAct4").prop("checked", true);
+            }
+            if(objData[0].status_actividad5 == 1){
+              document.getElementById("CboxAct5").setAttribute("value",1);
+              $("#CboxAct5").prop("checked", true);  
+            }          
+            // FIN JQUERY
+        }       
     }
 </script>
 {% endblock %}

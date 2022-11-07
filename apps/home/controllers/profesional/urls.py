@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/v2/ingresar/capacitación', insert_project, name="insertCapacitacionProfesional"),
     path('api/v2/get/capacitacion', get_capacitacion, name="capacitacionProfesional"),
     path('api/v2/delete/capacitacion', delete_capacitacion, name="deleteCapacitacionProfesional"),
-    
+    path('api/v2/admin/capacitaciones/getActividad', getActividad, name="getActividad"),
+    path('api/v2/admin/capacitaciones/updateChecklist', editChecklist, name="editChecklist"),
 ]
 

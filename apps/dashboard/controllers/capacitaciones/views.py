@@ -37,7 +37,6 @@ def insertCapacitacion(request):
             try:
                 cx = get_connection()
                 with cx.cursor() as cursor:
-                    print("Entra en el select para obtener la última id agregada")
                     cursor.execute(""" select max(id_capacitacion) from nma_capacitacion """)
                     exist = cursor.fetchall()
                     v_IdInsertarActividad = exist[0][0]
@@ -51,7 +50,6 @@ def insertCapacitacion(request):
             try:
                 cx = get_connection()
                 with cx.cursor() as cursor:
-                    print("Entra en el insert actividad")
                     cursor.execute(""" INSERT INTO nma_actividad (nombre_actividad_1,nombre_actividad_2,nombre_actividad_3,nombre_actividad_4,nombre_actividad_5,descripcion_actividad,Id_capacitacion) VALUES ('','','','','','', %s ) """ % (v_IdInsertarActividad))
                     cx.commit()  
             except Exception as ex:
@@ -225,7 +223,6 @@ def dashboard_insert_actividades(request):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        print("Entro en el post")
         v_idCapacitacion = request.POST.get('idCapacitacion1')
         print(v_idCapacitacion)
         
@@ -233,7 +230,6 @@ def dashboard_insert_actividades(request):
             cx = get_connection()
             with cx.cursor() as cursor:
                 if (v_idCapacitacion == ""):
-                    print("entro en el with if")
                     # Obtener los datos del formulario e insertarlos en la base de datos.
                     v_nombre_actividad1= request.POST.get("txtNombreActividad1")
                     v_nombre_actividad2= request.POST.get("txtNombreActividad2")
@@ -242,8 +238,8 @@ def dashboard_insert_actividades(request):
                     v_nombre_actividad5= request.POST.get("txtNombreActividad5")
                     v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
 
-                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s, 0, 0, 0, 0, 0)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
                     cx.commit()    
                 else:
                     # ACTUALIZAR Actividad                   
