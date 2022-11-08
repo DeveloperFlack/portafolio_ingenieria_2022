@@ -94,23 +94,23 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <ul class="list-group">
-                              <li class="list-group-item">  
+                              <li class="list-group-item" id="cboxlist1">  
                                   <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct1" name="CboxAct1">
                                   <label class="form-check-label" for="CboxAct1" id="cbox1">Actividad 1</label>                                   
                               </li>                              
-                              <li class="list-group-item">
+                              <li class="list-group-item" id="cboxlist2">
                                 <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct2" name="CboxAct2">
                                 <label class="form-check-label" for="CboxAct2" id="cbox2">Actividad 2</label>
                               </li>
-                              <li class="list-group-item">
+                              <li class="list-group-item" id="cboxlist3">
                                 <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct3" name="CboxAct3">
                                 <label class="form-check-label" for="CboxAct3" id="cbox3">Actividad 3</label>
                               </li>
-                              <li class="list-group-item">
+                              <li class="list-group-item" id="cboxlist4">
                                 <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct4" name="CboxAct4">
                                 <label class="form-check-label" for="CboxAct4" id="cbox4">Actividad 4</label>
                               </li>
-                              <li class="list-group-item">
+                              <li class="list-group-item" id="cboxlist5">
                                 <input class="form-check-input me-1" type="checkbox" value="1" id="CboxAct5" name="CboxAct5">
                                 <label class="form-check-label" for="CboxAct5" id="cbox5">Actividad 5</label>
                               </li>
@@ -423,28 +423,74 @@
             $('#cbox4').html(objData[0].nombre_actividad_4);
             $('#cbox5').html(objData[0].nombre_actividad_5);
             $('#modalActividades').show();
-            if(objData[0].status_actividad1 == 1){
+            if(objData[0].nombre_actividad_1 != "" && objData[0].status_actividad1 == 1){
+              document.getElementById("cboxlist1").setAttribute("class",'list-group-item visible');
               document.getElementById("CboxAct1").setAttribute("value",1);
-              $("#CboxAct1").prop("checked", true);
+              $("#CboxAct1").prop("checked", true);              
             }
-            if(objData[0].status_actividad2 == 1){
+            else if(objData[0].nombre_actividad_1 != "" && objData[0].status_actividad1 == 0){    
+              document.getElementById("cboxlist1").setAttribute("class",'list-group-item visible');  
+              document.getElementById("CboxAct1").setAttribute("value",0);        
+              $("#CboxAct1").prop("checked", false);
+            }else{
+              document.getElementById("cboxlist1").setAttribute("class",'list-group-item invisible');
+              document.getElementById("CboxAct1").setAttribute("value",0);  
+            }
+            if(objData[0].nombre_actividad_2 != "" && objData[0].status_actividad2 == 1){
+              document.getElementById("cboxlist2").setAttribute("class",'list-group-item visible');
               document.getElementById("CboxAct2").setAttribute("value",1);
-              $("#CboxAct2").prop("checked", true);
+              $("#CboxAct2").prop("checked", true); 
             }
-            if(objData[0].status_actividad3 == 1){
+            else if(objData[0].nombre_actividad_2 != "" && objData[0].status_actividad2 == 0){      
+              document.getElementById("cboxlist2").setAttribute("class",'list-group-item visible');     
+              document.getElementById("CboxAct2").setAttribute("value",0);    
+              $("#CboxAct2").prop("checked", false);
+            }else{
+              document.getElementById("cboxlist2").setAttribute("class",'list-group-item invisible');
+              document.getElementById("CboxAct2").setAttribute("value",0);
+            }
+            if(objData[0].nombre_actividad_3 != "" || objData[0].status_actividad3 == 1){
+              document.getElementById("cboxlist3").setAttribute("class",'list-group-item visible');
               document.getElementById("CboxAct3").setAttribute("value",1);
               $("#CboxAct3").prop("checked", true);
             }
-            if(objData[0].status_actividad4 == 1){
+            else if(objData[0].nombre_actividad_3 != "" && objData[0].status_actividad3 == 0){ 
+              document.getElementById("cboxlist3").setAttribute("class",'list-group-item visible');
+              document.getElementById("CboxAct3").setAttribute("value",0);              
+              $("#CboxAct3").prop("checked", false);
+            }else{
+              document.getElementById("cboxlist3").setAttribute("class",'list-group-item invisible');
+              document.getElementById("CboxAct3").setAttribute("value",0);
+            }
+            if(objData[0].nombre_actividad_4 != "" || objData[0].status_actividad4 == 1){
+              document.getElementById("cboxlist4").setAttribute("class",'list-group-item visible');
               document.getElementById("CboxAct4").setAttribute("value",1);
               $("#CboxAct4").prop("checked", true);
             }
-            if(objData[0].status_actividad5 == 1){
+            else if(objData[0].nombre_actividad_4 != "" && objData[0].status_actividad4 == 0){
+              document.getElementById("cboxlist4").setAttribute("class",'list-group-item visible'); 
+              document.getElementById("CboxAct4").setAttribute("value",0);              
+              $("#CboxAct4").prop("checked", false);
+            }else{
+              document.getElementById("cboxlist4").setAttribute("class",'list-group-item invisible');
+              document.getElementById("CboxAct4").setAttribute("value",0);
+            }
+            if(objData[0].nombre_actividad_5 != "" || objData[0].status_actividad5 == 1){
+              document.getElementById("cboxlist5").setAttribute("class",'list-group-item visible');
               document.getElementById("CboxAct5").setAttribute("value",1);
               $("#CboxAct5").prop("checked", true);  
-            }          
+            }
+            else if(objData[0].nombre_actividad_5 != "" && objData[0].status_actividad5 == 0){    
+              document.getElementById("cboxlist5").setAttribute("class",'list-group-item visible'); 
+              document.getElementById("CboxAct5").setAttribute("value",0);          
+              $("#CboxAct5").prop("checked", false);
+            }else{
+              document.getElementById("cboxlist5").setAttribute("class",'list-group-item invisible');
+              document.getElementById("CboxAct5").setAttribute("value",0);
+            }         
             // FIN JQUERY
         }       
     }
 </script>
 {% endblock %}
+

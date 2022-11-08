@@ -412,20 +412,25 @@ def editChecklist(request):
                     # Obtener los datos del formulario e actualizarlos en la base de datos.
                     
                     v_status_actividad1= request.POST.get("CboxAct1")
-                    if (v_status_actividad1 == ""):
-                        v_status_actividad1=0
+                    print(v_status_actividad1)
+                    if (v_status_actividad1 == None):
+                        v_status_actividad1 = 0
                     v_status_actividad2= request.POST.get("CboxAct2")
-                    if (v_status_actividad2 == ""):
-                        v_status_actividad2=0
+                    print(v_status_actividad2)
+                    if (v_status_actividad2 == None):
+                        v_status_actividad2 = 0
                     v_status_actividad3= request.POST.get("CboxAct3")
-                    if (v_status_actividad3 == ""):
-                        v_status_actividad3=0
+                    print(v_status_actividad3)
+                    if (v_status_actividad3 == None):
+                        v_status_actividad3 = 0
                     v_status_actividad4= request.POST.get("CboxAct4")
-                    if (v_status_actividad4 == ""):
-                        v_status_actividad4=0
+                    print(v_status_actividad4)
+                    if (v_status_actividad4 == None):
+                        v_status_actividad4 = 0
                     v_status_actividad5= request.POST.get("CboxAct5")
-                    if (v_status_actividad5 == ""):
-                        v_status_actividad5=0
+                    print(v_status_actividad5)
+                    if (v_status_actividad5 == None):
+                        v_status_actividad5 =0
                     print("== estatus actividades ==")
                     print(v_status_actividad1)
                     print(v_status_actividad2)
