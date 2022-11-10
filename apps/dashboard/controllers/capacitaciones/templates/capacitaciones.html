@@ -77,12 +77,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+<<<<<<< HEAD
                 <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="hidden" name="idCapacitacion" id="idCapacitacion">
+=======
+                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST">
+                    {% csrf_token %}  
+                    <input name="idCapacitacion1" id="idCapacitacion1">                  
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
                     <div class="row g-3">
                         <div class="col-12">
-                            <div class="form-floating mt-2">
+                            <div class="form-floating mt-2"> 
                                 <input type="text" class="form-control" id="txtNombreActividad1" name="txtNombreActividad1" placeholder="name@example.com" required>
                                 <label for="floatingInput">Nombre Actividad</label>
                             </div>
@@ -136,7 +142,7 @@
                         <div class="col-12">
                             <div class="">
                                 <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntConfirmEditInsert()">
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntEditActividadesCapacitacion()">
                                     Guardar Cambios
                                 </button>
                             </div>
@@ -207,7 +213,7 @@
     let v_url_enable_capacitacion = "{% url 'enableCapacitacion' %}";
     let v_url_disable_capacitacion = "{% url 'disableCapacitacion' %}";
     let v_url_delete_capacitacion = "{% url 'deleteCapacitacion' %}";
-    let v_url_insert_actividad = "{% url 'InsertActividades' %}"
+    let v_url_actividad = "{% url 'getActividad' %}";
 </script>
 <script>
     let tableCapacitaciones;
@@ -368,14 +374,14 @@
     function fntEditActividadesCapacitacion (id_capacitacion){
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
+        var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
             document.getElementById('modalActividadesLabel').innerHTML = '<h5>Actualizar Actividades</h5>';
-            $('#idGrupoActividades').val(objData[0].id_actividad);
+            $('#idCapacitacion1').val(objData[0].id_capacitacion);
             $('#txtNombreActividad1').val(objData[0].nombre_actividad_1);
             $('#txtNombreActividad2').val(objData[0].nombre_actividad_2);
             $('#txtNombreActividad3').val(objData[0].nombre_actividad_3);
@@ -383,8 +389,9 @@
             $('#txtNombreActividad5').val(objData[0].nombre_actividad_5);
             $('#txtDescripcionActividades').val(objData[0].descripcion_actividad);
             $('#modalActividades').show();
-        }
+        }       
     }
 
 </script>
 {% endblock %}
+

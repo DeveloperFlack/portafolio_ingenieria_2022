@@ -120,7 +120,11 @@ else:
             'NAME': 'portafolionma1',
             'USER': 'portafolionma',
             'PASSWORD': 'Duoc.2022.1234',
+<<<<<<< HEAD
             'HOST': '44.204.12.116',   # Or an IP Address that your DB is hosted on
+=======
+            'HOST': '44.204.175.44',   # Or an IP Address that your DB is hosted on
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
             'PORT': '3306',
         }
     }
@@ -154,7 +158,11 @@ if (DEBUG == True):
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
+<<<<<<< HEAD
         DB_HOST = '44.204.12.116'
+=======
+        DB_HOST = '44.204.175.44'
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
@@ -173,7 +181,11 @@ else:
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'
     else:
+<<<<<<< HEAD
         DB_HOST = '44.204.12.116'
+=======
+        DB_HOST = '44.204.175.44'
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
         DB_USER = 'portafolionma'
         DB_PASS = 'Duoc.2022.1234'
         DB_SCHEMA = 'portafolionma1'

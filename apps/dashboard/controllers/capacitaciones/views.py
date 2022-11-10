@@ -27,12 +27,35 @@ def insertCapacitacion(request):
         if (v_idCapacitacion == ""):
             # INSERTAR CAPACITACIÓN
             # Obtener los datos del formulario e insertarlos en la base de datos.
+            v_rut =  request.session['profesional']['rut_usuario']
             v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
             v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
             
 
-            fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+            fc_insert_capacitacion(v_rut, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+
+            try:
+                cx = get_connection()
+                with cx.cursor() as cursor:
+                    cursor.execute(""" select max(id_capacitacion) from nma_capacitacion """)
+                    exist = cursor.fetchall()
+                    v_IdInsertarActividad = exist[0][0]
+                    print(v_IdInsertarActividad)
+                    cx.commit()  
+            except Exception as ex:
+                print (ex)
+                return redirect ('getCapacitacionesPage') 
+
+
+            try:
+                cx = get_connection()
+                with cx.cursor() as cursor:
+                    cursor.execute(""" INSERT INTO nma_actividad (nombre_actividad_1,nombre_actividad_2,nombre_actividad_3,nombre_actividad_4,nombre_actividad_5,descripcion_actividad,Id_capacitacion) VALUES ('','','','','','', %s ) """ % (v_IdInsertarActividad))
+                    cx.commit()  
+            except Exception as ex:
+                print (ex)
+                return redirect ('getCapacitacionesPage')  
 
             return redirect("getCapacitacionesPage")
 
@@ -42,6 +65,7 @@ def insertCapacitacion(request):
             # getCapacitacionesPage.
             exist = fc_get_capacitacion(v_idCapacitacion)
             if (exist != ()):
+                print("Entra en el edit")
             
                 v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
                 v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
@@ -81,19 +105,23 @@ def getAllCapacitaciones(request):
                 style='background: linear-gradient(to right, orange, deeppink); border: none; color: white;'>Desactivado</button></div>"""
 
     # Añadir HTML
-    for i in data_to_array:
-        i['actividades'] = """
+    for i in range(len(data_to_array)):
+        data_to_array[i]['actividades'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-success' 
+                <button type='button' class='btn btn-sm btn-success' onclick='fntEditActividadesCapacitacion(%s)'  
                     data-bs-toggle='modal' data-bs-target='#modalActividades'>
                     <i class='bx bx-plus' ></i>
+<<<<<<< HEAD
                 </button>
                 <button type='button' class='btn btn-sm btn-info' 
                     data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
                     <i class='bx bxs-edit' ></i>
                 </button>
+=======
+                </button>            
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
             </div>
-        """ % (i['id_capacitacion'])
+        """ % (data_to_array[i]['id_capacitacion'])
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
@@ -200,17 +228,21 @@ def dashoard_enable_capacitacion(request):
 
 def dashboard_insert_actividades(request):
     x = 'usuario' in request.session
-    
     if (x == False):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
+<<<<<<< HEAD
         v_idCapacitacion = request.POST.get("idCapacitacion")
+=======
+        v_idCapacitacion = request.POST.get('idCapacitacion1')
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
         print(v_idCapacitacion)
         
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
+<<<<<<< HEAD
                 cursor.execute("SELECT * FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_idCapacitacion))
                 exist = cursor.fetchall()
 
@@ -251,8 +283,73 @@ def dashboard_insert_actividades(request):
             cx.close()
             return redirect ('getCapacitacionesPage')
 
+=======
+                if (v_idCapacitacion == ""):
+                    # Obtener los datos del formulario e insertarlos en la base de datos.
+                    v_nombre_actividad1= request.POST.get("txtNombreActividad1")
+                    v_nombre_actividad2= request.POST.get("txtNombreActividad2")
+                    v_nombre_actividad3= request.POST.get("txtNombreActividad3")
+                    v_nombre_actividad4= request.POST.get("txtNombreActividad4")
+                    v_nombre_actividad5= request.POST.get("txtNombreActividad5")
+                    v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+
+                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s, 0, 0, 0, 0, 0)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                    cx.commit()    
+                else:
+                    # ACTUALIZAR Actividad                   
+                    if (v_idCapacitacion != ""):                    
+                        # Obtener los datos del formulario e actualizarlos en la base de datos.
+                        v_nombre_actividad1= request.POST.get("txtNombreActividad1")
+                        v_nombre_actividad2= request.POST.get("txtNombreActividad2")
+                        v_nombre_actividad3= request.POST.get("txtNombreActividad3")
+                        v_nombre_actividad4= request.POST.get("txtNombreActividad4")
+                        v_nombre_actividad5= request.POST.get("txtNombreActividad5")
+                        v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+
+                        cursor.execute(""" update nma_actividad set nombre_actividad_1 = '%s', nombre_actividad_2 = '%s', nombre_actividad_3 = '%s', nombre_actividad_4 = '%s', nombre_actividad_5 = '%s', descripcion_actividad = '%s' where id_capacitacion = %s""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                        cx.commit()  
+
+                        return redirect("getCapacitacionesPage")
+                    else:
+                        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error, vuelva a intentarlo!')
+                        return redirect("getCapacitacionesPage")            
+            cx.close()
+            return redirect ('getCapacitacionesPage')
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
         except Exception as ex:
             print (ex)
             return redirect ('getCapacitacionesPage')
     else:
         return redirect ('getCapacitacionesPage')
+<<<<<<< HEAD
+=======
+
+def getActividad(request):
+    v_idCapacitacion = request.GET.get('idCapacitacion')
+    if (v_idCapacitacion != ""):
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                cursor.execute(""" SELECT * FROM nma_actividad WHERE id_capacitacion = %s """ % (v_idCapacitacion))
+                data_to_array = []
+                if (cursor != ()):
+                    for i in cursor:
+                        data_to_array.append({
+                            "id_capacitacion": i[7],
+                            "nombre_actividad_1": i[1],
+                            "nombre_actividad_2": i[2],
+                            "nombre_actividad_3": i[3],
+                            "nombre_actividad_4": i[4],
+                            "nombre_actividad_5": i[5],
+                            "descripcion_actividad": i[6],
+                        })
+                    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+                else:
+                    return redirect("getCapacitacionesPage")
+        except Exception as ex:
+            print (ex)
+            return redirect ('getCapacitacionesPage')            
+    else:
+        return redirect("getCapacitacionesPage")
+>>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
