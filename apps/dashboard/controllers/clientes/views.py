@@ -189,6 +189,7 @@ def dashboard_insert_cliente(request):
                 return redirect("getClientesPage")
     else:
         return redirect("getClientesPage")
+
 def dashboard_delete_cliente(request):
     if request.method == "GET":
         v_rut_Cliente = request.GET.get("txtRut")

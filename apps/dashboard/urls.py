@@ -15,6 +15,7 @@ urlpatterns = [
     path('login/', loginDashboard, name="loginDashboard"),
     path('login/auth/', loginAdministrador, name="loginAdministrador"),
     path('logout/', logoutAdm, name="logoutAdm"),
+    path('api/v2/all', get_stadistics, name="all")
 
 ]
 

@@ -26,10 +26,10 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-  body::-webkit-scrollbar{width: 10px !important;}
-  body::-webkit-scrollbar-thumb{background: linear-gradient(to top, deeppink, red) !important; border-radius: 50px !important;}
+  body::-webkit-scrollbar{width: 15px !important; background-color: rgb(242, 242, 242);}
+  body::-webkit-scrollbar-thumb{background: rgb(36, 36, 36) !important; border-radius: 0px !important;}
 
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 570px){
     #total_capacitacion{font-size: 40px !important;}
     .descripcion_capacitacion{font-size: 15px !important;}
     .subtitle_servicios{font-size: 16px !important;}
@@ -64,6 +64,11 @@
           <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
             width="45" height="40">
             RSP Company
+        </a>
+        <a href="{% url 'afterPayService' %}" class="me-2 mb-md-0 text-muted text-decoration-none lh-1">
+          <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
+            width="45" height="40">
+            CONFIRM PAY
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" 
           style="border-radius: 4px !important; color: white !important; background-color: dodgerblue; font-size: 25px;">
@@ -141,7 +146,7 @@
             </div>
           </li>
 
-          <li class="nav-item dropdown text-center" style="list-style: none;">
+          <!-- <li class="nav-item dropdown text-center" style="list-style: none;">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" 
               style="background-color: dodgerblue; color: white; padding: 5px 10px; border-radius: 50px;">
               <i class='bx bx-search'></i>
@@ -152,7 +157,7 @@
                 <input type="search" class="form-control form-control-white" autocomplete="false" placeholder="Escribe para buscar...">
               </form>
             </div>
-          </li>
+          </li> -->
 
         </div>
       </div>

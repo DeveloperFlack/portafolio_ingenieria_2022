@@ -183,6 +183,7 @@ def get_capacitaciones_index(request):
                     "nombre_capacitacion" : capacitacion[i][2],
                     "descripcion_capacitacion" : capacitacion[i][3],
                     "total_capacitacion" : capacitacion[i][4],
+                    "status_capacitaciones" : capacitacion[i][5]
                 })
             
             return data_to_array

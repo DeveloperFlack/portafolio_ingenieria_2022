@@ -1,5 +1,10 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
+<style>
+    @media screen and (max-width: 570px){
+        #addCapacitacionesBtn{position: fixed; bottom: 0; left: 0; width: 100%; border-radius: 0; padding: 15px 10px; z-index: 1000;}
+    }
+</style>
 <div class="modal fade" id="modalCapacitaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalCapacitacionesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -74,7 +79,7 @@
             <div class="modal-body">
                 <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" name="idGrupoActividades" id="idGrupoActividades">
+                    <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-floating mt-2">
@@ -168,7 +173,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                    <button type="button" class="btn btn-primary" id="addCapacitacionesBtn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>

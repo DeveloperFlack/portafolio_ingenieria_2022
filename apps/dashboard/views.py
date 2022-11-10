@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 import pymysql
 import hashlib
 import apps.helpers as helpers
 from .usp import *
 from django.conf import settings
 from django.contrib import messages
+import math
+import json
 
 # Tupla = (1,2,3,4,5,6,7,8)
 # Array = []
@@ -54,10 +57,10 @@ def getDashboard (request):
     data = {
         'id' : 1,
         'Módulo' : "Dashboard",
-        'asesorias': get_count_asesorias(request),
+        'percentage_da_services': get_count_asesorias(request),
         'capacitaciones': get_count_capacitaciones(request),
         'solicitudes': get_count_solicitudes(request),
-        'profesionales': get_count_profesionales(request),
+        'percentage_profesional': get_count_profesionales(request),
         'clientes': get_count_clientes(request),
         'accidentes': get_count_accidentes(request),
     }
@@ -165,20 +168,19 @@ def get_count_asesorias(request):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute(""" 
-                SELECT COUNT(id_asesoria)
-                FROM nma_asesoria 
-                WHERE status_asesoria != 0
-            """)
-            asesorias = cursor.fetchall()
-            data_to_array = []
-        
-            for i in range(len(asesorias)):
-                data_to_array.append({
-                    "count_id": asesorias[i][0]
-                })
+            cursor.execute("""SELECT COUNT(id_asesoria) FROM nma_asesoria WHERE status_asesoria != 0 """)
+            as_active_1 = cursor.fetchall()
+            
+            cursor.execute("""SELECT COUNT(id_asesoria) FROM nma_asesoria""")
+            as_total = cursor.fetchall()
 
-            return data_to_array
+            x = (as_active_1[0][0] / as_total[0][0] ) * 100
+            data =  {
+                'activas' : as_active_1[0][0],
+                'total' : as_total[0][0],
+                'porcentaje' : math.trunc(x)
+                }
+            return data
     except Exception as ex:
         print(ex)
 
@@ -230,18 +232,23 @@ def get_count_profesionales(request):
         with cx.cursor() as cursor:
             cursor.execute(""" 
                 SELECT COUNT(rut_usuario)
-                FROM nma_usuario
+                    FROM nma_usuario
                 WHERE status_usuario != 0
             """)
-            profesionales = cursor.fetchall()
-            data_to_array = []
-        
-            for i in range(len(profesionales)):
-                data_to_array.append({
-                    "count_rut": profesionales[i][0]
-                })
-
-            return data_to_array
+            status_1 = cursor.fetchall()
+            
+            cursor.execute("""SELECT COUNT(rut_usuario) FROM nma_usuario """)
+            pro_total = cursor.fetchall()
+            
+            x = (status_1[0][0] / pro_total[0][0]) * 100
+            
+            data =  {
+                'activas' : status_1[0][0],
+                'total' : pro_total[0][0],
+                'porcentaje' : math.trunc(x)
+                }
+            
+            return data
     except Exception as ex:
         print(ex)
 
@@ -252,14 +259,14 @@ def get_count_clientes(request):
             cursor.execute(""" 
                 SELECT COUNT(rut_cliente)
                 FROM nma_cliente
-                WHERE status_cliente != 0
             """)
             clientes = cursor.fetchall()
             data_to_array = []
         
             for i in range(len(clientes)):
                 data_to_array.append({
-                    "count_rut": clientes[i][0]
+                    "count_rut": clientes[i][0],
+                    "status_cliente": clientes[i][11]
                 })
 
             return data_to_array
@@ -273,7 +280,6 @@ def get_count_accidentes(request):
             cursor.execute(""" 
                 SELECT COUNT(id_accidente)
                 FROM nma_accidentes
-                WHERE status_accidente != 0
             """)
             accidente = cursor.fetchall()
             data_to_array = []
@@ -286,3 +292,96 @@ def get_count_accidentes(request):
             return data_to_array
     except Exception as ex:
         print(ex)
+        
+def get_stadistics (request):
+    try:
+        cx = get_connection()
+        
+        with cx.cursor() as cursor :
+            """ CPC = CAPACITACIONES """
+            cursor.execute("SELECT * FROM nma_capacitacion")
+            data_cpc= cursor.fetchall()
+            array_cpc = []
+            
+            for x in data_cpc :
+                array_cpc.append({
+                    'id' : x[0],
+                    'rut' : x[1],
+                    'nombre' : x[2],
+                    'descripcion' : x[3],
+                    'total' : x[4],
+                    'status' : x[5],
+                })
+
+            cursor.execute("SELECT * FROM nma_asesoria")
+            data_ass = cursor.fetchall()
+            array_ass = []
+
+            for x in data_ass :
+                array_ass.append({
+                    'id' : x[0],
+                    'rut' : x[1],
+                    'nombre' : x[2],
+                    'descripcion' : x[3],
+                    'total' : x[4],
+                    'status' : x[5],
+                })
+
+            cursor.execute("SELECT * FROM nma_solicitudes")
+            data_sol = cursor.fetchall()
+            array_sol = []
+
+            for i in data_sol :
+                array_sol.append({
+                    "id_solicitud": i[0],
+                    "rut_cliente": i[1],
+                    "nombre_solicitud": i[4],
+                    "descripcion_solicitud": i[5],
+                    "tipo_solicitud": i[6],
+                    "status_solicitud": i[11],
+                    'fecha': i[7],
+                    'time_start': i[8],
+                    'time_end': i[9]
+                })
+
+            cursor.execute("SELECT * FROM nma_cliente")
+            data_cli = cursor.fetchall()
+            array_cli = []
+
+            for i in data_cli :
+                array_cli.append({
+                    "rut_cliente": i[0],
+                    "status_cliente": i[11]
+                })
+
+            cursor.execute("SELECT * FROM nma_accidentes")
+            data_acci = cursor.fetchall()
+            array_acci = []
+
+            for i in data_acci :
+                array_acci.append({
+                    "id_accidente": i[0],
+                    "status_accidente": i[7]
+                })
+            
+            cursor.execute("SELECT * FROM nma_usuario")
+            data_pro = cursor.fetchall()
+            array_pro = []
+
+            for i in data_pro :
+                array_pro.append({
+                    "rut": i[0],
+                    "status" : i[9]
+                })
+                
+            data = {
+                'capacitaciones' : array_cpc,
+                'asesorias' : array_ass,
+                'solicitudes' : array_sol,
+                'clientes' : array_cli,
+                'profesionales' : array_pro,
+                'accidentes' : array_acci
+            }
+            return HttpResponse(json.dumps(data,ensure_ascii=False, default=str), content_type='application/json; charset=utf-8; lang=es')
+    except Exception as ex:
+        print (ex)

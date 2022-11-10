@@ -1,5 +1,10 @@
 {% extends 'base-dashboard.html'%}
 {% block content %}
+<style>
+    @media screen and (max-width: 570px){
+        #addRolesBtn{position: fixed; bottom: 0; left: 0; width: 100%; border-radius: 0; padding: 15px 10px; z-index: 1000;}
+    }
+</style>
 <div class="modal fade" id="modalRoles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalRolLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -70,7 +75,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                    <button type="button" class="btn btn-primary" id="addRolesBtn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;" onclick="openModal()"
                         data-bs-target="#modalRoles">{% if button_add %}{{button_add}}{% endif %}
                     </button>

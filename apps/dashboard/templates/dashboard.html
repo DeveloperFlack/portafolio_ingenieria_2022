@@ -1,6 +1,6 @@
 {% extends 'base-dashboard.html'%}
 {% block content %}
-<div class="col-12">
+<div class="col-12" id="">
     <div class="my-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -9,16 +9,16 @@
             <h3 class="text-muted">
                 ¡Bienvenido!
                 {% if request.session.usuario.primer_nombre != "" %}
-                {{ request.session.usuario.primer_nombre }}
+                    {{ request.session.usuario.primer_nombre }}
                 {% endif %}
                 {% if request.session.usuario.segundo_nombre != "" %}
-                {{ request.session.usuario.segundo_nombre }}
+                    {{ request.session.usuario.segundo_nombre }}
                 {% endif %}
                 {% if request.session.usuario.apellido_paterno != "" %}
-                {{ request.session.usuario.apellido_paterno }}
+                    {{ request.session.usuario.apellido_paterno }}
                 {% endif %}
                 {% if request.session.usuario.apellido_materno != "" %}
-                {{ request.session.usuario.apellido_materno }}
+                    {{ request.session.usuario.apellido_materno }}
                 {% endif %}
             </h3>
         </nav>
@@ -29,7 +29,7 @@
                     <div class="card shadow-lg text-center" style="height: 260px; border: none;">
                         <div class="card-header" style="background-color: transparent; background: linear-gradient(to right, gold, green); color: white; padding-top: 15px; border-bottom: none;">
                             <h4 class="hint--bottom" aria-label="Porcentaje de accidentabilidad">
-                            Accidentabilidad
+                                Accidentabilidad
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255);transform: ;msFilter:;">
                                 <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path>
                             </svg>
@@ -43,6 +43,10 @@
                         </div>
                     </div>
                 </div>
+
+                {% comment %} 
+                    Realizado
+                {% endcomment %}
                 <div class="col-lg-3 col-12">
                     <div class="card shadow-lg text-center" style="height: 260px; border: none;">
                         <div class="card-header" style="background-color: transparent; background: linear-gradient(to right, deeppink, red); color: white; padding-top: 15px; border-bottom: none;">
@@ -54,15 +58,16 @@
                             </h4>
                         </div>
                         <div class="card-body pt-4 bg-white" style="padding: 15px; color: black;">
-                            {% for i in asesorias %}
-                            <h1 class="fw-bold" style="font-size: 70px;">{{ i.count_id | safe }}</h1>
-                            {% endfor %}
+                           <h1 class="fw-bold" style="font-size: 70px;" id="countAsesorias"></h1>
                         </div>
+                        
                         <div class="card-footer bg-white" style="border-top: none; margin-top: -15px;">
                             <p><span style="color: red;">*</span> Asesorías activas</p>
                         </div>
                     </div>
                 </div>
+
+                
                 <div class="col-lg-3 col-12">
                     <div class="card shadow-lg text-center" style="height: 260px; border: none;">
                         <div class="card-header" style="background-color: transparent; background: linear-gradient(to right, blueviolet, dodgerblue); color: white; padding-top: 15px; border-bottom: none;">
@@ -74,15 +79,15 @@
                             </h4>
                         </div>
                         <div class="card-body pt-4 bg-white" style="padding: 15px; color: black;">
-                            {% for i in solicitudes %}
-                            <h1 class="fw-bold" style="font-size: 70px;">{{ i.count_id | safe }}</h1>
-                            {% endfor %}
+                            <h1 class="fw-bold" style="font-size: 70px;" id="countSolicitudes"></h1>
                         </div>
                         <div class="card-footer bg-white" style="border-top: none; margin-top: -15px;">
                             <p><span style="color: red;">*</span> Solicitudes activas</p>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-lg-3 col-12">
                     <div class="card shadow-lg text-center" style="height: 260px; border: none;">
                         <div class="card-header" style="background-color: transparent; background: linear-gradient(to right, gold, rgb(255, 140, 0)); color: white; padding-top: 15px; border-bottom: none;">
@@ -94,9 +99,7 @@
                             </h4>
                         </div>
                         <div class="card-body pt-4 bg-white" style="padding: 15px; color: black;">
-                            {% for i in capacitaciones %}
-                            <h1 class="fw-bold" style="font-size: 70px;">{{ i.count_id | safe }}</h1>
-                            {% endfor %}
+                            <h1 class="fw-bold" style="font-size: 70px;" id="countCapacitacionesAct"></h1>
                         </div>
                         <div class="card-footer bg-white" style="border-top: none; margin-top: -15px;">
                             <p><span style="color: red;">*</span> Capacitaciones activas</p>
@@ -104,23 +107,40 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="row justify-content-center mt-4">
+
+
                 <div class="col-xl-2 col-md-6 col-6">
                     <div class="card quater-card shadow-lg card__little" style="padding: 15px; border-top: 6px solid red;">
                         <div class="card-block">
                             <h6 class="text-muted m-b-20 mb-2">Accidentes Reportados</h6>
                             <h1 class="text-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 22 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                                    <path d="M11.001 10h2v5h-2zM11 16h2v2h-2z"></path>
-                                    <path d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.986 1.986 0 0 0 .054 1.968A1.984 1.984 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.989 1.989 0 0 0 .054-1.968L13.768 4.2zM4.661 19 12 5.137 19.344 19H4.661z"></path>
-                                </svg>
-                                {% for i in accidentes %}
-                                {{ i.count_id | safe }}
-                                {% endfor %}
+
+                                <h1 class="m-t-30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 22 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                        <path d="M11.001 10h2v5h-2zM11 16h2v2h-2z"></path>
+                                        <path d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.986 1.986 0 0 0 .054 1.968A1.984 1.984 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.989 1.989 0 0 0 .054-1.968L13.768 4.2zM4.661 19 12 5.137 19.344 19H4.661z"></path>
+                                    </svg>
+                                    <span id="countAccidentesAct"></span> / <span id="totalAccidentes"></span>
+                                </h1>
+                                <div class="progress">
+                                    <div id="progressBarAccidentes" class="progress-bar" role="progressbar"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" 
+                                        style="padding: 2px; background: linear-gradient(to right, deeppink, red);">
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white" style="border-top: none; margin-top: 5px;">
+                                    <p style="font-size: 12px; text-align: center;"><span style="color: red;">*</span> Accidentes activos</p>
+                                </div>
                             </h1>
                         </div>
                     </div>
                 </div>
+
+                {% comment %}
+                    Realizado
+                {% endcomment %}
                 <div class="col-xl-2 col-md-6 col-6">
                     <div class="card quater-card shadow-lg card__little" style="padding: 15px; border-top: 6px solid dodgerblue;">
                         <div class="card-block">
@@ -129,24 +149,39 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 22 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
                                     <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path>
                                 </svg>
-                                {% for i in profesionales %}
-                                {{ i.count_rut | safe }}
-                                {% endfor %}
+                                <span id="countProfesionales"></span>
                             </h1>
+                        </div>
+                        
+                        <div class="card-footer bg-white" style="border-top: none; margin-top: 5px;">
+                            <p style="font-size: 12px; text-align: center;"><span style="color: red;">*</span> Profesionales activos</p>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-xl-2 col-md-6 col-6">
                     <div class="card quater-card shadow-lg card__little" style="padding: 15px; border-top: 6px solid orange;">
                         <div class="card-block">
                             <h6 class="text-muted m-b-20 mb-2">Total Clientes</h6>
                             <h1 class="text-left">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 22 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
-                                    <path d="M6 22h13a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h1zm6-17.001c1.647 0 3 1.351 3 3C15 9.647 13.647 11 12 11S9 9.647 9 7.999c0-1.649 1.353-3 3-3zM6 17.25c0-2.219 2.705-4.5 6-4.5s6 2.281 6 4.5V18H6v-.75z"></path>
-                                </svg>
-                                {% for i in clientes %}
-                                {{ i.count_rut | safe }}
-                                {% endfor %}
+
+                                <h1 class="m-t-30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 22 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                                        <path d="M6 22h13a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h1zm6-17.001c1.647 0 3 1.351 3 3C15 9.647 13.647 11 12 11S9 9.647 9 7.999c0-1.649 1.353-3 3-3zM6 17.25c0-2.219 2.705-4.5 6-4.5s6 2.281 6 4.5V18H6v-.75z"></path>
+                                    </svg>
+                                    <span id="countClientesAct"></span> / <span id="totalClientes"></span>
+                                </h1>
+
+                                <div class="progress">
+                                    <div id="progressBarCliente" class="progress-bar" role="progressbar"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" 
+                                        style="padding: 2px; background: linear-gradient(to right, gold, rgb(255, 140, 0));">
+                                    </div>
+                                </div>
+
+                                <div class="card-footer bg-white" style="border-top: none; margin-top: 5px;">
+                                    <p style="font-size: 12px; text-align: center;"><span style="color: red;">*</span> Clientes activos</p>
+                                </div>
                             </h1>
                         </div>
                     </div>
@@ -180,6 +215,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row justify-content-center mt-4">
                 <div class="col-xl-4 col-md-12">
                     <div class="card quater-card shadow-lg" style="padding: 15px;">
@@ -187,18 +223,20 @@
                             <h6 class="text-muted m-b-20 mb-3">Total ingresos asesorías</h6>
                             <h4>$3,9452.50</h4>
                             <p class="text-muted">$3,9452.50</p>
-                            <h5 class="m-t-30 mt-4">87</h5>
-                            <p class="text-muted">Total de asesorías activas<span class="f-right" style="float: right;">80%</span></p>
+                            <h5 class="m-t-30 mt-4" id="h5CountAsesoriasAs"></h5>
+                            <p class="text-muted">Total de asesorías activas<span id="spanElemAssAc" class="f-right" style="float: right;"></span></p>
                             <div class="progress">
-                            <div class="progress-bar bg-simple-c-pink" style="width: 80%; padding: 2px; background: linear-gradient(to right, deeppink, red);"></div></div>
-                            <h5 class="m-t-30 mt-3">15</h5>
-                            <p class="text-muted">Total de asesorías inactivas<span class="f-right" style="float: right;">13.48%</span></p>
+                                <div id="prgBarAssElemtAc" class="progress-bar bg-simple-c-pink" style="padding: 2px; background: linear-gradient(to right, deeppink, red);"></div></div>
+                                <h5 class="m-t-30 mt-3" id="pCountAsesoriasDes"></h5>
+                                <p class="text-muted">Total de asesorías inactivas<span id="spanElemAssDes" class="f-right" style="float: right;"></span></p>
                             <div class="progress">
-                            <div class="progress-bar bg-simple-c-yellow" style="width: 13.48%; padding: 2px; background: linear-gradient(to right, deeppink, red);"></div>
+                            <div  id="prgBarAssElemtDes" class="progress-bar bg-simple-c-yellow" style="padding: 2px; background: linear-gradient(to right, deeppink, red);"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-xl-4 col-md-12">
                     <div class="card quater-card shadow-lg" style="padding: 15px;">
                         <div class="card-block">
@@ -208,7 +246,8 @@
                             <h5 class="m-t-30 mt-4">87</h5>
                             <p class="text-muted">Total de asesorías activas<span class="f-right" style="float: right;">80%</span></p>
                             <div class="progress">
-                            <div class="progress-bar bg-simple-c-pink" style="width: 80%; padding: 2px; background: linear-gradient(to right, gold, rgb(255, 140, 0));"></div></div>
+                                <div class="progress-bar bg-simple-c-pink" style="width: 80%; padding: 2px; background: linear-gradient(to right, gold, rgb(255, 140, 0));"></div>
+                            </div>
                             <h5 class="m-t-30 mt-3">15</h5>
                             <p class="text-muted">Total de asesorías inactivas<span class="f-right" style="float: right;">13.48%</span></p>
                             <div class="progress">
@@ -217,6 +256,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-xl-4 col-md-12">
                     <div class="card quater-card shadow-lg" style="padding: 15px;">
                         <div class="card-block">
@@ -240,5 +281,5 @@
         </div>
     </div>
 </div>
-
+<script>const all = "{% url 'all' %}" </script>
 {% endblock %}

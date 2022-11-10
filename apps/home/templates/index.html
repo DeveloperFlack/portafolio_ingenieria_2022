@@ -34,7 +34,7 @@
       <div class="col-lg-8 col-12 ">
         <div class="row text-center">
           {% for x in capacitaciones_index %}
-          {% if x.total_capacitacion <= 70000 %}
+          {% if x.total_capacitacion <= 70000 and x.status_capacitaciones == 1 %}
           <div class="col-lg-4 col-12">
             <div class="card mb-4 rounded-3 shadow-sm border-primary" style="height: 340px;">
               <div class="card-header py-3 text-white bg-primary border-primary">
@@ -46,9 +46,9 @@
               </div>
               <div class="card-body">
                 <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light" style="font-style: italic;">/mes</small></h2>
-                {% if x.descripcion_capacitacion|length > 100 %}
+                {% if x.descripcion_capacitacion|length > 140 %}
                 <p class="descripcion_capacitacion">
-                  {{ x.descripcion_capacitacion|slice:":80" }} ...
+                  {{ x.descripcion_capacitacion|slice:":140" }}...
                 </p>
                 {% else %}
                 <p class="descripcion_capacitacion">
@@ -69,9 +69,9 @@
           {% endfor %}
 
           {% for x in capacitaciones_index %}
-          {% if x.total_capacitacion < 70000 %}
+          {% if x.total_capacitacion > 70000 and x.status_capacitaciones == 1 %}
           <div class="col-lg-4 col-12 ">
-            <div class="card mb-4 rounded-3 shadow-sm" style="height: 320px; border-color: blueviolet;">
+            <div class="card mb-4 rounded-3 shadow-sm" style="height: 340px; border-color: blueviolet;">
               <div class="card-header py-3 text-white" style="border-color: blueviolet; background-color: blueviolet;">
                 {% if x.nombre_capacitacion|length >= 25 %}
                 <h6 class="my-0 fw-normal">{{ x.nombre_capacitacion|slice:":20" }}...</h6>
@@ -81,9 +81,9 @@
               </div>
               <div class="card-body">
                 <h2 class="card-title pricing-card-title" id="total_capacitacion">${{ x.total_capacitacion | safe }}<small class="text-muted fw-light" style="font-style: italic;">/mes</small></h2>
-                {% if x.descripcion_capacitacion|length > 100 %}
+                {% if x.descripcion_capacitacion|length > 140 %}
                 <p class="descripcion_capacitacion">
-                  {{ x.descripcion_capacitacion|slice:":90" }} ...
+                  {{ x.descripcion_capacitacion|slice:":140" }}...
                 </p>
                 {% else %}
                 <p class="descripcion_capacitacion">
@@ -121,8 +121,9 @@
                 <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="twbs" class="rounded-circle flex-shrink-0" width="32" height="32">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                   <div>
-                    <h6 class="mb-0">List group item heading</h6>
-                    <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                    <h6 class="mb-1">KIS Keep It Simple SPA</h6>
+                    <p class="mb-0 opacity-75">"Excelente servicio, capturan los requerimientos muy bien y muy atentos a su cliente."</p>
+                    <p style="margin-bottom: -10px; margin-top: 5px;"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></p>
                   </div>
                   <small class="opacity-50 text-nowrap">02-09-2022</small>
                 </div>
@@ -131,8 +132,9 @@
                 <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="twbs" class="rounded-circle flex-shrink-0" width="32" height="32">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                   <div>
-                    <h6 class="mb-0">Another title here</h6>
-                    <p class="mb-0 opacity-75">Some placeholder content in a paragraph that goes a little longer so it wraps to a new line.</p>
+                    <h6 class="mb-1">DuckLife</h6>
+                    <p class="mb-0 opacity-75">"La respuesta y atención han sido esplendidos para la solución de asesorías que nos dirigieron los profesionales pertenecientes. Me parece perfecto su plan de negocio."</p>
+                    <p style="margin-bottom: -10px; margin-top: 5px;"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></p>
                   </div>
                   <small class="opacity-50 text-nowrap">28-08-2022</small>
                 </div>
@@ -141,8 +143,9 @@
                 <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="twbs" class="rounded-circle flex-shrink-0" width="32" height="32">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                   <div>
-                    <h6 class="mb-0">Third heading</h6>
-                    <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                    <h6 class="mb-1">Tec Servicios</h6>
+                    <p class="mb-0 opacity-75">"La manera en que nos prestaron sus servicios fue muy fácil de entender y aplicar en nuestra empresa. Excelente."</p>
+                    <p style="margin-bottom: -10px; margin-top: 5px;"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></p>
                   </div>
                   <small class="opacity-50 text-nowrap">14-06-2022</small>
                 </div>
@@ -151,8 +154,9 @@
                 <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="twbs" class="rounded-circle flex-shrink-0" width="32" height="32">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                   <div>
-                    <h6 class="mb-0">Third heading</h6>
-                    <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                    <h6 class="mb-1">Banco Estado</h6>
+                    <p class="mb-0 opacity-75">"Excelente servicio, arreglaron mi problema de la BePass, increíbles"</p>
+                    <p style="margin-bottom: -10px; margin-top: 5px;"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i></p>
                   </div>
                   <small class="opacity-50 text-nowrap">14-06-2022</small>
                 </div>
@@ -161,28 +165,15 @@
                 <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="twbs" class="rounded-circle flex-shrink-0" width="32" height="32">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                   <div>
-                    <h6 class="mb-0">Third heading</h6>
-                    <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                    <h6 class="mb-1">DUOC UC</h6>
+                    <p class="mb-0 opacity-75">"Dificilmente puedes encontrar servicios de aseosría qualificados para que asesoren tu negocio, pero RSP nos ha sorprendido gratamente, aunque tiene algunas cosas por mejorar."</p>
+                    <p style="margin-bottom: -10px; margin-top: 5px;"><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bxs-star'></i><i class='bx bx-star' ></i></p>
                   </div>
                   <small class="opacity-50 text-nowrap">14-06-2022</small>
                 </div>
               </a>
             </div>
           </div>
-          
-          <form action="">
-            {% csrf_token %}
-            <div class="d-flex flex-row" style="padding: 5px;">
-              <div class="form-floating mt-2">
-                <input type="text" class="form-control mb-1" id="txtComentarioCliente" name="txtComentarioCliente" placeholder="name@example.com" required style="width: 310px;" required>
-                <label for="floatingInput">Escribe tu comentario...</label>
-              </div>
-              <button type="submit" class="btn btn-sm" style="width: fit-content; background: linear-gradient(to right, deepskyblue, blueviolet); color: white; border-radius: 3px !important;
-                height: auto !important; padding: 0px 15px !important; border: none; margin-left: 10px;"><i class='bx bxs-send'></i>
-              </button>
-            </div>
-          </form>
-
         </div>
       </div>
     </div>

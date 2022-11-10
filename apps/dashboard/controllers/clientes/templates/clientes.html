@@ -1,5 +1,10 @@
 {% extends 'base-dashboard.html'%}
 {% block content %}
+<style>
+    @media screen and (max-width: 570px){
+        #addClienteBtn{position: fixed; bottom: 0; left: 0; width: 100%; border-radius: 0; padding: 15px 10px; z-index: 1000;}
+    }
+</style>
 <div class="modal fade" id="modalCliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalCLientesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -139,8 +144,9 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}</button>
+                    <button type="button" class="btn btn-primary" id="addClienteBtn" data-bs-toggle="modal"
+                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                    </button>
                 </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>

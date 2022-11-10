@@ -22,7 +22,6 @@ from django.views.static import serve
 urlpatterns = [
     path("Jf4719y0DuFmM7nN0Fae4n8SMOEtJX/", include("apps.dashboard.urls")),
     path('', include("apps.home.urls"))
-    
 ]
 
 if (settings.DEBUG == False):

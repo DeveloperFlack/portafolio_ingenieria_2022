@@ -23,49 +23,48 @@ def getAccidentesPage(request):
 
 
 # INSERTAR ACCIDENTES
-# def insertAccidentes(request):
-#     if(request.method == 'POST'):
-#         v_id_accidente = request.POST.get("idAccidente")
-#         if (v_id_accidente == ""):
-#             v_id_accidente = 0
-#         try:
-#             cx = get_connection()
-#             with cx.cursor() as cursor:
-#                 cursor.execute("SELECT * FROM nma_accidentes WHERE id_accidente = %s" % (v_id_accidente))
-#                 exist = cursor.fetchall()
+#def insertAccidentes(request):
+ #   if(request.method == 'POST'):
+  #       v_id_accidente = request.POST.get("idAccidente")
+   #      if (v_id_accidente == ""):
+    #         v_id_accidente = 0
+     #    try:
+      #       cx = get_connection()
+       #      with cx.cursor() as cursor:
+        #         cursor.execute("SELECT * FROM nma_accidentes WHERE id_accidente = %s" % (v_id_accidente))
+         #        exist = cursor.fetchall()
+          #       if (exist == ()):
+           #          v_nombre_accidente = request.POST.get("txtNombreAccidente")
+            #         v_descripcion_accidente = request.POST.get("txtDescripcionAccidente")
+             #        v_fecha_accidente = request.POST.get("txtFechaAccidente")
+              #       v_hora_accidente = request.POST.get("txtHoraAccidente")
+               #      v_tipo_accidente = request.POST.get("txtTipoAccidente")
+                #     v_status_accidente = 0
+                 #    cursor.execute('''INSERT INTO nma_accidentes 
+                  #   (nombre_accidente, descripcion_accidente, fecha_accidente, hora_accidente, tipo_accidente, status_accidente)
+                   #  VALUES ("%s", "%s", "%s", "%s", "%s", %s)'''
+                    # % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente))
+                     #cx.commit()
+                 #else:
+                  #   v_nombre_accidente = request.POST.get("txtNombreAccidente")
+                 #   v_descripcion_accidente = request.POST.get("txtDescripcionAccidente")
+                  #   v_fecha_accidente = request.POST.get("txtFechaAccidente")
+                  #   v_hora_accidente = request.POST.get("txtHoraAccidente")
+                   #  v_tipo_accidente = request.POST.get("txtTipoAccidente")
+                  #   v_status_accidente = 0
+                   #  cursor.execute(''' UPDATE nma_accidentes SET nombre_accidente = "%s",
+                   #  descripcion_accidente = "%s", fecha_accidente = "%s", hora_accidente = "%s", 
+                   # tipo_accidente = "%s", status_accidente = %s WHERE (id_accidente = %s)''' 
+                   #  % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente, v_id_accidente))
+                   #  cx.commit()
 
-#                 if (exist == ()):
-#                     v_nombre_accidente = request.POST.get("txtNombreAccidente")
-#                     v_descripcion_accidente = request.POST.get("txtDescripcionAccidente")
-#                     v_fecha_accidente = request.POST.get("txtFechaAccidente")
-#                     v_hora_accidente = request.POST.get("txtHoraAccidente")
-#                     v_tipo_accidente = request.POST.get("txtTipoAccidente")
-#                     v_status_accidente = 0
-#                     cursor.execute('''INSERT INTO nma_accidentes 
-#                     (nombre_accidente, descripcion_accidente, fecha_accidente, hora_accidente, tipo_accidente, status_accidente)
-#                     VALUES ("%s", "%s", "%s", "%s", "%s", %s)'''
-#                     % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente))
-#                     cx.commit()
-#                 else:
-#                     v_nombre_accidente = request.POST.get("txtNombreAccidente")
-#                     v_descripcion_accidente = request.POST.get("txtDescripcionAccidente")
-#                     v_fecha_accidente = request.POST.get("txtFechaAccidente")
-#                     v_hora_accidente = request.POST.get("txtHoraAccidente")
-#                     v_tipo_accidente = request.POST.get("txtTipoAccidente")
-#                     v_status_accidente = 0
-#                     cursor.execute(''' UPDATE nma_accidentes SET nombre_accidente = "%s",
-#                     descripcion_accidente = "%s", fecha_accidente = "%s", hora_accidente = "%s", 
-#                     tipo_accidente = "%s", status_accidente = %s WHERE (id_accidente = %s)''' 
-#                     % (v_nombre_accidente, v_descripcion_accidente, v_fecha_accidente, v_hora_accidente, v_tipo_accidente, v_status_accidente, v_id_accidente))
-#                     cx.commit()
-
-#             cx.close()
-#             return redirect("getAccidentesPage")
-#         except Exception as ex:
-#             print(ex)
-#             return redirect("getAccidentesPage")
-#     else:
-#         return redirect("getAccidentesPage")
+           #  cx.close()
+          #   return redirect("getAccidentesPage")
+         #except Exception as ex:
+          #   print(ex)
+          #   return redirect("getAccidentesPage")
+  #  else:
+        # return redirect("getAccidentesPage")
 
 def disable_accidente(request):
     if (request.method == 'GET'):

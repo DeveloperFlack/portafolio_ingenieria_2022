@@ -1,6 +1,12 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
-<!-- <div class="modal fade" id="modalAccidente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<style>
+    @media screen and (max-width: 570px){
+        #addAccidenteBtn{position: fixed; bottom: 0; left: 0; width: 100%; border-radius: 0; padding: 15px 10px; z-index: 1000;}
+        body{overflow-x: hidden !important;}
+    }
+</style>
+<div class="modal fade" id="modalAccidente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="modalAccidenteLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 13px; padding: 15px;">
@@ -16,7 +22,7 @@
                         <div class="col-12">
                             <div class="form-floating mt-2">
                                 <input type="text" class="form-control" id="txtNombreAccidente" name="txtNombreAccidente" placeholder="name@example.com" required>
-                                <label for="floatingInput">Nombre Accidente</label>
+                                <label for="floatingInput">Asunto Accidente</label>
                             </div>
                             <div class="invalid-feedback">
                                 Nombre Accidente Requerido
@@ -76,7 +82,7 @@
 
         </div>
     </div>
-</div> -->
+</div> 
 
 <div class="col-12">
     <div class="my-3">
@@ -95,12 +101,12 @@
                         <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
-                <!-- <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" id="addAccidenteBtn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
-                </div> -->
+                </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="table-responsive">
@@ -172,25 +178,25 @@
     });
     
 
-    // function fntEditAccidente (id_accidente){
-    //     var id_accidente = id_accidente;
-    //     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    //     var ajaxUrl = v_url_accidente + "?idAccidente=" + id_accidente;
-    //     request.open("GET", ajaxUrl, true);
-    //     request.setRequestHeader("Content-Type", "application/json");
-    //     request.send(ajaxUrl);
-    //     request.onreadystatechange = function () {
-    //         let objData = JSON.parse(request.responseText);
-    //         document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
-    //         $('#idAccidente').val(objData[0].id_accidente);
-    //         $('#txtNombreAccidente').val(objData[0].nombre_accidente);
-    //         $('#txtDescripcionAccidente').val(objData[0].descripcion_accidente);
-    //         $('#txtFechaAccidente').val(objData[0].fecha_accidente);
-    //         $('#txtHoraAccidente').val(objData[0].hora_accidente);
-    //         $('#txtTipoAccidente').val(objData[0].tipo_accidente);
-    //         $('#modalAccidente').show();
-    //     }
-    // }
+    function fntEditAccidente (id_accidente){
+        var id_accidente = id_accidente;
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        var ajaxUrl = v_url_accidente + "?idAccidente=" + id_accidente;
+        request.open("GET", ajaxUrl, true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(ajaxUrl);
+        request.onreadystatechange = function () {
+            let objData = JSON.parse(request.responseText);
+            document.getElementById('modalAccidenteLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_accidente; +'</h5>';
+            $('#idAccidente').val(objData[0].id_accidente);
+            $('#txtNombreAccidente').val(objData[0].nombre_accidente);
+            $('#txtDescripcionAccidente').val(objData[0].descripcion_accidente);
+            $('#txtFechaAccidente').val(objData[0].fecha_accidente);
+            $('#txtHoraAccidente').val(objData[0].hora_accidente);
+            $('#txtTipoAccidente').val(objData[0].tipo_accidente);
+            $('#modalAccidente').show();
+        }
+    }
 
     function fntEnableAccidente(id_accidente){
         var id_accidente = id_accidente;

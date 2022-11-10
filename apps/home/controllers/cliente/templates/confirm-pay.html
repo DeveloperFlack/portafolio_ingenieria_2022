@@ -1,0 +1,70 @@
+{% extends 'base-home.html'%}
+{% block content %}
+<br><br><br>
+<div class="container mt-5 mb-3">
+    <div class="content shadow-sm" style="padding: 60px 40px; width: 100%; height: auto; background-color: rgb(247, 247, 247); border-radius: 10px;">
+        <div class="info__pay">
+            <div class="row">
+                <div class="col-9">
+                    <div class="logo text-left">
+                        <a class="me-2 mb-md-0 text-muted text-decoration-none lh-1" style="font-size: 30px;">
+                            <img src="https://assets.stickpng.com/thumbs/5847f439cef1014c0b5e4890.png" alt="mdo" class="rounded-circle"
+                              width="65" height="65">
+                            RSP Company - Factura 
+                        </a>
+                    </div>
+
+                </div>
+                <div class="col-3 text-center">
+                    <div class="content__info_trans bg-white" style="padding: 20px 10px;">
+                        <h5 style="color: red;">Datos de la transacción:</h5>
+                        <h6>Folio: #45675675675</h6>
+                        <h6>Fecha: 09-11-2022</h6>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-responsive table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Monto transferido</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>KIS Keep It Simple SPA</td>
+                            <td>Capacitación nedea</td>
+                            <td>$100.980</td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <div class="text-center">
+                        <a href="{% url 'profileCliente' %}" class="btn btn-primary text-center py-3 px-5 fs-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 22 22" style="fill: rgb(255, 255, 255);transform: ;msFilter:; transform: rotate(180deg);">
+                                <path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path>
+                            </svg>
+                            Regresar a mi perfil
+                        </a>
+                    </div>
+                    <br>
+                    <p class="text-center">
+                        <span style="color: red;">*</span> Les pegues relecedes en este peguene web esten sejetes e tedes nuestres nermes de seguereded <span style="color: red;">*</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

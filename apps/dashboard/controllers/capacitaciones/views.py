@@ -30,6 +30,7 @@ def insertCapacitacion(request):
             v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
             v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
+            
 
             fc_insert_capacitacion(0, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
 
@@ -87,7 +88,7 @@ def getAllCapacitaciones(request):
                     data-bs-toggle='modal' data-bs-target='#modalActividades'>
                     <i class='bx bx-plus' ></i>
                 </button>
-                <button type='button' class='btn btn-sm btn-warning' 
+                <button type='button' class='btn btn-sm btn-info' 
                     data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
                     <i class='bx bxs-edit' ></i>
                 </button>
@@ -203,27 +204,55 @@ def dashboard_insert_actividades(request):
     if (x == False):
         return redirect ("loginDashboard")
 
-    if request.method == "POST":
+    if (request.method == "POST"):
         v_idCapacitacion = request.POST.get("idCapacitacion")
         print(v_idCapacitacion)
         
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                if (v_idCapacitacion != ""):
+                cursor.execute("SELECT * FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_idCapacitacion))
+                exist = cursor.fetchall()
+
+                if (exist != ()):
                     # Obtener los datos del formulario e insertarlos en la base de datos.
-                    v_nombre_actividad1= request.POST.get("txtNombreActividad1")
-                    v_nombre_actividad2= request.POST.get("txtNombreActividad2")
-                    v_nombre_actividad3= request.POST.get("txtNombreActividad3")
-                    v_nombre_actividad4= request.POST.get("txtNombreActividad4")
-                    v_nombre_actividad5= request.POST.get("txtNombreActividad5")
+                    v_nombre_actividad1 = request.POST.get("txtNombreActividad1")
+                    v_nombre_actividad2 = request.POST.get("txtNombreActividad2")
+                    v_nombre_actividad3 = request.POST.get("txtNombreActividad3")
+                    v_nombre_actividad4 = request.POST.get("txtNombreActividad4")
+                    v_nombre_actividad5 = request.POST.get("txtNombreActividad5")
                     v_descripcion_capacitacion = request.POST.get("txtDescripcionActividades")
 
-                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, Id_capacitacion) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s ',%s)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
-                    cx.commit()                
+                    cursor.execute("""
+                        INSERT INTO nma_actividad 
+                            (
+                                nombre_actividad_1, 
+                                nombre_actividad_2, 
+                                nombre_actividad_3, 
+                                nombre_actividad_4, 
+                                nombre_actividad_5, 
+                                descripcion_actividad
+                            ) 
+                            VALUES 
+                            (
+                                '%s',
+                                '%s',
+                                '%s', 
+                                '%s', 
+                                '%s', 
+                                '%s'
+                            ) 
+                            WHERE 
+                                Id_capacitacion = %s
+                    """ % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_capacitacion, v_idCapacitacion))
+
+                    cx.commit()        
+
             cx.close()
-            return "Agregado con éxito"
+            return redirect ('getCapacitacionesPage')
+
         except Exception as ex:
             print (ex)
             return redirect ('getCapacitacionesPage')
+    else:
+        return redirect ('getCapacitacionesPage')

@@ -86,56 +86,12 @@
                 </table>
               </div>
             </div>
-              
-            <!-- <div class="my-3 p-3 bg-body rounded shadow-sm">
-              <h6 class="border-bottom pb-2 mb-0">Estado de Solicitudes</h6>
-              <div class="d-flex text-muted pt-3">
-                <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
-            
-                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                  <div class="d-flex justify-content-between">
-                    <strong class="text-gray-dark">Visita terreno accidente laboral</strong>
-                    <a class="hint--top hint--error" aria-label="Solicitud fuera de rango de fecha de término" style="text-decoration: none; color: gray;">
-                      Atrasada
-                      <i class='bx bxs-x-circle' style="font-size: 20px; color: red; "></i>
-                    </a>
-                  </div>
-                  <span class="d-block">username</span>
-                </div>
-              </div>
-              <div class="d-flex text-muted pt-3">
-                <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
-                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                  <div class="d-flex justify-content-between">
-                    <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
-                    <a class="hint--top hint--success" aria-label="Solicitud finalizada en tiempo acordado" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
-                      Finalizada exitosamente
-                      <i class='bx bxs-check-circle' style="font-size: 20px; color: rgb(1, 150, 1); "></i>
-                    </a>
-                  </div>
-                  <span class="d-block">username</span>
-                </div>
-              </div>
-              <div class="d-flex text-muted pt-3">
-                <img src="https://github.com/mdo.png" alt="mdo" class="rounded me-2" width="32" height="32">
-                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                  <div class="d-flex justify-content-between">
-                    <strong class="text-gray-dark">Capacitación seguridad de datos</strong>
-                    <a class="hint--top hint--warning" aria-label="Solicitud en curso" style="cursor: default; pointer-events: painted; text-decoration: none; color: gray;">
-                      En Proceso
-                      <i class='bx bxs-time-five' style="font-size: 20px; color: orange;"></i>
-                    </a>
-                  </div>
-                  <span class="d-block">username</span>
-                </div>
-              </div>
-            </div> -->
-
           </main>
         </div>
       </div>
+
       <div class="col-lg-2 col-12 pt-3">
-        <div class="mi_informacion shadow-sm" style="background-color: rgb(241, 241, 241); color: black; padding: 7px; width: 100%; height: auto; border-top: 6px solid dodgerblue;">
+        <div class="mi_informacion shadow-lg" style="background-color: rgb(255, 255, 255); color: black; padding: 7px; width: 100%; height: auto; border-top: 6px solid dodgerblue;">
           <h5 class="text-center pt-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 28" style="fill: rgb(0, 0, 0);transform: ;msFilter:;">
               <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
@@ -143,7 +99,6 @@
             </svg>
             Mi Información
           </h5>
-          <hr style="background-color: rgb(116, 116, 116); padding: 1px;">
           <div class="info" style="font-size: 14px; padding: 2px 6px;">
             {% for x in cliente %}
               <p>Cliente: {{ x.n1_cliente | safe }} {{ x.ap_cliente | safe }}</p>
@@ -153,9 +108,9 @@
               <p>Correo Electrónico: {{ x.correo_cliente | safe }}</p>
             {% endfor %}
           </div>
- 
         </div>
       </div>
+      
     </div>
   </div>
 </div>
@@ -239,7 +194,7 @@
               
               <div class="form-floating mt-2">
                 <input type="text" class="form-control" id="txtNombreAccidenteCliente" name="txtNombreAccidenteCliente" placeholder="name@example.com" required>
-                <label for="floatingInput">Nombre Accidente</label>
+                <label for="floatingInput">Asunto Accidente</label>
               </div>
 
               <div class="mt-2">

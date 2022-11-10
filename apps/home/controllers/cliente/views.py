@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import JsonResponse
 from .usp import *
-import pymysql
-import hashlib
 from apps.dashboard.controllers.roles.usp import fc_get_permisos
 from django.contrib import messages
 from apps.helpers import request_session
+from .service import payService
+import requests
+
+
 
 def profileCliente(request):
     sessionStatus = request_session(request)
@@ -45,7 +47,13 @@ def solicitudInsert(request):
         fc_solicitud_insert(v_rut_cliente, v_id_capacitacion, v_nombre_solicitud, v_descripcion_solicitud, v_tipo_solicitud, v_estado_solicitud, v_status_solicitud)
 
         # print (urls.urlpatterns[0])
-        return redirect("profileCliente")
+        # return redirect("profileCliente")
+        url = request.build_absolute_uri()
+        url = url.split('/')
+        
+        params={'numberCapacitacion' : v_id_capacitacion }
+        #return requests(,url[0] + '//' + url[2] + '/cliente/profile/pay/cart', params={'numberCapacitacion' : v_id_capacitacion, 'request' : request})
+        return payService(request, params)
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
         return redirect("profileCliente")
@@ -161,6 +169,7 @@ def get_capacitaciones(request):
                     "id_capacitacion" : capacitacion[i][0],
                     "nombre_capacitacion" : capacitacion[i][2],
                 })
+
             
             return data_to_array
     except Exception as ex:
