@@ -18,8 +18,15 @@
                 <div class="col-3 text-center">
                     <div class="content__info_trans bg-white" style="padding: 20px 10px;">
                         <h5 style="color: red;">Datos de la transacción:</h5>
-                        <h6>Folio: #45675675675</h6>
-                        <h6>Fecha: 09-11-2022</h6>
+                        <script>
+                            let folio = Math.random() * 100000;
+                            let todayDate = new Date().toISOString().slice(0, 10);
+                            alert(todayDate)
+                            document.getElementById("date").innerHTML = todayDate;
+                            document.getElementById("folio").innerHTML = folio;
+                        </script>
+                        <h6>Folio: #<span id="folio"></span></h6>
+                        <h6>Fecha: <span id="date"></span></h6>
                     </div>
                 </div>
             </div>
@@ -29,7 +36,6 @@
                     <table class="table table-responsive table-striped table-hover">
                         <thead>
                           <tr>
-                            <th scope="col">#</th>
                             <th scope="col">Cliente</th>
                             <th scope="col">Servicio</th>
                             <th scope="col">Monto transferido</th>
@@ -37,10 +43,11 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <th scope="row">1</th>
-                            <td>KIS Keep It Simple SPA</td>
+                            {% for x in cliente %}
+                            <td>{{ x.nombre_empresa | safe }}</td>
                             <td>Capacitación nedea</td>
-                            <td>$100.980</td>
+                            <td></td>
+                            {% endfor %}
                           </tr>
                         </tbody>
                     </table>

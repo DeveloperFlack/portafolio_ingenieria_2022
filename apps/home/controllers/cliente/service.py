@@ -65,7 +65,3 @@ def payService(request, params):
         
 def afterPayService (request):
     return render (request, 'confirm-pay.html')
-
-
-    """ json_nya = request.POST.get('pasaoapoto')
-    s1 = json.dumps(json_nya) """
