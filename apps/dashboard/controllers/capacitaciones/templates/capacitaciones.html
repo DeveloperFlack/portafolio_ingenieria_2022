@@ -77,15 +77,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-<<<<<<< HEAD
-                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="idCapacitacion" id="idCapacitacion">
-=======
                 <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST">
                     {% csrf_token %}  
-                    <input name="idCapacitacion1" id="idCapacitacion1">                  
->>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
+                    <input class="invisible" name="idCapacitacion1" id="idCapacitacion1">                  
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-floating mt-2"> 

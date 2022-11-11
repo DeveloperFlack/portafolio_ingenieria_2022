@@ -50,12 +50,12 @@ def fc_delete_capacitacion(id_capacitacion):
         print(ex)
         return "Error en el Proceso"
 
-def fc_insert_capacitacion(v_rut_usuario,v_nombre_capacitacion,v_descripcion_capacitacion,v_total_capacitacion):    
+def fc_insert_capacitacion(v_rut_usuario,v_nombre_capacitacion,v_descripcion_capacitacion,v_total_capacitacion,v_date):    
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute("call usp_capacitaciones_insert('%s', '%s', '%s', %s)" %
-                           (v_rut_usuario, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion ))
+            cursor.execute("call usp_capacitaciones_insert('%s', '%s', '%s', %s,'%s')" %
+                           (v_rut_usuario, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion,v_date ))
             cx.commit()
         cx.close()
         return "Realizado con Éxito"

@@ -1,8 +1,10 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .usp import *
 import apps.helpers as helpers
 from django.contrib import messages
+from datetime import date
 
 def getCapacitacionesPage(request):
     data = {
@@ -31,9 +33,10 @@ def insertCapacitacion(request):
             v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
             v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
             v_total_capacitacion = request.POST.get("txtTotalCapacitacion")
+            v_date = date.today()
             
 
-            fc_insert_capacitacion(v_rut, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion)
+            fc_insert_capacitacion(v_rut, v_nombre_capacitacion, v_descripcion_capacitacion, v_total_capacitacion,v_date)
 
             try:
                 cx = get_connection()
@@ -51,7 +54,7 @@ def insertCapacitacion(request):
             try:
                 cx = get_connection()
                 with cx.cursor() as cursor:
-                    cursor.execute(""" INSERT INTO nma_actividad (nombre_actividad_1,nombre_actividad_2,nombre_actividad_3,nombre_actividad_4,nombre_actividad_5,descripcion_actividad,Id_capacitacion) VALUES ('','','','','','', %s ) """ % (v_IdInsertarActividad))
+                    cursor.execute(""" INSERT INTO nma_actividad (nombre_actividad_1,nombre_actividad_2,nombre_actividad_3,nombre_actividad_4,nombre_actividad_5,descripcion_actividad,Id_capacitacion,fecha,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5) VALUES ('','','','','','', %s,'%s',0,0,0,0,0 ) """ % (v_IdInsertarActividad,v_date))
                     cx.commit()  
             except Exception as ex:
                 print (ex)
@@ -111,15 +114,7 @@ def getAllCapacitaciones(request):
                 <button type='button' class='btn btn-sm btn-success' onclick='fntEditActividadesCapacitacion(%s)'  
                     data-bs-toggle='modal' data-bs-target='#modalActividades'>
                     <i class='bx bx-plus' ></i>
-<<<<<<< HEAD
-                </button>
-                <button type='button' class='btn btn-sm btn-info' 
-                    data-bs-toggle='modal' data-bs-target='#modalActividades' onclick='fntEditActividadesCapacitacion(%s)'>
-                    <i class='bx bxs-edit' ></i>
-                </button>
-=======
                 </button>            
->>>>>>> 769deadcaa394c5d90e8df1dfe98dae4c374038a
             </div>
         """ % (data_to_array[i]['id_capacitacion'])
     # Añadir HTML
@@ -172,6 +167,8 @@ def dashboard_delete_capacitacion(request):
                 
                 if (exist != ()):
                     cursor.execute("DELETE FROM nma_capacitacion WHERE id_capacitacion = %s" % (v_id_capacitacion))
+                    cx.commit()
+                    cursor.execute("DELETE FROM nma_actividad WHERE id_capacitacion = %s" % (v_id_capacitacion))
                     cx.commit()
             cx.close()
             return redirect ('getCapacitacionesPage')
@@ -232,7 +229,8 @@ def dashboard_insert_actividades(request):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        v_idCapacitacion = request.POST.get("idCapacitacion")
+        v_idCapacitacion = request.POST.get("idCapacitacion1")
+        print("id capacitacion:")
         print(v_idCapacitacion)
         
         try:
@@ -246,9 +244,17 @@ def dashboard_insert_actividades(request):
                     v_nombre_actividad4= request.POST.get("txtNombreActividad4")
                     v_nombre_actividad5= request.POST.get("txtNombreActividad5")
                     v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+                    v_date = date.today()
+                    print(v_nombre_actividad1)
+                    print(v_nombre_actividad2)
+                    print(v_nombre_actividad3)
+                    print(v_nombre_actividad4)
+                    print(v_nombre_actividad5)
+                    print(v_descripcion_actividad)
 
-                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s, 0, 0, 0, 0, 0)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+
+                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5,fecha) 
+                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s, 0, 0, 0, 0, 0)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion, v_date))
                     cx.commit()    
                 else:
                     # ACTUALIZAR Actividad                   

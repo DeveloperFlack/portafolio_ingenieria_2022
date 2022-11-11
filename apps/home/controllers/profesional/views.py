@@ -362,15 +362,17 @@ def get_all_clientes(request):
         print (ex)
 
 def getActividad(request):
-    v_idCapacitacion = request.GET.get('idCapacitacion')
+    v_idCapacitacion = request.GET.get('numberCapacitacion')
+    print("entro en getActividadProfesional")
     print(v_idCapacitacion)
     if (v_idCapacitacion != ""):
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute(""" SELECT * FROM nma_actividad WHERE id_capacitacion = %s """ % (v_idCapacitacion))
+                cursor.execute(f""" SELECT * FROM nma_actividad WHERE id_capacitacion = '{v_idCapacitacion}' """)
+                exist = cursor.fetchall()
                 data_to_array = []
-                if (cursor != ()):
+                if (exist != ()):
                     for i in cursor:
                         data_to_array.append({
                             "id_capacitacion": i[7],
@@ -385,8 +387,8 @@ def getActividad(request):
                             "status_actividad3": i[10],
                             "status_actividad4": i[11],
                             "status_actividad5": i[12],
-                        })
-                        """ print(data_to_array) """
+                        })                    
+                        print(data_to_array)
                     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
                 else:
                     return redirect("projectsProfesional")
@@ -397,40 +399,55 @@ def getActividad(request):
         return redirect("projectsProfesional")
 
 def editChecklist(request):
+    print("Entro en editChecklist")
     x = 'usuario' in request.session
     if (x == False):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
         v_idCapacitacion = request.POST.get('idCapacitacion1')
+        # ----------
+        # se cae aca
+        # ----------
+        print("v_idcapacitacion en checklist:")
         print(v_idCapacitacion)
+        print("se cae aca, linea 414")
         
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                if (v_idCapacitacion != ""):                    
+                if (v_idCapacitacion != "" or v_idCapacitacion != None):       # revisa bdd?             
                     # Obtener los datos del formulario e actualizarlos en la base de datos.
                     
-                    v_status_actividad1= request.POST.get("CboxAct1")
+                    v_status_actividad1 = request.POST.get("CboxAct1")
                     print(v_status_actividad1)
-                    if (v_status_actividad1 == None):
+                    if (v_status_actividad1 == 0):
+                        v_status_actividad1 = 1
+                    else: 
                         v_status_actividad1 = 0
-                    v_status_actividad2= request.POST.get("CboxAct2")
+                    
+                    print("id actividad 1" + str(v_status_actividad1))
+
+                    v_status_actividad2 = request.POST.get("CboxAct2")
                     print(v_status_actividad2)
                     if (v_status_actividad2 == None):
                         v_status_actividad2 = 0
-                    v_status_actividad3= request.POST.get("CboxAct3")
+
+                    v_status_actividad3 = request.POST.get("CboxAct3")
                     print(v_status_actividad3)
                     if (v_status_actividad3 == None):
                         v_status_actividad3 = 0
-                    v_status_actividad4= request.POST.get("CboxAct4")
+
+                    v_status_actividad4 = request.POST.get("CboxAct4")
                     print(v_status_actividad4)
                     if (v_status_actividad4 == None):
                         v_status_actividad4 = 0
-                    v_status_actividad5= request.POST.get("CboxAct5")
+
+                    v_status_actividad5 = request.POST.get("CboxAct5")
                     print(v_status_actividad5)
                     if (v_status_actividad5 == None):
-                        v_status_actividad5 =0
+                        v_status_actividad5 = 0
+
                     print("== estatus actividades ==")
                     print(v_status_actividad1)
                     print(v_status_actividad2)
@@ -438,12 +455,151 @@ def editChecklist(request):
                     print(v_status_actividad4)
                     print(v_status_actividad5)
                     print("== fin estatus actividades== ")
-                    cursor.execute(""" update nma_actividad set status_actividad1 = %s, status_actividad2 = %s, status_actividad3 = %s, status_actividad4 = %s, status_actividad5 = %s where id_capacitacion = %s""" % (v_status_actividad1, v_status_actividad2, v_status_actividad3, v_status_actividad4, v_status_actividad5, v_idCapacitacion))
+                    cursor.execute("""update nma_actividad set status_actividad1 = %s, status_actividad2 = %s, status_actividad3 = %s, status_actividad4 = %s, status_actividad5 = %s where id_capacitacion = %s""" % (v_status_actividad1, v_status_actividad2, v_status_actividad3, v_status_actividad4, v_status_actividad5, v_idCapacitacion))
                     cx.commit() 
-                    return redirect("projectsProfesional")                        
-            cx.close()
+                    cx.close()
+                    return redirect("projectsProfesional") 
+                else:
+                    return redirect("projectsProfesional")                    
         except Exception as ex:
             print (ex)
             return redirect ('projectsProfesional')
     else:
         return redirect ('projectsProfesional')
+
+
+
+def getAllActividades(request):
+    if (request.method == "GET"):
+        v_idCapacitacion = request.POST.get('idCapacitacion1')
+        try:
+            cx = get_connection()
+            with cx.cursor() as cursor:
+                data_actividades = cursor.execute("SELECT * FROM nma_actividad WHERE id_capacitacion = %s" % (v_idCapacitacion))
+                data_to_array = []
+
+                for i in data_actividades:
+                    data_to_array.append({
+                        "id_capacitacion": i[7],
+                        "nombre_actividad_1": i[1],
+                        "nombre_actividad_2": i[2],
+                        "nombre_actividad_3": i[3],
+                        "nombre_actividad_4": i[4],
+                        "nombre_actividad_5": i[5],
+                        "descripcion_actividad": i[6],
+                        "status_actividad1": i[8],
+                        "status_actividad2": i[9],
+                        "status_actividad3": i[10],
+                        "status_actividad4": i[11],
+                        "status_actividad5": i[12],
+                    })
+                
+                #Añadir HTML
+                for i in data_to_array:
+                    if (i['status_actividad1'] == 1 or i['status_actividad2'] == 1 or i['status_actividad3'] == 1 or i['status_actividad4'] == 1 or i['status_actividad5'] == 1):
+                        i['status_actividad1'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-success' 
+                                style='border: none;'>
+                                    <i class='bx bxs-check-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad2'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-success' 
+                                style='border: none;'>
+                                    <i class='bx bxs-check-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad3'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-success' 
+                                style='border: none;'>
+                                    <i class='bx bxs-check-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad4'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-success' 
+                                style='border: none;'>
+                                    <i class='bx bxs-check-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad5'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-success' 
+                                style='border: none;'>
+                                    <i class='bx bxs-check-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                    else:
+                        i['status_actividad1'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-danger' 
+                                style='border: none;'>
+                                    <i class='bx bxs-x-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad2'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-danger' 
+                                style='border: none;'>
+                                    <i class='bx bxs-x-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad3'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-danger' 
+                                style='border: none;'>
+                                    <i class='bx bxs-x-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad4'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-danger' 
+                                style='border: none;'>
+                                    <i class='bx bxs-x-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                        i['status_actividad5'] = """
+                            <div class='text-center'>
+                                <button class='btn btn-sm btn-danger' 
+                                style='border: none;'>
+                                    <i class='bx bxs-x-circle' ></i>
+                                </button>
+                            </div>
+                        """
+                return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+
+        except Exception as ex:
+            print(ex)
+            return redirect ('projectsProfesional')
+    else:
+        return redirect ('projectsProfesional')
+
+def enableActividad(request):
+    if (request.method == "GET"):
+        v_id = request.GET.get("idModulo")
+        try:
+
+            exist = fc_get_module(v_idModulo)
+            if (exist != ()):
+                fc_enable_modulo(v_idModulo)
+                return redirect("getModulosPage")
+            else:
+                return redirect("getModulosPage")
+        except Exception as ex:
+            print(ex)
+            return ('projectsProfesional')
+    else:
+        return redirect("getModulosPage")
+        
