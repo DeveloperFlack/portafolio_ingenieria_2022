@@ -79,11 +79,11 @@
             <div class="modal-body">
                 <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST">
                     {% csrf_token %}  
-                    <input class="invisible" name="idCapacitacion1" id="idCapacitacion1">                  
+                    <input class="hidden" name="idActividad" id="idActividad">                  
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-floating mt-2"> 
-                                <input type="text" class="form-control" id="txtNombreActividad1" name="txtNombreActividad1" placeholder="name@example.com" required>
+                                <input type="text" class="form-control" id="txtNombreActividad" name="txtNombreActividad" placeholder="name@example.com" required>
                                 <label for="floatingInput">Nombre Actividad</label>
                             </div>
                             <div class="invalid-feedback">
@@ -92,44 +92,8 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtNombreActividad2" name="txtNombreActividad2" placeholder="name@example.com">
-                                <label for="floatingInput">Nombre Actividad</label>
-                            </div>
-                            <div class="invalid-feedback">
-                                Nombre Actividad Requerido
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtNombreActividad3" name="txtNombreActividad3" placeholder="name@example.com">
-                                <label for="floatingInput">Nombre Actividad</label>
-                            </div>
-                            <div class="invalid-feedback">
-                                Nombre Actividad Requerido
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtNombreActividad4" name="txtNombreActividad4" placeholder="name@example.com">
-                                <label for="floatingInput">Nombre Actividad</label>
-                            </div>
-                            <div class="invalid-feedback">
-                                Nombre Actividad Requerido
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtNombreActividad5" name="txtNombreActividad5" placeholder="name@example.com">
-                                <label for="floatingInput">Nombre Actividad</label>
-                            </div>
-                            <div class="invalid-feedback">
-                                Nombre Actividad Requerido
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mt-2">
-                                <textarea type="text" class="form-control" id="txtDescripcionActividades" name="txtDescripcionActividades" style="height: 150px;" placeholder="name@example.com" required></textarea>
-                                <label for="floatingInput">Descripción detallada actividades</label>
+                                <textarea type="text" class="form-control" id="txtDescripcionActividad" name="txtDescripcionActividad" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <label for="floatingInput">Descripción detallada de la actividad</label>
                             </div>
                         </div>
                         <hr>
@@ -363,28 +327,39 @@
         })
     }
 
-
-    //ACTIVIDADES CAPACITACION
-    function fntEditActividadesCapacitacion (id_capacitacion){
+    function fntEditActividad (id_capacitacion){
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
+        var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
         request.open("GET", ajaxUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
-            document.getElementById('modalActividadesLabel').innerHTML = '<h5>Actualizar Actividades</h5>';
-            $('#idCapacitacion1').val(objData[0].id_capacitacion);
-            $('#txtNombreActividad1').val(objData[0].nombre_actividad_1);
-            $('#txtNombreActividad2').val(objData[0].nombre_actividad_2);
-            $('#txtNombreActividad3').val(objData[0].nombre_actividad_3);
-            $('#txtNombreActividad4').val(objData[0].nombre_actividad_4);
-            $('#txtNombreActividad5').val(objData[0].nombre_actividad_5);
-            $('#txtDescripcionActividades').val(objData[0].descripcion_actividad);
-            $('#modalActividades').show();
-        }       
+            // document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_capacitacion +'</h5>';
+            $('#idCapacitacion').val(objData[0].id_capacitacion);
+            $('#modalCapacitaciones').show();
+        }
     }
+
+
+    //ACTIVIDADES CAPACITACION
+    // function fntEditActividadesCapacitacion (id_capacitacion){
+    //     var id_capacitacion = id_capacitacion;
+    //     var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    //     var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
+    //     request.open("GET", ajaxUrl, true);
+    //     request.setRequestHeader("Content-Type", "application/json");
+    //     request.send(ajaxUrl);
+    //     request.onreadystatechange = function () {
+    //         let objData = JSON.parse(request.responseText);
+    //         document.getElementById('modalActividadesLabel').innerHTML = '<h5>Actualizar Actividad</h5>';
+    //         $('#idCapacitacion').val(objData[0].id_capacitacion);
+    //         $('#txtNombreActividad').val(objData[0].nombre_actividad);
+    //         $('#txtDescripcionActividad').val(objData[0].descripcion_actividad);
+    //         $('#modalActividades').show();
+    //     }       
+    // }
 
 </script>
 {% endblock %}

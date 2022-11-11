@@ -111,7 +111,7 @@ def getAllCapacitaciones(request):
     for i in range(len(data_to_array)):
         data_to_array[i]['actividades'] = """
             <div class='text-center'>
-                <button type='button' class='btn btn-sm btn-success' onclick='fntEditActividadesCapacitacion(%s)'  
+                <button type='button' class='btn btn-sm btn-success' onclick='fntEditActividad(%s)'  
                     data-bs-toggle='modal' data-bs-target='#modalActividades'>
                     <i class='bx bx-plus' ></i>
                 </button>            
@@ -229,7 +229,7 @@ def dashboard_insert_actividades(request):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        v_idCapacitacion = request.POST.get("idCapacitacion1")
+        v_idCapacitacion = request.POST.get("idCapacitacion")
         print("id capacitacion:")
         print(v_idCapacitacion)
         
@@ -238,41 +238,50 @@ def dashboard_insert_actividades(request):
             with cx.cursor() as cursor:
                 if (v_idCapacitacion == ""):
                     # Obtener los datos del formulario e insertarlos en la base de datos.
-                    v_nombre_actividad1= request.POST.get("txtNombreActividad1")
-                    v_nombre_actividad2= request.POST.get("txtNombreActividad2")
-                    v_nombre_actividad3= request.POST.get("txtNombreActividad3")
-                    v_nombre_actividad4= request.POST.get("txtNombreActividad4")
-                    v_nombre_actividad5= request.POST.get("txtNombreActividad5")
-                    v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+                    v_nombre_actividad= request.POST.get("txtNombreActividad")
+                    v_descripcion_actividad = request.POST.get("txtDescripcionActividad")
+                    v_status_actividad = 0
                     v_date = date.today()
-                    print(v_nombre_actividad1)
-                    print(v_nombre_actividad2)
-                    print(v_nombre_actividad3)
-                    print(v_nombre_actividad4)
-                    print(v_nombre_actividad5)
-                    print(v_descripcion_actividad)
 
-
-                    cursor.execute("""INSERT INTO nma_actividad (nombre_actividad_1, nombre_actividad_2, nombre_actividad_3, nombre_actividad_4, nombre_actividad_5, descripcion_actividad, id_capacitacion,status_actividad1,status_actividad2,status_actividad3,status_actividad4,status_actividad5,fecha) 
-                                    VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %s, 0, 0, 0, 0, 0)""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion, v_date))
+                    cursor.execute(f"""INSERT INTO nma_actividad 
+                                    (
+                                        nombre_actividad, 
+                                        descripcion_actividad, 
+                                        fecha, 
+                                        status_actividad, 
+                                        id_capacitacion
+                                    )
+                                    VALUES 
+                                    (
+                                        '{v_nombre_actividad}', 
+                                        '{v_descripcion_actividad}', 
+                                        '{v_date}', 
+                                        '{v_status_actividad}', 
+                                        '{v_idCapacitacion}'
+                                    )
+                                    WHERE id_capacitacion = '{v_idCapacitacion}'""")
                     cx.commit()    
                 else:
-                    # ACTUALIZAR Actividad                   
+                    # ACTUALIZAR ACTIVIDAD                   
                     if (v_idCapacitacion != ""):                    
-                        # Obtener los datos del formulario e actualizarlos en la base de datos.
-                        v_nombre_actividad1= request.POST.get("txtNombreActividad1")
-                        v_nombre_actividad2= request.POST.get("txtNombreActividad2")
-                        v_nombre_actividad3= request.POST.get("txtNombreActividad3")
-                        v_nombre_actividad4= request.POST.get("txtNombreActividad4")
-                        v_nombre_actividad5= request.POST.get("txtNombreActividad5")
-                        v_descripcion_actividad = request.POST.get("txtDescripcionActividades")
+                        # Obtener los datos del formulario y actualizarlos a la base de datos.
+                        v_nombre_actividad= request.POST.get("txtNombreActividad")
+                        v_descripcion_actividad = request.POST.get("txtDescripcionActividad")
+                        v_status_actividad = 0
+                        v_date = date.today()
 
-                        cursor.execute(""" update nma_actividad set nombre_actividad_1 = '%s', nombre_actividad_2 = '%s', nombre_actividad_3 = '%s', nombre_actividad_4 = '%s', nombre_actividad_5 = '%s', descripcion_actividad = '%s' where id_capacitacion = %s""" % (v_nombre_actividad1, v_nombre_actividad2, v_nombre_actividad3, v_nombre_actividad4, v_nombre_actividad5, v_descripcion_actividad, v_idCapacitacion))
+                        cursor.execute(f""" UPDATE nma_actividad SET 
+                            nombre_actividad = '{v_nombre_actividad}', 
+                            descripcion_actividad = '{v_descripcion_actividad}', 
+                            fecha = '{v_date}', 
+                            status_actividad = '{v_status_actividad}', 
+                            id_capacitacion = '{v_idCapacitacion}' 
+                            WHERE id_capacitacion = '{v_idCapacitacion}' """)
                         cx.commit()  
 
-                        return redirect("getCapacitacionesPage")
                     else:
                         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error, vuelva a intentarlo!')
+                        print("error a")
                         return redirect("getCapacitacionesPage")            
             cx.close()
             return redirect ('getCapacitacionesPage')

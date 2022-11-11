@@ -81,63 +81,28 @@
 
 <!-- MODAL CHECKLIST ACTIVIDADES-->
 <div class="modal fade" id="modalChecklist" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="border-radius: 13px; padding: 15px;">
-          <div class="modal-header">
-              <h5 class="modal-title" id="modalChecklistLabel">Actividades de la Capacitación</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action="{% url "editChecklist" %}" id="formActividades" class="needs-validation" method="POST">
-                  {% csrf_token %}  
-                  <input name="idCapacitacion1" id="idCapacitacion1">                  
-                  <div class="row g-3">
-                      <div class="col-12">
-                          <ul class="list-group">
-                            <li class="list-group-item" id="cboxlist1">  
-                                <input class="form-check-input me-1" type="checkbox" value="0" id="CboxAct1" name="CboxAct1">
-                                <label class="form-check-label" for="CboxAct1" id="cbox1">Actividad 1</label>                                   
-                            </li>                              
-                            <li class="list-group-item" id="cboxlist2">
-                              <input class="form-check-input me-1" type="checkbox" value="0" id="CboxAct2" name="CboxAct2">
-                              <label class="form-check-label" for="CboxAct2" id="cbox2">Actividad 2</label>
-                            </li>
-                            <li class="list-group-item" id="cboxlist3">
-                              <input class="form-check-input me-1" type="checkbox" value="0" id="CboxAct3" name="CboxAct3">
-                              <label class="form-check-label" for="CboxAct3" id="cbox3">Actividad 3</label>
-                            </li>
-                            <li class="list-group-item" id="cboxlist4">
-                              <input class="form-check-input me-1" type="checkbox" value="0" id="CboxAct4" name="CboxAct4">
-                              <label class="form-check-label" for="CboxAct4" id="cbox4">Actividad 4</label>
-                            </li>
-                            <li class="list-group-item" id="cboxlist5">
-                              <input class="form-check-input me-1" type="checkbox" value="0" id="CboxAct5" name="CboxAct5">
-                              <label class="form-check-label" for="CboxAct5" id="cbox5">Actividad 5</label>
-                            </li>
-                          </ul>
-                      <br>
-                      </div>                        
-                      <hr>
-                      <div class="col-12">
-                          <div class="">
-                              <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                                  border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntEditChecklist()">
-                                  Guardar Cambios
-                              </button>
-                          </div>
-                          <div class="my-2"></div>
-                          <div>
-                              <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;" 
-                                  data-bs-dismiss="modal">
-                                  Cancelar
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-
-              </form>
-          </div>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content" style="border-radius: 13px; padding: 15px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalChecklistLabel">Actividades de la Capacitación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped v_table_actividades my-3" style="width: 100%;" id="v_table_actividades">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th style="width: 60px !important;">Actividad</th>
+                <th style="width: 40% !important;">Descripción</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -269,10 +234,12 @@
 {% endblock %}
 {% block scripts %}
 <script>
-
+  let v_url = "{% url 'getAllActividades' %}";
   let v_url_update_project = "{% url 'capacitacionProfesional' %}" ;
   let v_url_delete = "{% url 'deleteCapacitacionProfesional' %}";
   let v_url_actividad = "{% url 'getActividad' %}";
+  let v_enable_actividad = "{% url 'enableActividad' %}";
+  let v_disable_actividad = "{% url 'disableActividad' %}";
 
     function reloadTable() {
       $('#projectsTable').load(location.href + " #projectsTable");
@@ -399,101 +366,44 @@
             )
         }
     })
-    } 
+  } 
 
-    function fntEditChecklist (number){
-        // JAVASCRIPT
-        var id_capacitacion = number;
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = v_url_actividad + "?numberCapacitacion=" + id_capacitacion;
-        request.open("GET", ajaxUrl, true);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(ajaxUrl);
-        request.onreadystatechange = function () {
-            let objData = JSON.parse(request.responseText);
+  function fntEnableActividad(id_actividad) {
+      var id_actividad = id_actividad;
+      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      var ajaxUrl = v_enable_actividad + "?idActividad=" + id_actividad;
+      request.open("GET", ajaxUrl, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send(ajaxUrl);
+      request.onreadystatechange = function () {
+        window.location.reload()
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Has cambiado el estado de la actividad a Finalizada!',
+            showConfirmButton: false,
+            timer: 1700
+        })
+      }
+    }
 
-            document.getElementById('modalChecklistLabel').innerHTML = 'Checklist Actividades';
-            // FIN JAVASCRIPT
-
-            // $ => JQUERY
-            $('#numberCapacitacion').val(objData[0].id_capacitacion);
-            $('#cbox1').html(objData[0].nombre_actividad_1);
-            $('#cbox2').html(objData[0].nombre_actividad_2);
-            $('#cbox3').html(objData[0].nombre_actividad_3);
-            $('#cbox4').html(objData[0].nombre_actividad_4);
-            $('#cbox5').html(objData[0].nombre_actividad_5);
-            
-            if(objData[0].nombre_actividad_1 != "" && objData[0].status_actividad1 == 1){
-              document.getElementById("cboxlist1").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct1").setAttribute("value",1);
-              $("#CboxAct1").prop("checked", true);              
-            }
-            else if(objData[0].nombre_actividad_1 != "" && objData[0].status_actividad1 == 0){    
-              document.getElementById("cboxlist1").setAttribute("class",'list-group-item visible');  
-              document.getElementById("CboxAct1").setAttribute("value",0);        
-              $("#CboxAct1").prop("checked", false);
-            }else{
-              document.getElementById("cboxlist1").setAttribute("class",'list-group-item invisible');
-              document.getElementById("CboxAct1").setAttribute("value",0);  
-            }
-
-
-            if(objData[0].nombre_actividad_2 != "" && objData[0].status_actividad2 == 1){
-              document.getElementById("cboxlist2").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct2").setAttribute("value",1);
-              $("#CboxAct2").prop("checked", true); 
-            }
-            else if(objData[0].nombre_actividad_2 != "" && objData[0].status_actividad2 == 0){      
-              document.getElementById("cboxlist2").setAttribute("class",'list-group-item visible');     
-              document.getElementById("CboxAct2").setAttribute("value",0);    
-              $("#CboxAct2").prop("checked", false);
-            }else{
-              document.getElementById("cboxlist2").setAttribute("class",'list-group-item invisible');
-              document.getElementById("CboxAct2").setAttribute("value",0);
-            }
-
-            if(objData[0].nombre_actividad_3 != "" && objData[0].status_actividad3 == 1){
-              document.getElementById("cboxlist3").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct3").setAttribute("value",1);
-              $("#CboxAct3").prop("checked", true);
-            }
-            else if(objData[0].nombre_actividad_3 != "" && objData[0].status_actividad3 == 0){ 
-              document.getElementById("cboxlist3").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct3").setAttribute("value",0);              
-              $("#CboxAct3").prop("checked", false);
-            }else{
-              document.getElementById("cboxlist3").setAttribute("class",'list-group-item invisible');
-              document.getElementById("CboxAct3").setAttribute("value",0);
-            }
-            if(objData[0].nombre_actividad_4 != "" && objData[0].status_actividad4 == 1){
-              document.getElementById("cboxlist4").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct4").setAttribute("value",1);
-              $("#CboxAct4").prop("checked", true);
-            }
-            else if(objData[0].nombre_actividad_4 != "" && objData[0].status_actividad4 == 0){
-              document.getElementById("cboxlist4").setAttribute("class",'list-group-item visible'); 
-              document.getElementById("CboxAct4").setAttribute("value",0);              
-              $("#CboxAct4").prop("checked", false);
-            }else{
-              document.getElementById("cboxlist4").setAttribute("class",'list-group-item invisible');
-              document.getElementById("CboxAct4").setAttribute("value",0);
-            }
-            if(objData[0].nombre_actividad_5 != "" && objData[0].status_actividad5 == 1){
-              document.getElementById("cboxlist5").setAttribute("class",'list-group-item visible');
-              document.getElementById("CboxAct5").setAttribute("value",1);
-              $("#CboxAct5").prop("checked", true);  
-            }
-            else if(objData[0].nombre_actividad_5 != "" && objData[0].status_actividad5 == 0){    
-              document.getElementById("cboxlist5").setAttribute("class",'list-group-item visible'); 
-              document.getElementById("CboxAct5").setAttribute("value",0);          
-              $("#CboxAct5").prop("checked", false);
-            }else{
-              document.getElementById("cboxlist5").setAttribute("class",'list-group-item invisible');
-              document.getElementById("CboxAct5").setAttribute("value",0);
-            }    
-            $('#modalActividades').show();     
-            // FIN JQUERY
-        }       
+    function fntDisableActividad(id_actividad) {
+      var id_actividad = id_actividad;
+      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      var ajaxUrl = v_disable_actividad + "?idActividad=" + id_actividad;
+      request.open("GET", ajaxUrl, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send(ajaxUrl);
+      request.onreadystatechange = function () {
+        window.location.reload()
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Has cambiado el estado de la actividad a Pendiente!',
+            showConfirmButton: false,
+            timer: 1700
+        })
+      }
     }
 </script>
 {% endblock %}
