@@ -1,7 +1,7 @@
 import os,django
 from django.conf import settings
-from weasyprint import HTML, CSS
 from apps.dashboard.usp import get_connection
+from django.http import HttpResponse
 
 def generarReporte(request):
     if (request.method == 'GET'):
@@ -14,7 +14,6 @@ def generarReporte(request):
             'nombre_cliente': v_nombre,
             'nombre_empresa': v_edad,
         })
-
 
         html = HTML(string="""
         <!DOCTYPE html>
@@ -67,9 +66,4 @@ def generarReporte(request):
         </html>
         """)
 
-        html.write_pdf('salida.pdf')
-
-    generarReporte()
-
-
-
+        return HttpResponse(html, content='aplication/html')
