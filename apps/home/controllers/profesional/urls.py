@@ -20,7 +20,7 @@ urlpatterns = [
     path('api/v2/admin/capacitaciones/enableActividad', enableActividad, name="enableActividad"),
     path('api/v2/admin/capacitaciones/disableActividad', disableActividad, name="disableActividad"),
     path('api/v2/admin/actividades/all', getAllActividades, name="getAllActividades"),
-    path('api/v2/aaaa', reportePdf, name="reportePdf"),
+    path('api/v2/generate/pdf', reportePdf, name="reportePdf"),
 
 
 ]

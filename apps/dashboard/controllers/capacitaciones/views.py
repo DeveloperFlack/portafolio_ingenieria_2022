@@ -96,6 +96,7 @@ def getAllCapacitaciones(request):
             "descripcion_capacitacion": i[3],
             "total_capacitacion": i[4],
             "status_capacitaciones": i[5],
+            "fecha": i[6]
         })
     
     # Añadir HTML}

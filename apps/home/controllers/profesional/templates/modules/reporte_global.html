@@ -37,7 +37,7 @@
                 <div class="form-floating mt-2">
                   <select class="form-select" name="listrutCliente" id="listrutCliente" required>
                     {% for x in clientes %}
-                    <option value="{{ x.rut_cliente }}" >{{ x.rut_cliente }}</option>
+                    <option value="{{ x.rut_cliente | safe }}" >{{ x.n1_cliente }} {{ x.ap_cliente }}</option>
                     {% endfor%}
                   </select>
                   <label class="form-label" for="nombreCapacitacion">Cliente</label>
@@ -47,7 +47,7 @@
                 <div class="form-floating mt-2">
                   <select class="form-select" name="listProjects" id="listProjects" required>
                     {% for x in proyectos %}
-                    <option value="{{ x.id_proyecto | safe }}" >{{ x.nombre_capacitacion }}</option>
+                    <option value="{{ x.id_capacitacion }}" >{{ x.nombre_capacitacion }}</option>
                     {% endfor%}
                   </select>
                   <label class="form-label" for="nombreCapacitacion">Proyecto</label>
@@ -149,7 +149,7 @@
                                   <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    <th>Descripción</th>
+                                    <th style="width: 30% !important;">Descripción</th>
                                     <th>Fecha Creación</th>
                                     <th>Rut Usuario</th>
                                     <th>Rut Cliente</th>                                
@@ -186,7 +186,8 @@
   let v_url_insert = "{% url 'insertReporteGlobal' %}"
   let v_url = "{% url 'getAllReportes' %}"
   let v_url_get_report = "{% url 'getReportesGlobal' %}"; 
-  let v_url_delete_reporte = "{% url 'deleteReporte' %}";
+  let v_url_delete_reporte = "{% url 'deleteReporte' %}"
+  let v_generate_pdf = "{% url 'reportePdf' %}";
 </script>
 <script>
   let tableReportes;
@@ -272,6 +273,7 @@
             $('#folioReporte').val(objData[0].id);
             $('#txtNombreReporte').val(objData[0].nombre);
             $('#txtDescripcionReporte').html(objData[0].descripcion);
+            $('#listrutCliente option[value="'+objData[0].rut_cliente+'"]').prop('selected', true);
             $('#listProjects option[value="'+objData[0].id_proyecto+'"]').prop('selected', true);
             $('#modalReporte').show();
         }
@@ -286,7 +288,7 @@
         request.setRequestHeader("Content-Type", "application/json");
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
-            window.location.reload()
+          window.location.reload()
         }
     }
 

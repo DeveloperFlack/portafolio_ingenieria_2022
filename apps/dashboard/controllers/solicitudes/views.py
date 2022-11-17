@@ -50,17 +50,28 @@ def dashboard_get_all_solicitudes(request):
             "status_solicitud": i[11],
             'fecha': i[7],
             'time_start': i[8],
-            'time_end': i[9]
+            'time_end': i[9],
+            'contexto': i[10],
+            'fecha_actual': date.today()
         })
+
+    # Añadir HTML
+    for i in data_to_array:
+        if (i['fecha'] == i['fecha_actual']):
+            i['contexto'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                style='border: none;'>En Curso</button></div>"""
+        else:
+            i['contexto'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                style='background-color: orangered; border: none; color: white;'>Cerrada</button></div>"""
 
     # Añadir HTML
     for i in data_to_array:
         if (i['status_solicitud'] == 1):
             i['status_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
-                style='background-color: rgb(124, 207, 0); color: whitesmoke; border: none;'>Al día</button></div>"""
+                style='background-color: rgb(124, 207, 0); color: whitesmoke; border: none;'>ON</button></div>"""
         else:
             i['status_solicitud'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
-                style='background-color: orangered; border: none; color: white;'>Atrasado</button></div>"""
+                style='background-color: orangered; border: none; color: white;'>OFF</button></div>"""
 
         i['options'] = """
             <div class='text-center'>
