@@ -126,7 +126,6 @@ def dashboard_update_cliente(request):
                     return redirect("getClientesPage")
 
         except Exception as ex:
-            # print(ex)
             messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo!')
             return redirect("getClientesPage")
     else:

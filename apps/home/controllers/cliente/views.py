@@ -8,7 +8,9 @@ from django.contrib import messages
 from apps.helpers import request_session
 from .service import payService
 import requests
-
+import random
+from datetime import datetime, date
+from apps.home.views import get_connection
 
 
 def profileCliente(request):
@@ -16,7 +18,6 @@ def profileCliente(request):
     if (sessionStatus['cliente'] != True ):
         return redirect('index')
         
-    
     data = {
         'session_status' : request_session(request),
         'capacitaciones' :  get_capacitaciones(request),
@@ -33,27 +34,61 @@ def solicitudInsert(request):
     status = request_session(request)
     if (status == False):
         return redirect('getHome')
-    
     if request.method == "POST":  
-        # INSERTAR USUARIO HOME (CLIENTE)
-        v_rut_cliente = request.session['cliente']['rut_cliente']
-        v_id_capacitacion = request.POST.get("selectNombreSolicitud")
-        v_nombre_solicitud = request.POST.get("txtNombreSolicitud")
-        v_descripcion_solicitud = request.POST.get("txtDescripcionSolicitud")
-        v_tipo_solicitud = request.POST.get("selectTipoSolicitud")
-        v_estado_solicitud = 0
-        v_status_solicitud = 1
+        try:
+            # INSERTAR USUARIO HOME (CLIENTE)
+            v_rut_cliente = request.session['cliente']['rut_cliente']
+            v_id_capacitacion = request.POST.get("selectNombreSolicitud")
+            v_nombre_solicitud = request.POST.get("txtNombreSolicitud")
+            v_descripcion_solicitud = request.POST.get("txtDescripcionSolicitud")
+            v_tipo_solicitud = request.POST.get("selectTipoSolicitud")
+            v_estado_solicitud = 0
+            v_status_solicitud = 1
+            buy_order = str(random.randrange(100, 99999))
+            cx = get_connection()
+            current_today = date.today()
+            with cx.cursor() as cursor:
+                cursor.execute(f"""INSERT INTO nma_solicitudes (
+                        rut_cliente,
+                        id_capacitacion,
+                        id_asesoria,
+                        nombre_solicitud,
+                        descripcion_solicitud,
+                        tipo_solicitud,
+                        fecha,
+                        time_start,
+                        time_end,
+                        estado_solicitud,
+                        status_solicitud,
+                        contexto,
+                        order_id
+                    ) VALUES (
+                        '{v_rut_cliente}',
+                        {v_id_capacitacion},
+                        0,
+                        '{v_nombre_solicitud}',
+                        '{v_descripcion_solicitud}',
+                        '{v_tipo_solicitud}',
+                        '{current_today}',
+                        '',
+                        '',
+                        {v_estado_solicitud},
+                        {v_status_solicitud},
+                        '',
+                        '{buy_order}'
+                    )
+                """)
+                cx.commit()
 
-        fc_solicitud_insert(v_rut_cliente, v_id_capacitacion, v_nombre_solicitud, v_descripcion_solicitud, v_tipo_solicitud, v_estado_solicitud, v_status_solicitud)
+                url = request.build_absolute_uri()
+                url = url.split('/')
+                
+                params={'numberCapacitacion' : v_id_capacitacion, 'buyOrder' : buy_order}
 
-        # print (urls.urlpatterns[0])
-        # return redirect("profileCliente")
-        url = request.build_absolute_uri()
-        url = url.split('/')
-        
-        params={'numberCapacitacion' : v_id_capacitacion }
-        #return requests(,url[0] + '//' + url[2] + '/cliente/profile/pay/cart', params={'numberCapacitacion' : v_id_capacitacion, 'request' : request})
-        return payService(request, params)
+                return payService(request, params)
+        except Exception as ex:
+            print (ex)
+            return redirect("profileCliente")
     else:
         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado, vuelva a intentarlo')
         return redirect("profileCliente")
@@ -74,7 +109,7 @@ def getInformacion(request):
                     "nombre_empresa" : datos[i][9],
                     "rut_empresa_cliente" : datos[i][8],
                     "correo_cliente" : datos[i][6],
-                })           
+                })
             return data_to_array
     except Exception as ex:
         print (ex)
@@ -84,8 +119,9 @@ def getSolicitud(request):
     if (session_check == True):
         v_rut_cliente = request.session['cliente']['rut_cliente']
         data_solicitudes = fc_get_solicitudes(v_rut_cliente)
-        # print (data_solicitudes)
+
         data_to_array = []
+
         if (data_solicitudes != ()):
             for x in data_solicitudes:
                 data_to_array.append({
@@ -102,6 +138,14 @@ def getSolicitud(request):
                 v_fecha = data_to_array[ax]['fecha']
                 v_time_start = data_to_array[ax]['time_start']
                 v_time_end = data_to_array[ax]['time_end']
+
+                if(v_fecha == "" or v_fecha == None):
+                    v_fecha = str("Sin Asignar")
+                if(v_time_end == "" or v_time_end == None):
+                    v_time_end = str("Sin Asignar")
+                if(v_time_start == "" or v_time_start == None):
+                    v_time_start = str("Sin Asignar")
+
                 data_table['table'] += """ 
                     <tr>
                         <td>%s</td>
@@ -123,8 +167,9 @@ def getAccidente(request):
     if (session_check == True):
         v_rut_cliente = request.session['cliente']['rut_cliente']
         data_accidentes = fc_get_accidentes(v_rut_cliente)
-        # print (data_solicitudes)
+
         data_to_array = []
+
         if (data_accidentes != ()):
             for i in data_accidentes:
                 data_to_array.append({
@@ -162,6 +207,7 @@ def get_capacitaciones(request):
         with cx.cursor() as cursor:
             cursor.execute('SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
             capacitacion = cursor.fetchall()
+
             data_to_array = []
             
             for i in range(len(capacitacion)):
@@ -181,6 +227,7 @@ def get_asesorias(request):
         with cx.cursor() as cursor:
             cursor.execute('SELECT * FROM nma_asesoria WHERE status_asesoria != 0')
             asesoria = cursor.fetchall()
+
             data_to_array = []
             
             for i in range(len(asesoria)):
@@ -199,6 +246,7 @@ def get_reportarAccidente(request):
         with cx.cursor() as cursor:
             cursor.execute('SELECT * FROM nma_accidentes WHERE status_accidente != 0')
             accidente = cursor.fetchall()
+
             data_to_array = []
             
             for i in range(len(accidente)):
@@ -209,7 +257,6 @@ def get_reportarAccidente(request):
                     "fecha_accidente" : accidente[i][4],
                     "hora_accidente" : accidente[i][5],
                     "tipo_accidente" : accidente[i][6]
-
                 })
             
             return data_to_array
@@ -227,8 +274,6 @@ def insertAccidentesCliente(request):
 
                 cursor.execute("SELECT * FROM nma_accidentes WHERE id_accidente = '%s'" % (v_id_accidente))
                 exists = cursor.fetchall()
-
-                print(exists)
 
                 if (exists == ()):
                     v_nombre_accidente = request.POST.get("txtNombreAccidenteCliente")

@@ -1,8 +1,16 @@
 {% extends 'base-dashboard.html' %}
 {% block content %}
 <style>
-    @media screen and (max-width: 570px){
-        #addCapacitacionesBtn{position: fixed; bottom: 0; left: 0; width: 100%; border-radius: 0; padding: 15px 10px; z-index: 1000;}
+    @media screen and (max-width: 570px) {
+        #addCapacitacionesBtn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0;
+            padding: 15px 10px;
+            z-index: 1000;
+        }
     }
 </style>
 <div class="modal fade" id="modalCapacitaciones" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -14,13 +22,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url "insertCapacitacion" %}" id="formCapacitacion" class="needs-validation" method="POST">
+                <form action="{% url "insertCapacitacion" %}" id="formCapacitacion" class="needs-validation"
+                    method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="idCapacitacion" id="idCapacitacion">
                     <div class="row g-3">
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="text" class="form-control" id="txtNombreCapacitacion" name="txtNombreCapacitacion" placeholder="name@example.com" required>
+                                <input type="text" class="form-control" id="txtNombreCapacitacion"
+                                    name="txtNombreCapacitacion" placeholder="name@example.com" required>
                                 <label for="floatingInput">Nombre Capacitación</label>
                             </div>
                             <div class="invalid-feedback">
@@ -29,7 +39,9 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <textarea type="text" class="form-control" id="txtDescripcionCapacitacion" name="txtDescripcionCapacitacion" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <textarea type="text" class="form-control" id="txtDescripcionCapacitacion"
+                                    name="txtDescripcionCapacitacion" style="height: 150px;"
+                                    placeholder="name@example.com" required></textarea>
                                 <label for="floatingInput">Descripción Capacitación</label>
                             </div>
                             <div class="invalid-feedback">
@@ -38,7 +50,8 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <input type="number" class="form-control" id="txtTotalCapacitacion" name="txtTotalCapacitacion" placeholder="name@example.com" required>
+                                <input type="number" class="form-control" id="txtTotalCapacitacion"
+                                    name="txtTotalCapacitacion" placeholder="name@example.com" required>
                                 <label for="floatingInput">Total Capacitación</label>
                             </div>
                             <div class="invalid-feedback">
@@ -49,14 +62,15 @@
                         <div class="col-12">
                             <div class="">
                                 <button type="submit" class="btn w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick='fntConfirmEditInsert()'>Guardar
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;"
+                                    onclick='fntConfirmEditInsert()'>Guardar
                                 </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-secondary w-100" style="background: transparent;
-                                    border: 1px solid rgb(60, 60, 60); color: black; border-radius: 50px; padding: 10px;"
-                                    data-bs-dismiss="modal">Cancelar
+                                <button type="button" class="btn btn-secondary w-100"
+                                    style="background: transparent;
+                                    border: 1px solid rgb(60, 60, 60); color: black; border-radius: 50px; padding: 10px;" data-bs-dismiss="modal">Cancelar
                                 </button>
                             </div>
                         </div>
@@ -77,13 +91,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation" method="POST">
-                    {% csrf_token %}  
-                    <input class="hidden" name="idActividad" id="idActividad">                  
+                <form action="{% url "InsertActividades" %}" id="formActividades" class="needs-validation"
+                    method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="idCapaActividad" id="idCapaActividad">
                     <div class="row g-3">
                         <div class="col-12">
-                            <div class="form-floating mt-2"> 
-                                <input type="text" class="form-control" id="txtNombreActividad" name="txtNombreActividad" placeholder="name@example.com" required>
+                            <div class="form-floating mt-2">
+                                <input type="text" class="form-control" id="txtNombreActividad"
+                                    name="txtNombreActividad" placeholder="name@example.com" required>
                                 <label for="floatingInput">Nombre Actividad</label>
                             </div>
                             <div class="invalid-feedback">
@@ -92,7 +108,9 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating mt-2">
-                                <textarea type="text" class="form-control" id="txtDescripcionActividad" name="txtDescripcionActividad" style="height: 150px;" placeholder="name@example.com" required></textarea>
+                                <textarea type="text" class="form-control" id="txtDescripcionActividad"
+                                    name="txtDescripcionActividad" style="height: 150px;" placeholder="name@example.com"
+                                    required></textarea>
                                 <label for="floatingInput">Descripción detallada de la actividad</label>
                             </div>
                         </div>
@@ -100,20 +118,20 @@
                         <div class="col-12">
                             <div class="">
                                 <button type="submit" class="btn btn-primary w-100" style="background: linear-gradient(to right, deepskyblue, blueviolet); 
-                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;" onclick="fntEditActividadesCapacitacion()">
+                                    border: none; color: white; border-radius: 50px; padding: 20px 10px;"
+                                    onclick="fntEditActividadesCapacitacion()">
                                     Guardar Cambios
                                 </button>
                             </div>
                             <div class="my-2"></div>
                             <div>
-                                <button type="button" class="btn btn-outline-secondary w-100" style="border-radius: 50px; padding: 10px;" 
-                                    data-bs-dismiss="modal">
+                                <button type="button" class="btn btn-outline-secondary w-100"
+                                    style="border-radius: 50px; padding: 10px;" data-bs-dismiss="modal">
                                     Cancelar
                                 </button>
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -137,15 +155,16 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" id="addCapacitacionesBtn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
-                        border: none; color: white;"
-                        onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
+                    <button type="button" class="btn btn-primary" id="addCapacitacionesBtn" data-bs-toggle="modal"
+                        style="background: linear-gradient(to right, deepskyblue, blueviolet);
+                        border: none; color: white;" onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
                 </div>
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped v_table_capacitaciones my-3" style="width: 100%;" id="v_table_capacitaciones">
+                <table class="table table-bordered table-striped v_table_capacitaciones my-3" style="width: 100%;"
+                    id="v_table_capacitaciones">
                     <thead class="table-light">
                         <tr>
                             <th>Nombre</th>
@@ -195,7 +214,7 @@
                 "data": "total_capacitacion"
             }, {
                 "data": "status_capacitaciones",
-            }, { 
+            }, {
                 "data": "options"
             }],
             "order": [
@@ -204,7 +223,7 @@
         });
     });
 
-    function fntEditCapacitacion (id_capacitacion){
+    function fntEditCapacitacion(id_capacitacion) {
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
@@ -213,7 +232,7 @@
         request.send(ajaxUrl);
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
-            document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_capacitacion +'</h5>';
+            document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Actualizar: ' + objData[0].nombre_capacitacion + '</h5>';
             $('#idCapacitacion').val(objData[0].id_capacitacion);
             $('#txtNombreCapacitacion').val(objData[0].nombre_capacitacion);
             $('#txtDescripcionCapacitacion').val(objData[0].descripcion_capacitacion);
@@ -222,7 +241,7 @@
         }
     }
 
-    function fntEnableCapacitacion(id_capacitacion){
+    function fntEnableCapacitacion(id_capacitacion) {
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_enable_capacitacion + "?idCapacitacion=" + id_capacitacion;
@@ -241,7 +260,7 @@
         }
     }
 
-    function fntDisableCapacitacion(id_capacitacion){
+    function fntDisableCapacitacion(id_capacitacion) {
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_disable_capacitacion + "?idCapacitacion=" + id_capacitacion;
@@ -286,7 +305,7 @@
         }
     }
 
-    function fntConfirmDelete(id_capacitacion){
+    function fntConfirmDelete(id_capacitacion) {
         Swal.fire({
             title: 'Está seguro que desea eliminar este elemento?',
             text: "No podrás deshacer los cambios!",
@@ -296,7 +315,7 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, eliminarlo!',
             cancelButtonText: 'Cancelar'
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 fntDeleteCapacitacion(id_capacitacion);
                 Swal.fire(
@@ -308,7 +327,7 @@
         })
     }
 
-    function fntConfirmEditInsert(){
+    function fntConfirmEditInsert() {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top',
@@ -327,7 +346,7 @@
         })
     }
 
-    function fntEditActividad (id_capacitacion){
+    function fntEditActividad(id_capacitacion) {
         var id_capacitacion = id_capacitacion;
         var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         var ajaxUrl = v_url_capacitacion + "?idCapacitacion=" + id_capacitacion;
@@ -337,8 +356,8 @@
         request.onreadystatechange = function () {
             let objData = JSON.parse(request.responseText);
             // document.getElementById('modalCapacitacionesLabel').innerHTML = '<h5>Actualizar: '+ objData[0].nombre_capacitacion +'</h5>';
-            $('#idCapacitacion').val(objData[0].id_capacitacion);
-            $('#modalCapacitaciones').show();
+            $('#idCapaActividad').val(objData[0].id_capacitacion);
+            $('#modalActividades').show();
         }
     }
 
@@ -358,9 +377,8 @@
     //         $('#txtNombreActividad').val(objData[0].nombre_actividad);
     //         $('#txtDescripcionActividad').val(objData[0].descripcion_actividad);
     //         $('#modalActividades').show();
-    //     }       
+    //     }
     // }
 
 </script>
 {% endblock %}
-

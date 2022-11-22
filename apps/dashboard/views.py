@@ -158,10 +158,8 @@ def logoutAdm(request):
     try:
         del request.session['usuario']
         del request.session['hola']
-        print (request.session.items())
         return redirect('loginDashboard')
     except KeyError:
-        print (request.session.items())
         return redirect('loginDashboard')
 
 def get_count_asesorias(request):

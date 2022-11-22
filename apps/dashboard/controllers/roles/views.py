@@ -104,7 +104,6 @@ def getRol(request):
     v_idMRol = request.GET.get('idRol')
     if (v_idMRol != ""):
         data_rol = fc_get_roles(v_idMRol)
-        print(data_rol)
         data_to_array = []
         if (data_rol != ()):
             for i in data_rol:
@@ -355,7 +354,6 @@ def setPermisos(request):
             fc_delete_permisos(v_id_role)
 
         a = multiform(request.POST)
-        ## print (a)
         for x in (a['m']):
             c = "c" in a['m'][x]
             r = "r" in a['m'][x]

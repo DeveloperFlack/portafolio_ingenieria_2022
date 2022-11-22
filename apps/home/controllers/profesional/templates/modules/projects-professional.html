@@ -99,6 +99,7 @@
                 <th>Opciones</th>
               </tr>
             </thead>
+
           </table>
         </div>
       </div>
@@ -234,12 +235,41 @@
 {% endblock %}
 {% block scripts %}
 <script>
-  let v_url = "{% url 'getAllActividades' %}";
+
   let v_url_update_project = "{% url 'capacitacionProfesional' %}" ;
   let v_url_delete = "{% url 'deleteCapacitacionProfesional' %}";
-  let v_url_actividad = "{% url 'getActividad' %}";
-  let v_enable_actividad = "{% url 'enableActividad' %}";
-  let v_disable_actividad = "{% url 'disableActividad' %}";
+  let v_url_actividad = "{% url 'getActividadProfesional' %}";
+  let v_url_all_actividad = "{% url 'getAllActividadProfesional' %}";
+  let v_enable_actividad = "{% url 'enableActividadProfesional' %}";
+  let v_disable_actividad = "{% url 'disableActividadProfesional' %}";
+
+  let tableActividades;
+    $(document).ready(function () {
+      tableActividades = $('#v_table_actividades').DataTable({
+            pagingType: "full_numbers",
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            "ajax": {
+                "url": v_url_all_actividad,
+                "dataSrc": ""
+            },
+            "columns": [{
+                "data": "id_actividad"
+            }, {
+                "data": "nombre_actividad"
+            }, {
+                "data": "descripcion_actividad"
+            }, {
+                "data": "status_actividad",
+            }, {
+                "data": "options"
+            }],
+            "order": [
+                [0, "desc"]
+            ]
+        });
+    });
 
     function reloadTable() {
       $('#projectsTable').load(location.href + " #projectsTable");
@@ -367,6 +397,22 @@
         }
     })
   } 
+
+  function fntViewActividades (id_capacitacion) {
+      var id_capacitacion =  id_capacitacion;
+      var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+      var ajaxUrl = v_url_actividad + "?idCapacitacion=" + id_capacitacion;
+      request.open("GET", ajaxUrl, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send(ajaxUrl);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4 && request.status == 200) {
+            let objData = JSON.parse(request.responseText);
+            $('#idCapacitacion').val(objData[0].id_capacitacion);
+            $('#modalChecklist').show();
+        }
+      }
+    }
 
   function fntEnableActividad(id_actividad) {
       var id_actividad = id_actividad;

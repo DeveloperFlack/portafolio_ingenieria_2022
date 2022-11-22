@@ -164,7 +164,10 @@
                     <label for="floatingInput">Descripción</label>
                 </div>
               </div>
-              <button class="w-100 btn btn-lg btn-primary mt-4" style="background: linear-gradient(to right, deepskyblue, blueviolet); border: none;" type="submit" onclick="fntConfirmEditInsert()">Enviar solicitud</button>
+              <button class="w-100 btn btn-lg btn-primary mt-4" style="background: linear-gradient(to right, deepskyblue, blueviolet); border: none;" type="submit" 
+                onclick="fntConfirmEditInsert()">
+                  Enviar y pagar
+              </button>
             </form>
           </div>
         </div>
@@ -271,9 +274,10 @@
   function fntConfirmEditInsert() {
     var form = document.getElementById('formAccidentesCliente');
     var inputs = form.getElementsByTagName('input');
+    var selects = form.getElementsByTagName('selects');
     for (var i = 0; i < inputs.length; i++) {
         if(inputs[i].hasAttribute("required")){
-            if(inputs[i].value == ""){
+            if(inputs[i].value == "" || selects[i].value == ""){
               const Toast = Swal.mixin({
                 toast: true,
                 position: 'top',

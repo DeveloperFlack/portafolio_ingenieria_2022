@@ -16,10 +16,10 @@ urlpatterns = [
     path('api/v2/ingresar/capacitación', insert_project, name="insertCapacitacionProfesional"),
     path('api/v2/get/capacitacion', get_capacitacion, name="capacitacionProfesional"),
     path('api/v2/delete/capacitacion', delete_capacitacion, name="deleteCapacitacionProfesional"),
-    path('api/v2/admin/capacitaciones/getActividad', getActividad, name="getActividad"),
-    path('api/v2/admin/capacitaciones/enableActividad', enableActividad, name="enableActividad"),
-    path('api/v2/admin/capacitaciones/disableActividad', disableActividad, name="disableActividad"),
-    path('api/v2/admin/actividades/all', getAllActividades, name="getAllActividades"),
+    path('api/v2/get/actividad-profesional', getActividadProfesional, name="getActividadProfesional"),
+    path('api/v2/get/portal/mis-projectos/actividades', getAllActividadProfesional, name="getAllActividadProfesional"),
+    path('api/v2/capacitaciones/enableActividadProfesional', enableActividadProfesional, name="enableActividadProfesional"),
+    path('api/v2/capacitaciones/disableActividadProfesional', disableActividadProfesional, name="disableActividadProfesional"),
     path('api/v2/generate/pdf', reportePdf, name="reportePdf"),
 
 

@@ -101,26 +101,26 @@
                         <span class="fs-3">{% if title %}{{ title }}{% endif %}</span>
                     </li>
                 </ul>
-                <div class="d-flex">
+                <!-- <div class="d-flex">
                     <button type="button" class="btn btn-primary" id="addAccidenteBtn" data-bs-toggle="modal" style="background: linear-gradient(to right, deepskyblue, blueviolet);
                         border: none; color: white;"
                         onclick="openModal()">{% if button_add %}{{button_add}}{% endif %}
                     </button>
-                </div>
+                </div> -->
             </nav>
             <p class="text-muted">{% if subtitle %}{{ subtitle }}{% endif %}</p>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover v_table_Accidentes my-3" style="width: 100%;" id="v_table_Accidentes">
                     <thead class="table-light">
                         <tr>
-                            <th>#</th>
+                            <th># Id</th>
                             <th>Cliente</th>
-                            <th>nombre_accidente</th>
-                            <th>descripcion_accidente</th>
-                            <th>fecha_accidente</th>
-                            <th>hora_accidente</th>
-                            <th>tipo_accidente</th>
-                            <th>status_accidente</th>
+                            <th>Nombre Accidente</th>
+                            <th>Descripción Accidente</th>
+                            <th>Fecha Accidente</th>
+                            <th>Hora Accidente</th>
+                            <th>Tipo Accidente</th>
+                            <th>Estado</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>

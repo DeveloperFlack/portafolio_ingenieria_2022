@@ -44,7 +44,6 @@ def insertCapacitacion(request):
                     cursor.execute(""" select max(id_capacitacion) from nma_capacitacion """)
                     exist = cursor.fetchall()
                     v_IdInsertarActividad = exist[0][0]
-                    print(v_IdInsertarActividad)
                     cx.commit()  
             except Exception as ex:
                 print (ex)
@@ -68,7 +67,6 @@ def insertCapacitacion(request):
             # getCapacitacionesPage.
             exist = fc_get_capacitacion(v_idCapacitacion)
             if (exist != ()):
-                print("Entra en el edit")
             
                 v_nombre_capacitacion = request.POST.get("txtNombreCapacitacion")
                 v_descripcion_capacitacion = request.POST.get("txtDescripcionCapacitacion")
@@ -118,6 +116,7 @@ def getAllCapacitaciones(request):
                 </button>            
             </div>
         """ % (data_to_array[i]['id_capacitacion'])
+        
     # Añadir HTML
     for i in data_to_array:
         i['options'] = """
@@ -230,41 +229,38 @@ def dashboard_insert_actividades(request):
         return redirect ("loginDashboard")
 
     if (request.method == "POST"):
-        v_idCapacitacion = request.POST.get("idCapacitacion")
-        print("id capacitacion:")
-        print(v_idCapacitacion)
+        v_idCapacitacion = request.POST.get("idCapaActividad")
         
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                if (v_idCapacitacion == ""):
+                if (v_idCapacitacion != ()):
                     # Obtener los datos del formulario e insertarlos en la base de datos.
                     v_nombre_actividad= request.POST.get("txtNombreActividad")
                     v_descripcion_actividad = request.POST.get("txtDescripcionActividad")
-                    v_status_actividad = 0
+                    v_status_actividad = 1
                     v_date = date.today()
 
                     cursor.execute(f"""INSERT INTO nma_actividad 
                                     (
+                                        Id_capacitacion,
                                         nombre_actividad, 
                                         descripcion_actividad, 
                                         fecha, 
-                                        status_actividad, 
-                                        id_capacitacion
+                                        status_actividad
                                     )
                                     VALUES 
                                     (
+                                        {v_idCapacitacion},
                                         '{v_nombre_actividad}', 
                                         '{v_descripcion_actividad}', 
                                         '{v_date}', 
-                                        '{v_status_actividad}', 
-                                        '{v_idCapacitacion}'
-                                    )
-                                    WHERE id_capacitacion = '{v_idCapacitacion}'""")
+                                        '{v_status_actividad}'
+                                    )""")
                     cx.commit()    
                 else:
                     # ACTUALIZAR ACTIVIDAD                   
-                    if (v_idCapacitacion != ""):                    
+                    if (v_idCapacitacion != ()):                    
                         # Obtener los datos del formulario y actualizarlos a la base de datos.
                         v_nombre_actividad= request.POST.get("txtNombreActividad")
                         v_descripcion_actividad = request.POST.get("txtDescripcionActividad")
@@ -276,13 +272,11 @@ def dashboard_insert_actividades(request):
                             descripcion_actividad = '{v_descripcion_actividad}', 
                             fecha = '{v_date}', 
                             status_actividad = '{v_status_actividad}', 
-                            id_capacitacion = '{v_idCapacitacion}' 
-                            WHERE id_capacitacion = '{v_idCapacitacion}' """)
+                            WHERE Id_capacitacion = {v_idCapacitacion}""")
                         cx.commit()  
 
                     else:
                         messages.add_message(request, messages.ERROR, 'Ha ocurrido un error, vuelva a intentarlo!')
-                        print("error a")
                         return redirect("getCapacitacionesPage")            
             cx.close()
             return redirect ('getCapacitacionesPage')

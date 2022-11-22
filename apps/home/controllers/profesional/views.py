@@ -18,9 +18,8 @@ def portal_profesional(request):
 
     data = {
         'session_status': request_session(request),
-
-
     }
+
     return render(request, 'portal-professional.html', data)
 
 
@@ -32,8 +31,8 @@ def projects_profesional(request):
     data = {
         'session_status': request_session(request),
         'capacitaciones': get_all_project_professional(request),
-        'actividades': getActividad(request)
     }
+
     return render(request, 'modules/projects-professional.html', data)
 
 
@@ -45,6 +44,7 @@ def tickets_profesional(request):
     data = {
         'session_status': request_session(request)
     }
+
     return render(request, 'modules/tickets-professional.html', data)
 
 
@@ -57,8 +57,8 @@ def reportes_globales_profesional(request):
         'session_status': request_session(request),
         'proyectos': get_capacitaciones(request),
         'clientes': get_all_clientes(request),
-        'actividades': getActividad(request)
     }
+
     return render(request, 'modules/reporte_global.html', data)
 
 
@@ -66,9 +66,9 @@ def get_capacitaciones(request):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute(
-                'SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
+            cursor.execute('SELECT * FROM nma_capacitacion WHERE status_capacitaciones != 0')
             capacitacion = cursor.fetchall()
+
             data_to_array = []
 
             for i in range(len(capacitacion)):
@@ -91,8 +91,7 @@ def insert_project(request):
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute(
-                    "SELECT * FROM nma_capacitacion WHERE (id_capacitacion = %s and rut_usuario = '%s' )" % (v_id, v_rut))
+                cursor.execute("SELECT * FROM nma_capacitacion WHERE (id_capacitacion = %s and rut_usuario = '%s' )" % (v_id, v_rut))
                 exist = cursor.fetchall()
 
                 if (exist == ()):
@@ -133,12 +132,12 @@ def get_all_project_professional(request):
         cx = get_connection()
 
         with cx.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM nma_capacitacion WHERE rut_usuario = '%s' " % (v_rut))
+            cursor.execute("SELECT * FROM nma_capacitacion WHERE rut_usuario = '%s' " % (v_rut))
             datos = cursor.fetchall()
-            # print (datos)
+
             data_to_array = []
 
+            # AÑADIR HTML
             for i in datos:
                 data_to_array.append({
                     'id_capacitacion': i[0],
@@ -148,10 +147,12 @@ def get_all_project_professional(request):
                     'total_capacitacion': i[4],
                     'status_capacitacion': i[5],
                 })
+            
+            # AÑADIR HTML
             for x in range(len(data_to_array)):
                 data_to_array[x]['options'] = """
                     <div class="text-center">
-                        <button type='button' class='btn btn-sm btn-success'
+                        <button type='button' class='btn btn-sm btn-success' onclick='fntViewActividades(%s)'
                             data-bs-toggle='modal' data-bs-target='#modalChecklist' style='background: linear-gradient(to right, deepskyblue, blueviolet);
                             border: none; border-radius: 3px !important;'>
                             <i class='bx bx-check-square' ></i>
@@ -163,8 +164,8 @@ def get_all_project_professional(request):
                         </button>
                         <button onclick="fntConfirmDelete(%s)" class="btn btn-sm btn-danger" style='border-radius: 3px !important;'><i class='bx bx-trash'></i></button>
                     </div>
-                """ % (data_to_array[x]['id_capacitacion'], data_to_array[x]['id_capacitacion'])
-            # print (data_to_array)
+                """ % (data_to_array[x]['id_capacitacion'], data_to_array[x]['id_capacitacion'], data_to_array[x]['id_capacitacion'])
+
             return (data_to_array)
     except Exception as ex:
         print(ex)
@@ -238,7 +239,6 @@ def insert_reporteglobal(request):
     if (request.method == 'POST'):
         v_id = request.POST.get('folioReporte')
         v_rut_profesional = request.session['profesional']['rut_usuario']
-        # v_rut_cliente = 0
         if (v_id == ""):
             v_id = 0
         try:
@@ -270,7 +270,6 @@ def insert_reporteglobal(request):
                     v_rut_usuario = request.session['profesional']['rut_usuario']
                     v_rut_cliente = request.POST.get('listrutCliente')
                     v_idProyecto = request.POST.get('listProjects')
-                    # print(v_rut_cliente)
                     cursor.execute("""UPDATE nma_reportes SET nombre = '%s',  descripcion = '%s',  create_time = '%s',  rut_usuario = '%s' , rut_cliente = '%s' , id_proyecto = %s
                                 WHERE (id = %s AND rut_usuario = '%s') """ %
                                 (v_nombreReporte, v_descripcionReporte, v_fecha_utc, v_rut_usuario, v_rut_cliente, v_idProyecto, v_id, v_rut_usuario))
@@ -290,8 +289,7 @@ def get_all_reportes_globales(request):
         cx = get_connection()
 
         with cx.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM nma_reportes WHERE rut_usuario = '%s' " % (v_rut))
+            cursor.execute("SELECT * FROM nma_reportes WHERE rut_usuario = '%s' " % (v_rut))
             datos = cursor.fetchall()
 
             data_to_array = []
@@ -306,6 +304,7 @@ def get_all_reportes_globales(request):
                     'rut_cliente': i[5],
                     'id_proyecto': i[6],
                 })
+
             for x in range(len(data_to_array)):
                 data_to_array[x]['options'] = """
                     <div class="text-center" style='gap: 5px !important;'>
@@ -318,7 +317,7 @@ def get_all_reportes_globales(request):
                         <button onclick="fntConfirmDelete(%s)" class="btn btn-sm btn-warning" style='border-radius: 3px !important;'><i class='bx bx-trash'></i></button>
                     </div>
                 """ % (data_to_array[x]['id'], data_to_array[x]['id'], data_to_array[x]['id'])
-            # print (data_to_array)
+
             return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
     except Exception as ex:
         print(ex)
@@ -330,8 +329,7 @@ def get_reportesGlobal(request):
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute(
-                    """SELECT * FROM nma_reportes WHERE id = '%s' """ % (v_id))
+                cursor.execute("""SELECT * FROM nma_reportes WHERE id = '%s' """ % (v_id))
                 data_reportes = cursor.fetchall()
                 data_to_array = []
 
@@ -359,8 +357,7 @@ def delete_reporte(request):
             cx = get_connection()
             with cx.cursor() as cursor:
                 v_id_reporte = request.GET.get("idReporte")
-                cursor.execute(
-                    """SELECT * FROM nma_reportes WHERE id = %s""" % (v_id_reporte))
+                cursor.execute("""SELECT * FROM nma_reportes WHERE id = %s""" % (v_id_reporte))
                 exist = cursor.fetchall()
 
                 if (exist != ()):
@@ -382,8 +379,7 @@ def get_all_clientes(request):
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute(
-                """SELECT rut_cliente, n1_cliente, ap_cliente, nombre_empresa FROM nma_cliente """)
+            cursor.execute("""SELECT rut_cliente, n1_cliente, ap_cliente, nombre_empresa FROM nma_cliente """)
             data_clientes = cursor.fetchall()
             data_to_array = []
 
@@ -394,153 +390,120 @@ def get_all_clientes(request):
                     "ap_cliente": data_clientes[i][2],
                     "nombre_empresa": data_clientes[i][3]
                 })
-            # print(data_to_array)
+
             return (data_to_array)
     except Exception as ex:
         print(ex)
 
 
-def getActividad(request):
-    v_idCapacitacion = request.GET.get('numberCapacitacion')
-    print("entro en getActividadProfesional")
-    print(v_idCapacitacion)
-    if (v_idCapacitacion != ""):
+def getActividadProfesional(request):
+    v_idCapacitacion = request.GET.get('idCapacitacion')
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(f"""SELECT * FROM nma_actividad WHERE Id_capacitacion = {v_idCapacitacion}""")
+            data_actividad = cursor.fetchall()
+
+            data_to_array = []
+            
+            for i in data_actividad:
+                data_to_array.append({
+                    "id_actividad": i[0],
+                    "nombre_actividad": i[2],
+                    "descripcion_actividad": i[3],
+                    "status_actividad": i[5]
+                })
+
+            return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print(ex)
+        return redirect('projectsProfesional')
+
+def getAllActividadProfesional(request):
+    try:
+        cx = get_connection()
+        with cx.cursor() as cursor:
+            cursor.execute(f"""SELECT * FROM nma_actividad""")
+            data_actividad = cursor.fetchall()
+
+            data_to_array = []
+            
+            for i in data_actividad:
+                data_to_array.append({
+                    "id_actividad": i[0],
+                    "nombre_actividad": i[2],
+                    "descripcion_actividad": i[3],
+                    "status_actividad": i[5]
+                })
+
+            # Añadir HTML}
+            for i in data_to_array:
+                if (i['status_actividad'] == 1):
+                    i['status_actividad'] = """<div class='text-center'><button class='btn btn-sm btn-success' 
+                        style='border: none;'>Finalizada</button></div>"""
+                else:
+                    i['status_actividad'] = """<div class='text-center'><button class='btn btn-sm btn-danger' 
+                        style='border: none; color: white;'>Pendiente</button></div>"""
+
+            # Añadir HTML
+            for i in data_to_array:
+                i['options'] = """
+                    <div class='text-center'>
+                        <a onclick='fntEnableActividad(%s)' class='btn btn-sm btn-success'><i class='bx bxs-check-circle' ></i></a>
+                        <a onclick='fntDisableActividad(%s)' class='btn btn-sm btn-danger'><i class='bx bxs-x-circle' ></i></a>
+                    </div>
+                """ % (i['id_actividad'], i['id_actividad'])
+
+            print("deberia emprimir en la tabla")
+            return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+    except Exception as ex:
+        print(ex)
+        print("jijijija")
+        return redirect('projectsProfesional')
+
+
+def enableActividadProfesional(request):
+    if (request.method == "GET"):
+        v_idActividad = request.GET.get("idActividad")
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute(
-                    f""" SELECT * FROM nma_actividad WHERE id_capacitacion = '{v_idCapacitacion}' """)
+                cursor.execute(f"SELECT * FROM nma_actividad WHERE id_actividad = {v_idActividad}")
                 exist = cursor.fetchall()
-                data_to_array = []
+
                 if (exist != ()):
-                    for i in cursor:
-                        data_to_array.append({
-                            "id_capacitacion": i[7],
-                            "nombre_actividad_1": i[1],
-                            "nombre_actividad_2": i[2],
-                            "nombre_actividad_3": i[3],
-                            "nombre_actividad_4": i[4],
-                            "nombre_actividad_5": i[5],
-                            "descripcion_actividad": i[6],
-                            "status_actividad1": i[8],
-                            "status_actividad2": i[9],
-                            "status_actividad3": i[10],
-                            "status_actividad4": i[11],
-                            "status_actividad5": i[12],
-                        })
-                        print(data_to_array)
-                    return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
+                    cursor.execute(f"UPDATE nma_actividad SET status_actividad = 1 WHERE id_actividad = {v_idActividad}")
+                    cx.commit()
+                    return redirect("projectsProfesional")
                 else:
                     return redirect("projectsProfesional")
         except Exception as ex:
             print(ex)
-            return redirect('projectsProfesional')
+            return ('projectsProfesional')
     else:
         return redirect("projectsProfesional")
 
 
-def getAllActividades(request):
-    if (request.method == "GET"):
-        v_idCapacitacion = request.POST.get('idCapacitacion')
-        try:
-            cx = get_connection()
-            with cx.cursor() as cursor:
-                data_actividades = cursor.execute(
-                    "SELECT * FROM nma_actividad WHERE id_capacitacion = %s" % (v_idCapacitacion))
-                data_to_array = []
-
-                for i in data_actividades:
-                    data_to_array.append({
-                        "id_actividad": i[0],
-                        "id_capacitacion": i[1],
-                        "nombre_actividad": i[2],
-                        "descripcion_actividad": i[3],
-                        "fecha": i[4],
-                        "status_actividad": i[5],
-                    })
-
-                # Añadir HTML
-                for i in data_to_array:
-                    if (i['status_actividad'] == 1):
-                        i['status_actividad'] = """
-                            <div class='text-center'>
-                                <button class='btn btn-sm btn-success' 
-                                style='border: none;'>
-                                    <i class='bx bxs-check-circle' ></i> Finalizada
-                                </button>
-                            </div>
-                        """
-                    else:
-                        i['status_actividad'] = """
-                            <div class='text-center'>
-                                <button class='btn btn-sm btn-danger' 
-                                style='border: none;'>
-                                    <i class='bx bxs-x-circle' ></i> Pendiente
-                                </button>
-                            </div>
-                        """
-                    i['options'] = """
-                        <div class='text-center'>
-                            <a onclick='fntEnableActividad("%s")' class='btn btn-sm btn-success'><i class='bx bxs-check-circle' ></i></a>
-                            <a onclick='fntDisableActividad("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-x-circle' ></i></a>
-                        </div>
-                    """ % (i['id_actividad'], i['id_actividad'])
-
-                return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
-
-        except Exception as ex:
-            print(ex)
-            return redirect('projectsProfesional')
-    else:
-        return redirect('projectsProfesional')
-
-
-def enableActividad(request):
+def disableActividadProfesional(request):
     if (request.method == "GET"):
         v_idActividad = request.GET.get("idActividad")
         try:
             cx = get_connection()
             with cx.cursor() as cursor:
-                cursor.execute(
-                    "SELECT * FROM nma_actividad WHERE id_actividad = '%s'" % (v_idActividad))
+                cursor.execute(f"SELECT * FROM nma_actividad WHERE id_actividad = {v_idActividad}")
                 exist = cursor.fetchall()
 
                 if (exist != ()):
-                    cursor.execute(
-                        "UPDATE nma_actividad SET status_actividad = 1")
+                    cursor.execute(f"UPDATE nma_actividad SET status_actividad = 0 WHERE id_actividad = {v_idActividad}")
                     cx.commit()
-                    return redirect("getModulosPage")
+                    return redirect("projectsProfesional")
                 else:
-                    return redirect("getModulosPage")
+                    return redirect("projectsProfesional")
         except Exception as ex:
             print(ex)
             return ('projectsProfesional')
     else:
-        return redirect("getModulosPage")
-
-
-def disableActividad(request):
-    if (request.method == "GET"):
-        v_idActividad = request.GET.get("idActividad")
-        try:
-            cx = get_connection()
-            with cx.cursor() as cursor:
-                cursor.execute(
-                    "SELECT * FROM nma_actividad WHERE id_actividad = '%s'" % (v_idActividad))
-                exist = cursor.fetchall()
-
-                if (exist != ()):
-                    cursor.execute(
-                        "UPDATE nma_actividad SET status_actividad = 0")
-                    cx.commit()
-                    return redirect("getModulosPage")
-                else:
-                    return redirect("getModulosPage")
-        except Exception as ex:
-            print(ex)
-            return ('projectsProfesional')
-    else:
-        return redirect("getModulosPage")
+        return redirect("projectsProfesional")
 
 
 
@@ -570,7 +533,6 @@ def reportePdf(request):
                     'ap_cliente': i[11],
                     'nombre_empresa': i[16]
                 })
-            print(exist)
 
             if(exist != ()):
                 uuid =  str(random.randrange(100, 99999))

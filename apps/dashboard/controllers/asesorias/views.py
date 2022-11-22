@@ -84,14 +84,6 @@ def getALLAsesorias(request):
 
     # Añadir HTML
     for i in data_to_array:
-        i['usuarios'] = """
-            <div class='text-center'>
-                <button class="btn btn-sm btn-primary form-control" name="txtRutUsuario" id="txtRutUsuario" style="width: fit-content;
-                    background: linear-gradient(to right, deepskyblue, blueviolet); border: none;"><i class='bx bxs-edit' ></i></button>
-            </div>
-        """
-    # Añadir HTML
-    for i in data_to_array:
         i['options'] = """
             <div class='text-center'>
                 <button type='button' class='btn btn-sm btn-primary' onclick='fntEditAsesoria(%s)' 

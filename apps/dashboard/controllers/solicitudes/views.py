@@ -40,7 +40,6 @@ def dashboard_get_all_solicitudes(request):
     data_to_array = []
     # Convertir TUPLA a Array Modificable
     for i in data_solicitudes:
-        print (i[8])
         data_to_array.append({
             "id_solicitud": i[0],
             "rut_cliente": i[1],
@@ -54,7 +53,7 @@ def dashboard_get_all_solicitudes(request):
             'contexto': i[10],
             'fecha_actual': date.today()
         })
-
+ 
     # Añadir HTML
     for i in data_to_array:
         if (i['fecha'] == i['fecha_actual']):
@@ -114,21 +113,20 @@ def dashboard_update_solicitud(request):
     if (request.method) == 'POST':
         v_id_solicitud = request.POST.get("idSolicitud")
         exist = fc_get_solicitudes_dash(v_id_solicitud)
-        # print (exist)
         if (exist != ()):
             v_fecha = request.POST.get("txtFecha")
             v_time_start = request.POST.get("txtTimeStart")
             v_time_end = request.POST.get("txtTimeEnd")
 
             fc_update_solicitud(v_id_solicitud, v_fecha, v_time_start, v_time_end)
-            messages.add_message(request, messages.SUCCESS, 'Fecha y Hora solicitud actualizada')
+            # messages.add_message(request, messages.SUCCESS, 'Fecha y Hora solicitud actualizada')
 
             return redirect("getSolicitudesPage")
         else:
-            messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
+            # messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
             return redirect("getSolicitudesPage")
     else:
-        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
+        # messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
         return redirect("getSolicitudesPage")
 
 # ENABLE SOLICITUD
@@ -143,7 +141,8 @@ def dashboard_enable_solicitud(request):
                 if (exist != ()):
                     cursor.execute("UPDATE nma_solicitudes SET status_solicitud = 1 WHERE id_solicitud = %s" % (v_id_solicitud))
                     cx.commit()
-                    messages.add_message(request, messages.SUCCESS, 'Solicitud Activada!')
+
+                    # messages.add_message(request, messages.SUCCESS, 'Solicitud Activada!')
                     return redirect("getSolicitudesPage")
         except Exception as ex:
             print (ex)
@@ -160,11 +159,11 @@ def dashboard_disable_solicitud(request):
                 v_id_solicitud = request.GET.get("idSolicitud")
                 cursor.execute("SELECT * from nma_solicitudes WHERE id_solicitud = %s" % (v_id_solicitud))
                 exist = cursor.fetchall()
-                print (exist)
                 if (exist != ()):
                     cursor.execute("UPDATE nma_solicitudes SET status_solicitud = 0 WHERE id_solicitud = %s" % (v_id_solicitud))
                     cx.commit()
-                    messages.add_message(request, messages.SUCCESS, 'Solicitud Desactivada!')
+
+                    #messages.add_message(request, messages.SUCCESS, 'Solicitud Desactivada!')
                     return redirect("getSolicitudesPage")
                 else:
                     return redirect("getSolicitudesPage")
@@ -181,11 +180,12 @@ def dashboard_delete_solicitud(request):
         exist = fc_get_solicitudes_dash(v_id_solicitud)
         if (exist != ()):
             fc_delete_solicitud(v_id_solicitud)
-            messages.add_message(request, messages.SUCCESS, 'Solicitud Eliminada exitosamente!')
+
+            # messages.add_message(request, messages.SUCCESS, 'Solicitud Eliminada exitosamente!')
             return redirect("getSolicitudesPage")
         else:
-            messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
+            # messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
             return redirect("getSolicitudesPage")
     else:
-        messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
+        # messages.add_message(request, messages.ERROR, 'Ha ocurrido un error inesperado!')
         return redirect("getSolicitudesPage")
