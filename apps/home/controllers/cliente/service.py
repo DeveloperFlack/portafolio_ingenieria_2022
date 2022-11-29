@@ -33,7 +33,7 @@ def payService(request, params):
                 url = request.build_absolute_uri()
                 url = url.split('/')
                 
-                return_url = "http://localhost:8000/cliente/confirm-pay"
+                return_url = "https://kiminoanime.com/cliente/confirm-pay"
                 
                 cursor.execute(f"""SELECT * FROM nma_capacitacion WHERE id_capacitacion = {v_id} """)
                 data_capacitacion = cursor.fetchall()

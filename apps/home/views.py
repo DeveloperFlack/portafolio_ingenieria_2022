@@ -8,6 +8,7 @@ from apps.helpers import *
 from apps.home.controllers.cliente.usp import *
 import js2py
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def multiform(form):
     data = {}
@@ -52,6 +53,7 @@ def getHome(request):
         'session_status' : sessionStatus
     }
     return render(request, "index.html", data)
+
 
 def auth (request):
     try:

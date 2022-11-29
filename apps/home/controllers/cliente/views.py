@@ -139,11 +139,12 @@ def getSolicitud(request):
                 v_time_start = data_to_array[ax]['time_start']
                 v_time_end = data_to_array[ax]['time_end']
 
-                if(v_fecha == "" or v_fecha == None):
+
+                if(v_fecha == "" or v_fecha == None or str(v_fecha) == "0:00:00" or str(v_fecha) == "00:00:00" ):
                     v_fecha = str("Sin Asignar")
-                if(v_time_end == "" or v_time_end == None):
+                if(v_time_end == "" or v_time_end == None or str(v_time_end) == "0:00:00" or str(v_time_end) == "00:00:00"):
                     v_time_end = str("Sin Asignar")
-                if(v_time_start == "" or v_time_start == None):
+                if(v_time_start == "" or v_time_start == None or str(v_time_start) == "0:00:00" or str(v_time_start) == "00:00:00"):
                     v_time_start = str("Sin Asignar")
 
                 data_table['table'] += """ 

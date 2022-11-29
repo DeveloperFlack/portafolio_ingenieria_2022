@@ -64,11 +64,9 @@ def getAllClientes(request):
                     border: none;'>
                     <i class='bx bxs-edit' ></i>                    
                 </button>
-                <a onclick='enableCliente(%s)' class='btn btn-sm btn-success'><i class='bx bx-power-off' ></i></a>
-                <a onclick='disableCliente("%s")' class='btn btn-sm btn-warning'><i class='bx bx-power-off' ></i></a>
                 <a onclick='deleteCliente("%s")' class='btn btn-sm btn-danger'><i class='bx bxs-trash-alt'></i></a>
             </div>
-        """ % (i['rut_cliente'],i['rut_cliente'],i['rut_cliente'],i['rut_cliente'])
+        """ % (i['rut_cliente'],i['rut_cliente'])
 
     return JsonResponse(data_to_array, safe=False, json_dumps_params={'ensure_ascii': False})
 
@@ -198,5 +196,22 @@ def dashboard_delete_cliente(request):
             return redirect("getClientesPage")
         else:
             return redirect("getClientesPage")
+    else:
+        return redirect("getClientesPage")
+
+def dashboard_status_cliente (request):
+    if (request.method == "POST"):
+        try:
+            cx =  get_connection()
+
+            with cx.cursor() as cursor:
+                cursor.execute("UPDATE nma_cliente SET contrasena_cliente WHERE rut_cliente = 0")
+                cx.commit()
+            return redirect("getClientesPage")
+
+        except Exception as ex:
+            print (ex)
+            return redirect("getClientesPage")
+
     else:
         return redirect("getClientesPage")

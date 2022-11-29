@@ -420,10 +420,11 @@ def getActividadProfesional(request):
         return redirect('projectsProfesional')
 
 def getAllActividadProfesional(request):
+    v_idCapacitacion = request.GET.get('idCapacitacion')
     try:
         cx = get_connection()
         with cx.cursor() as cursor:
-            cursor.execute(f"""SELECT * FROM nma_actividad""")
+            cursor.execute("""SELECT * FROM nma_actividad""")
             data_actividad = cursor.fetchall()
 
             data_to_array = []
@@ -565,7 +566,6 @@ def reportePdf(request):
                     return HttpResponse("Error")
                 
                 return response
-
     else:
         return redirect('projectsProfesional')
     

@@ -96,7 +96,7 @@
               <ul class="list-unstyled mb-0">
                 {% if session_status.profesional == True %}
                 <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url "profileProfesional" %}">
+                  <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url "projectsProfesional" %}">
                     <span class="d-inline-block bg-primary rounded-circle" style="width: .5em; height: .5em;"></span>
                     Mi Perfil
                   </a>
@@ -175,7 +175,6 @@
                             <h2 style="color: black;">Iniciar Sesión</h2> 
                             <br>
                             <form action="{% url 'auth' %}" method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formLoginHome">
-                            {% csrf_token %}
                                 <div class="form-floating" style="color: black;">
                                     <input type="text" class="form-control" name="txtRut" id="txtRut" placeholder="12345678-9" style="border-radius: 0;" required>
                                     <label for="floatingInput">
@@ -237,7 +236,6 @@
                             <h2 style="color: black;">Crear Cuenta</h2> 
                             <br>
                             <form action="{% url 'registerCliente' %}" method="POST" class="needs-validation" enctype="application/x-www-form-urlencoded" id="formRegisterHome">
-                            {% csrf_token %}
                               <div class="contenido_form" style="max-height: 300px; overflow-y: auto;">
                                 <div class="form-floating" style="color: black;">
                                   <input type="text" class="form-control" name="txtRutEmpresa" id="txtRutEmpresa" placeholder="12345678-9" style="border-radius: 0;" required>

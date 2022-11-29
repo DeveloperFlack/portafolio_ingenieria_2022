@@ -73,7 +73,7 @@
                 <table class="table table-bordered v_tabla_accidentes my-3" style="width: 100%;" id="v_tabla_accidentes">
                   <thead class="table-dark">
                     <tr>
-                      <th style="width: 200px">Nombre</th>
+                      <th style="width: 200px">Asunto</th>
                       <th style="width: 450px;">Descripción</th>
                       <th>Fecha Ocurrencia</th>
                       <th>Hora Ocurrencia</th>
@@ -288,11 +288,6 @@
                   toast.addEventListener('mouseenter', Swal.stopTimer)
                   toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
-              })
-
-              Toast.fire({
-                icon: 'error',
-                title: 'Todos los campos son obligatorios!'
               })
             } else {
               const Toast = Swal.mixin({

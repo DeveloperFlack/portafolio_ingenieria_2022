@@ -15,7 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+hola = "hola"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -26,7 +26,59 @@ SECRET_KEY = "django-insecure-&81wjre%bjk_rp_p%=vas!5v1bo9-2h+2=_=q)a3ju$$-@9^1t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://kiminoanime.com", "kiminoanime.com", "http://kiminoanime.com", 
+                "https://dashboard.ionicframework.com", "http://dashboard.ionicframework.com", "dashboard.ionicframework.com", 
+                "ionicframework.com", "http://ionicframework.com", "https://ionicframework.com",
+                "ionic.io", "https://ionic.io", "http://ionic.io",
+                "34.217.171.248:443", "amazonaws.com", "https://amazonaws.com", "http://amazonaws.com", "http://localhost:8100"]
+
+CORS_ALLOWED_ORIGINS = ["https://kiminoanime.com", "http://kiminoanime.com", 
+                "https://dashboard.ionicframework.com", "http://dashboard.ionicframework.com",
+                "http://ionicframework.com", "https://ionicframework.com",
+                "https://ionic.io", "http://ionic.io",
+                "https://amazonaws.com", "http://amazonaws.com", "http://localhost:8100"]
+
+CORS_ORIGIN_WHITELIST  = ["https://kiminoanime.com", "http://kiminoanime.com", 
+                "https://dashboard.ionicframework.com", "http://dashboard.ionicframework.com"
+                "http://ionicframework.com", "https://ionicframework.com",
+                "https://ionic.io", "http://ionic.io",
+                "https://amazonaws.com", "http://amazonaws.com", "http://localhost:8100"]
+
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = None
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
+
+X_FRAME_OPTIONS = 'ALLOWALL'
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+
+CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT',]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Access-Control-Request-Method',
+    'Access-Control-Request-Headers',
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Credentials',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Max-Age',
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r".*",
+]
+
 
 INSTALLED_APPS = [
     "django.contrib.auth",
@@ -44,14 +96,15 @@ INSTALLED_APPS = [
     "apps.home",
     "apps.home.controllers.cliente",
     "apps.home.controllers.profesional",
-    
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsPostCsrfMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -161,9 +214,10 @@ if (DEBUG == True):
 
 else:
     STATIC_URL = "stcs/"
-    STATICFILES_ROOT = ['/home/ubuntu/portafolio_ingenieria_2022/apps/stcs', 'home/ubuntu/portafolio_ingenieria_2022/apps/stcs']
+    STATICFILES_ROOT = ['/root/portafolio_ingenieria_2022/apps/stcs/', 'root/portafolio_ingenieria_2022/apps/stcs/']
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = 'C:/Users/slaas/Desktop/duoc/portafolionma/apps/media'
+    MEDIA_ROOT = '/root/portafolio_ingenieria_2022/apps/media'
+    STATIC_ROOT = '/root/portafolio_ingenieria_2022/apps/stcs/'
     
     x = platform.system()
     print ("Sistema Operativo", x)
